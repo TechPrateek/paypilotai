@@ -11,6 +11,8 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Shield, Sparkles, Clock, User, Smartphone, Globe, CreditCard } from 'lucide-react';
 
+export const dynamic = "force-dynamic";
+
 export default async function TransactionDetailPage(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
   const transaction = await prisma.transaction.findUnique({

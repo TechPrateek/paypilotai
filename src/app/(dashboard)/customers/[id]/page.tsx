@@ -4,6 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { getRiskLevelColor } from '@/lib/utils';
 
+export const dynamic = "force-dynamic";
+
 export default async function CustomerDetailPage(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
   const customer = await prisma.customer.findUnique({

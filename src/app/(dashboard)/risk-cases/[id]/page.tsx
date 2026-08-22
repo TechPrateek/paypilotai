@@ -3,6 +3,8 @@ import { notFound } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 
+export const dynamic = "force-dynamic";
+
 export default async function RiskCaseDetailPage(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
   const riskCase = await prisma.riskCase.findUnique({

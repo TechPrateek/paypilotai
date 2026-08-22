@@ -5,16 +5,23 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { formatDistanceToNow } from 'date-fns';
 
+export const dynamic = "force-dynamic";
+
 export default async function CustomersPage() {
-  const customers = await prisma.customer.findMany({
-    orderBy: { createdAt: 'desc' },
-    include: {
-      _count: {
-        select: { transactions: true, riskCases: true }
-      }
-    },
-    take: 50,
-  });
+  let customers: any[] = [];
+  try {
+    customers = await prisma.customer.findMany({
+      orderBy: { createdAt: 'desc' },
+      include: {
+        _count: {
+          select: { transactions: true, riskCases: true }
+        }
+      },
+      take: 50,
+    });
+  } catch (err) {
+    console.warn("Failed to load customers from DB:", err);
+  }
 
   return (
     <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">

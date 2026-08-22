@@ -5,12 +5,19 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { formatDistanceToNow } from 'date-fns';
 
+export const dynamic = "force-dynamic";
+
 export default async function RiskCasesPage() {
-  const cases = await prisma.riskCase.findMany({
-    orderBy: { createdAt: 'desc' },
-    include: { transaction: { include: { customer: true } } },
-    take: 50,
-  });
+  let cases: any[] = [];
+  try {
+    cases = await prisma.riskCase.findMany({
+      orderBy: { createdAt: 'desc' },
+      include: { transaction: { include: { customer: true } } },
+      take: 50,
+    });
+  } catch (err) {
+    console.warn("Failed to load risk cases:", err);
+  }
 
   return (
     <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">

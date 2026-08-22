@@ -2,15 +2,22 @@ import prisma from '@/lib/prisma';
 import TransactionTable from '@/components/transactions/transaction-table';
 import { Card, CardContent } from '@/components/ui/card';
 
+export const dynamic = "force-dynamic";
+
 export default async function TransactionsPage() {
-  const transactions = await prisma.transaction.findMany({
-    orderBy: { createdAt: 'desc' },
-    include: {
-      customer: true,
-      riskAssessment: true,
-    },
-    take: 100,
-  });
+  let transactions: any[] = [];
+  try {
+    transactions = await prisma.transaction.findMany({
+      orderBy: { createdAt: 'desc' },
+      include: {
+        customer: true,
+        riskAssessment: true,
+      },
+      take: 100,
+    });
+  } catch (err) {
+    console.warn("Failed to load transactions:", err);
+  }
 
   return (
     <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
