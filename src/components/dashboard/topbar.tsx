@@ -16,6 +16,7 @@ export function Topbar() {
   const { theme, setTheme } = useTheme();
   const { data: sessionData, logout } = useAuth();
   const [searchOpen, setSearchOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -37,20 +38,27 @@ export function Topbar() {
 
   return (
     <>
-      <header className="h-14 border-b bg-card flex items-center justify-between px-4 lg:px-6 shrink-0 sticky top-0 z-20">
+      <header className="h-14 border-b bg-card flex items-center justify-between px-3 sm:px-4 lg:px-6 shrink-0 sticky top-0 z-20">
+        {/* Mobile Menu Drawer */}
         <div className="flex items-center gap-2 md:hidden">
-          <Sheet>
+          <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
             <SheetTrigger className="inline-flex items-center justify-center rounded-md p-2 text-muted-foreground hover:bg-accent hover:text-accent-foreground">
               <Menu className="h-5 w-5" />
               <span className="sr-only">Toggle menu</span>
             </SheetTrigger>
             <SheetContent side="left" className="p-0 w-64">
-              <Sidebar />
+              <Sidebar onNavigate={() => setMobileMenuOpen(false)} />
             </SheetContent>
           </Sheet>
+
+          <Link href="/overview" className="font-bold text-base tracking-tight text-primary flex items-center gap-1.5 sm:hidden">
+            <ShieldCheck className="h-5 w-5 text-primary shrink-0" />
+            <span>PayPilot</span>
+          </Link>
         </div>
 
-        <div className="flex items-center flex-1 justify-end md:justify-between gap-4">
+        <div className="flex items-center flex-1 justify-end md:justify-between gap-2 sm:gap-4">
+          {/* Desktop Search Bar */}
           <div className="hidden md:flex flex-1 max-w-sm">
             <Button
               variant="outline"
@@ -65,7 +73,19 @@ export function Topbar() {
             </Button>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            {/* Mobile Search Button */}
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setSearchOpen(true)}
+              className="md:hidden h-9 w-9 text-muted-foreground"
+              title="Search"
+            >
+              <Search className="h-4 w-4" />
+              <span className="sr-only">Search</span>
+            </Button>
+
             <NotificationCenter />
 
             <Button
@@ -80,11 +100,11 @@ export function Topbar() {
             </Button>
 
             {/* Profile Dropdown */}
-            <div className="relative ml-2" ref={menuRef}>
+            <div className="relative ml-1 sm:ml-2" ref={menuRef}>
               <button
                 type="button"
                 onClick={() => setProfileOpen(!profileOpen)}
-                className="relative h-8 w-8 rounded-full flex items-center justify-center ring-2 ring-primary/20 hover:ring-primary/50 transition-all focus:outline-none"
+                className="relative h-8 w-8 rounded-full flex items-center justify-center ring-2 ring-primary/20 hover:ring-primary/50 transition-all focus:outline-none cursor-pointer"
               >
                 <Avatar className="h-8 w-8">
                   <AvatarImage src="" alt={currentUser.name} />
@@ -95,7 +115,7 @@ export function Topbar() {
               </button>
 
               {profileOpen && (
-                <div className="absolute right-0 mt-2 w-60 rounded-xl bg-card border shadow-lg p-2 z-50 animate-in fade-in-0 zoom-in-95">
+                <div className="absolute right-0 mt-2 w-60 max-w-[calc(100vw-1.5rem)] rounded-xl bg-card border shadow-lg p-2 z-50 animate-in fade-in-0 zoom-in-95">
                   <div className="px-3 py-2.5 border-b mb-1">
                     <div className="flex items-center gap-2">
                       <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-xs shrink-0">
@@ -137,7 +157,7 @@ export function Topbar() {
                         setProfileOpen(false);
                         logout();
                       }}
-                      className="w-full flex items-center gap-2 px-3 py-2 text-xs font-medium rounded-md text-destructive hover:bg-destructive/10 transition-colors text-left mt-1 border-t pt-2"
+                      className="w-full flex items-center gap-2 px-3 py-2 text-xs font-medium rounded-md text-destructive hover:bg-destructive/10 transition-colors text-left mt-1 border-t pt-2 cursor-pointer"
                     >
                       <LogOut className="h-3.5 w-3.5" />
                       <span>Sign Out</span>

@@ -30,13 +30,17 @@ const navigation = [
   { name: "Settings", href: "/settings", icon: Settings },
 ];
 
-export function Sidebar() {
+export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = usePathname();
 
   return (
     <div className="flex flex-col w-64 border-r bg-card h-full">
       <div className="flex items-center h-14 px-6 border-b shrink-0">
-        <Link href="/overview" className="flex items-center gap-2 font-bold text-xl tracking-tight text-primary">
+        <Link 
+          href="/overview" 
+          onClick={onNavigate}
+          className="flex items-center gap-2 font-bold text-xl tracking-tight text-primary"
+        >
           <ShieldAlert className="h-6 w-6 text-primary" />
           <span>PayPilot AI</span>
         </Link>
@@ -51,15 +55,16 @@ export function Sidebar() {
             <Link
               key={item.name}
               href={item.href}
+              onClick={onNavigate}
               className={cn(
-                "flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors",
+                "flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium transition-colors",
                 isActive
                   ? "bg-primary/10 text-primary"
                   : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
               )}
             >
-              <Icon className={cn("h-5 w-5", isActive ? "text-primary" : "text-muted-foreground")} />
-              {item.name}
+              <Icon className={cn("h-5 w-5 shrink-0", isActive ? "text-primary" : "text-muted-foreground")} />
+              <span>{item.name}</span>
             </Link>
           );
         })}

@@ -67,13 +67,13 @@ const Heatmap = () => {
   const periods = ["Morning", "Afternoon", "Evening", "Night"];
 
   return (
-    <div className="overflow-x-auto">
-      <table className="w-full text-sm text-left">
+    <div className="overflow-x-auto -mx-2 sm:mx-0">
+      <table className="w-full min-w-[300px] text-xs sm:text-sm text-left">
         <thead>
           <tr>
-            <th className="p-2"></th>
+            <th className="p-1 sm:p-2"></th>
             {periods.map((p) => (
-              <th key={p} className="p-2 text-center text-muted-foreground font-medium">
+              <th key={p} className="p-1 sm:p-2 text-center text-muted-foreground font-medium text-[11px] sm:text-xs">
                 {p}
               </th>
             ))}
@@ -82,15 +82,15 @@ const Heatmap = () => {
         <tbody>
           {days.map((day) => (
             <tr key={day}>
-              <td className="p-2 font-medium text-muted-foreground">{day}</td>
+              <td className="p-1 sm:p-2 font-medium text-muted-foreground text-[11px] sm:text-xs">{day}</td>
               {periods.map((period) => {
                 const intensity = Math.random();
                 return (
                   <td key={`${day}-${period}`} className="p-1">
                     <div
-                      className="h-10 rounded-md flex items-center justify-center text-xs font-medium text-white transition-opacity hover:opacity-80 cursor-pointer"
+                      className="h-8 sm:h-10 rounded-md flex items-center justify-center text-[10px] sm:text-xs font-medium text-white transition-opacity hover:opacity-80 cursor-pointer"
                       style={{
-                        backgroundColor: `rgba(220, 38, 38, ${0.1 + intensity * 0.9})`, // Red heatmap
+                        backgroundColor: `rgba(220, 38, 38, ${0.15 + intensity * 0.85})`,
                       }}
                       title={`${day} ${period}: ${(intensity * 100).toFixed(0)}% Risk`}
                     >
@@ -112,19 +112,21 @@ export default function AnalyticsPage() {
   const [dateRange, setDateRange] = useState("7d");
 
   useEffect(() => {
-    // Simulate API call
     setLoading(true);
     const timer = setTimeout(() => setLoading(false), 800);
     return () => clearTimeout(timer);
   }, [dateRange]);
 
   return (
-    <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
-      <div className="flex items-center justify-between space-y-2">
-        <h2 className="text-3xl font-bold tracking-tight">Advanced Analytics</h2>
-        <div className="flex items-center space-x-2">
+    <div className="flex-1 space-y-4 p-2 sm:p-4 md:p-8 pt-4 sm:pt-6">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div>
+          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">Advanced Analytics</h2>
+          <p className="text-muted-foreground text-xs sm:text-sm mt-1">Payment risk velocity, approval rates, and anomaly patterns</p>
+        </div>
+        <div className="flex items-center space-x-2 w-full sm:w-auto">
           <Select value={dateRange} onValueChange={(val) => val && setDateRange(val)}>
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger className="w-full sm:w-[180px]">
               <SelectValue placeholder="Select Date Range" />
             </SelectTrigger>
             <SelectContent>
@@ -137,59 +139,59 @@ export default function AnalyticsPage() {
         </div>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-6">
-        <Card className="lg:col-span-1">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Fraud Rate</CardTitle>
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 p-3 sm:p-4 pb-1 sm:pb-2">
+            <CardTitle className="text-xs sm:text-sm font-medium">Fraud Rate</CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">1.24%</div>
-            <p className="text-xs text-muted-foreground">-0.05% from last week</p>
+          <CardContent className="p-3 sm:p-4 pt-0 sm:pt-0">
+            <div className="text-xl sm:text-2xl font-bold">1.24%</div>
+            <p className="text-[10px] sm:text-xs text-muted-foreground">-0.05% from last week</p>
           </CardContent>
         </Card>
-        <Card className="lg:col-span-1">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">False Positives</CardTitle>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 p-3 sm:p-4 pb-1 sm:pb-2">
+            <CardTitle className="text-xs sm:text-sm font-medium">False Positives</CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">0.8%</div>
-            <p className="text-xs text-muted-foreground">-0.2% from last week</p>
+          <CardContent className="p-3 sm:p-4 pt-0 sm:pt-0">
+            <div className="text-xl sm:text-2xl font-bold">0.8%</div>
+            <p className="text-[10px] sm:text-xs text-muted-foreground">-0.2% from last week</p>
           </CardContent>
         </Card>
-        <Card className="lg:col-span-1">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Approval Rate</CardTitle>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 p-3 sm:p-4 pb-1 sm:pb-2">
+            <CardTitle className="text-xs sm:text-sm font-medium">Approval Rate</CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">96.5%</div>
-            <p className="text-xs text-muted-foreground">+1.2% from last week</p>
+          <CardContent className="p-3 sm:p-4 pt-0 sm:pt-0">
+            <div className="text-xl sm:text-2xl font-bold">96.5%</div>
+            <p className="text-[10px] sm:text-xs text-muted-foreground">+1.2% from last week</p>
           </CardContent>
         </Card>
-        <Card className="lg:col-span-1">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Review Rate</CardTitle>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 p-3 sm:p-4 pb-1 sm:pb-2">
+            <CardTitle className="text-xs sm:text-sm font-medium">Review Rate</CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">2.1%</div>
-            <p className="text-xs text-muted-foreground">-0.5% from last week</p>
+          <CardContent className="p-3 sm:p-4 pt-0 sm:pt-0">
+            <div className="text-xl sm:text-2xl font-bold">2.1%</div>
+            <p className="text-[10px] sm:text-xs text-muted-foreground">-0.5% from last week</p>
           </CardContent>
         </Card>
-        <Card className="lg:col-span-1">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Block Rate</CardTitle>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 p-3 sm:p-4 pb-1 sm:pb-2">
+            <CardTitle className="text-xs sm:text-sm font-medium">Block Rate</CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">1.4%</div>
-            <p className="text-xs text-muted-foreground">+0.1% from last week</p>
+          <CardContent className="p-3 sm:p-4 pt-0 sm:pt-0">
+            <div className="text-xl sm:text-2xl font-bold">1.4%</div>
+            <p className="text-[10px] sm:text-xs text-muted-foreground">+0.1% from last week</p>
           </CardContent>
         </Card>
-        <Card className="lg:col-span-1">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Prevented Loss</CardTitle>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 p-3 sm:p-4 pb-1 sm:pb-2">
+            <CardTitle className="text-xs sm:text-sm font-medium">Prevented Loss</CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">$124.5k</div>
-            <p className="text-xs text-muted-foreground">+12% from last week</p>
+          <CardContent className="p-3 sm:p-4 pt-0 sm:pt-0">
+            <div className="text-xl sm:text-2xl font-bold">$124.5k</div>
+            <p className="text-[10px] sm:text-xs text-muted-foreground">+12% from last week</p>
           </CardContent>
         </Card>
       </div>
@@ -199,13 +201,13 @@ export default function AnalyticsPage() {
           <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
         </div>
       ) : (
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-          <Card className="col-span-4">
+        <div className="grid gap-4 grid-cols-1 lg:grid-cols-12">
+          <Card className="lg:col-span-7">
             <CardHeader>
-              <CardTitle>Fraud Trend vs Legitimate Transactions</CardTitle>
+              <CardTitle className="text-base sm:text-lg">Fraud Trend vs Legitimate Transactions</CardTitle>
             </CardHeader>
-            <CardContent className="pl-2">
-              <div className="h-[300px]">
+            <CardContent className="p-2 sm:p-4 pt-0 sm:pt-0">
+              <div className="h-[260px] sm:h-[300px]">
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={trendData}>
                     <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
@@ -241,22 +243,22 @@ export default function AnalyticsPage() {
             </CardContent>
           </Card>
 
-          <Card className="col-span-3">
+          <Card className="lg:col-span-5">
             <CardHeader>
-              <CardTitle>Risk Heatmap</CardTitle>
-              <CardDescription>Concentration of high-risk transactions</CardDescription>
+              <CardTitle className="text-base sm:text-lg">Risk Heatmap</CardTitle>
+              <CardDescription className="text-xs">Concentration of high-risk transactions</CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="p-3 sm:p-6 pt-0 sm:pt-0">
               <Heatmap />
             </CardContent>
           </Card>
 
-          <Card className="col-span-2">
+          <Card className="lg:col-span-4">
             <CardHeader>
-              <CardTitle>Risk by Country</CardTitle>
+              <CardTitle className="text-base sm:text-lg">Risk by Country</CardTitle>
             </CardHeader>
-            <CardContent>
-              <div className="h-[250px]">
+            <CardContent className="p-2 sm:p-4 pt-0 sm:pt-0">
+              <div className="h-[220px] sm:h-[250px]">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={countryData} layout="vertical" margin={{ left: -20 }}>
                     <XAxis type="number" hide />
@@ -274,12 +276,12 @@ export default function AnalyticsPage() {
             </CardContent>
           </Card>
 
-          <Card className="col-span-3">
+          <Card className="lg:col-span-4">
             <CardHeader>
-              <CardTitle>Hourly Transaction Pattern</CardTitle>
+              <CardTitle className="text-base sm:text-lg">Hourly Transaction Pattern</CardTitle>
             </CardHeader>
-            <CardContent>
-              <div className="h-[250px]">
+            <CardContent className="p-2 sm:p-4 pt-0 sm:pt-0">
+              <div className="h-[220px] sm:h-[250px]">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={hourlyData}>
                     <XAxis dataKey="hour" className="text-xs" tick={{ fontSize: 10 }} interval={3} />
@@ -297,16 +299,16 @@ export default function AnalyticsPage() {
             </CardContent>
           </Card>
 
-          <Card className="col-span-2">
+          <Card className="lg:col-span-4">
             <CardHeader>
-              <CardTitle>Risk by Payment Method</CardTitle>
+              <CardTitle className="text-base sm:text-lg">Risk by Payment Method</CardTitle>
             </CardHeader>
-            <CardContent>
-              <div className="h-[250px]">
+            <CardContent className="p-2 sm:p-4 pt-0 sm:pt-0">
+              <div className="h-[220px] sm:h-[250px]">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={paymentData} layout="vertical" margin={{ left: -20 }}>
                     <XAxis type="number" hide />
-                    <YAxis dataKey="name" type="category" axisLine={false} tickLine={false} className="text-xs text-right pr-4" width={100} />
+                    <YAxis dataKey="name" type="category" axisLine={false} tickLine={false} className="text-xs text-right pr-2 sm:pr-4" width={90} />
                     <Tooltip
                       contentStyle={{
                         backgroundColor: "var(--background)",

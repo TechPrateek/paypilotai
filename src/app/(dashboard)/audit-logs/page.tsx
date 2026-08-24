@@ -81,51 +81,53 @@ export default async function AuditLogsPage({
   const q = sp?.q || "";
 
   return (
-    <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
+    <div className="flex-1 space-y-4 p-2 sm:p-4 md:p-8 pt-4 sm:pt-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-3xl font-bold tracking-tight">Audit Logs</h2>
-        <Button variant="outline" size="sm">
-          <Download className="mr-2 h-4 w-4" />
+        <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">Audit Logs</h2>
+        <Button variant="outline" size="sm" className="h-8 text-xs sm:text-sm">
+          <Download className="mr-1.5 h-3.5 w-3.5" />
           Export CSV
         </Button>
       </div>
 
-      <div className="flex items-center justify-between gap-4 py-4">
-        <div className="flex flex-1 items-center space-x-2">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 py-2 sm:py-4">
+        <div className="flex flex-col sm:flex-row flex-1 items-stretch sm:items-center gap-2">
           <div className="relative max-w-sm w-full">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
               placeholder="Search logs..."
-              className="pl-8"
+              className="pl-8 h-9 text-sm"
               defaultValue={q as string}
             />
           </div>
-          <Select defaultValue="7d">
-            <SelectTrigger className="w-[150px]">
-              <SelectValue placeholder="Date Range" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="24h">Last 24 Hours</SelectItem>
-              <SelectItem value="7d">Last 7 Days</SelectItem>
-              <SelectItem value="30d">Last 30 Days</SelectItem>
-              <SelectItem value="all">All Time</SelectItem>
-            </SelectContent>
-          </Select>
-          <Select defaultValue="all">
-            <SelectTrigger className="w-[150px]">
-              <SelectValue placeholder="Action Type" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Actions</SelectItem>
-              <SelectItem value="login">Logins</SelectItem>
-              <SelectItem value="update">Updates</SelectItem>
-              <SelectItem value="system">System Events</SelectItem>
-            </SelectContent>
-          </Select>
+          <div className="grid grid-cols-2 sm:flex gap-2">
+            <Select defaultValue="7d">
+              <SelectTrigger className="w-full sm:w-[140px] h-9 text-xs sm:text-sm">
+                <SelectValue placeholder="Date Range" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="24h">Last 24 Hours</SelectItem>
+                <SelectItem value="7d">Last 7 Days</SelectItem>
+                <SelectItem value="30d">Last 30 Days</SelectItem>
+                <SelectItem value="all">All Time</SelectItem>
+              </SelectContent>
+            </Select>
+            <Select defaultValue="all">
+              <SelectTrigger className="w-full sm:w-[140px] h-9 text-xs sm:text-sm">
+                <SelectValue placeholder="Action Type" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Actions</SelectItem>
+                <SelectItem value="login">Logins</SelectItem>
+                <SelectItem value="update">Updates</SelectItem>
+                <SelectItem value="system">System Events</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
       </div>
 
-      <div className="rounded-md border">
+      <div className="rounded-md border overflow-x-auto">
         <Table>
           <TableHeader>
             <TableRow>

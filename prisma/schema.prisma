@@ -11,7 +11,7 @@ model User {
   id            String         @id @default(cuid())
   email         String         @unique
   name          String
-  role          String         // MERCHANT, ANALYST, ADMIN
+  role          String         // ADMIN, ANALYST, MERCHANT, VIEWER
   passwordHash  String
   image         String?
   createdAt     DateTime       @default(now())
@@ -65,47 +65,115 @@ model Customer {
 }
 
 model Transaction {
-  id             String            @id @default(cuid())
-  externalId     String            @unique @default(cuid())
-  amount         Float
-  currency       String            // INR, USD, EUR
-  paymentMethod  String            // UPI, CREDIT_CARD, DEBIT_CARD, NET_BANKING, WALLET
-  country        String
-  city           String?
-  ip             String?
-  deviceId       String?
-  status         String            // PENDING, COMPLETED, FAILED, REFUNDED, DISPUTED
-  metadata       String?
-  customerId     String
-  merchantId     String
-  createdAt      DateTime          @default(now())
-  updatedAt      DateTime          @updatedAt
-  customer       Customer          @relation(fields: [customerId], references: [id])
-  merchant       Merchant          @relation(fields: [merchantId], references: [id])
-  riskAssessment RiskAssessment?
-  riskCase       RiskCase?
-  alerts         Alert[]
-  device         Device?           @relation(fields: [deviceId], references: [id])
+  id                  String             @id @default(cuid())
+  externalId          String             @unique @default(cuid())
+  amount              Float
+  currency            String             // INR, USD, EUR
+  paymentMethod       String             // UPI, CREDIT_CARD, DEBIT_CARD, NET_BANKING, WALLET
+  country             String
+  city                String?
+  ip                  String?
+  deviceId            String?
+  networkId           String?
+  paymentInstrumentId String?
+  status              String             // PENDING, COMPLETED, FAILED, REFUNDED, DISPUTED
+  metadata            String?
+  riskProbability     Float?             // 0.0 - 1.0
+  riskScore           Int?               // 0 - 100
+  confidence          Float?             // 0.0 - 1.0
+  decision            String?            // APPROVE, REVIEW, BLOCK
+  modelVersion        String?
+  customerId          String
+  merchantId          String
+  createdAt           DateTime           @default(now())
+  updatedAt           DateTime           @updatedAt
+  customer            Customer           @relation(fields: [customerId], references: [id])
+  merchant            Merchant           @relation(fields: [merchantId], references: [id])
+  device              Device?            @relation(fields: [deviceId], references: [id])
+  network             Network?           @relation(fields: [networkId], references: [id])
+  paymentInstrument   PaymentInstrument? @relation(fields: [paymentInstrumentId], references: [id])
+  riskAssessment      RiskAssessment?
+  riskCase            RiskCase?
+  alerts              Alert[]
 
   @@index([createdAt])
   @@index([customerId])
   @@index([merchantId])
   @@index([status])
+  @@index([deviceId])
+  @@index([networkId])
+  @@index([paymentInstrumentId])
   @@map("transactions")
 }
 
+model Device {
+  id              String           @id @default(cuid())
+  fingerprint     String           @unique
+  browser         String?
+  os              String?
+  deviceType      String?
+  firstSeen       DateTime         @default(now())
+  lastSeen        DateTime         @default(now())
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  customerDevices CustomerDevice[]
+  transactions    Transaction[]
+
+  @@map("devices")
+}
+
+model Network {
+  id           String        @id @default(cuid())
+  networkHash  String        @unique
+  ipAddress    String?
+  type         String?       // RESIDENTIAL, DATACENTER, CELLULAR, VPN, TOR
+  country      String?
+  city         String?
+  isProxy      Boolean       @default(false)
+  isVpn        Boolean       @default(false)
+  isTor        Boolean       @default(false)
+  isSuspicious Boolean       @default(false)
+  firstSeenAt  DateTime      @default(now())
+  lastSeenAt   DateTime      @default(now())
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  transactions Transaction[]
+
+  @@map("networks")
+}
+
+model PaymentInstrument {
+  id                 String        @id @default(cuid())
+  tokenizedReference String        @unique
+  type               String        // CARD_TOKEN, UPI_VPA, WALLET_TOKEN, NET_BANKING
+  cardBrand          String?       // VISA, MASTERCARD, RUPAY, AMEX
+  cardBin            String?       // First 6 digits (hashed/pseudonymized BIN)
+  last4              String?       // Last 4 digits
+  firstSeenAt        DateTime      @default(now())
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
+  transactions       Transaction[]
+
+  @@map("payment_instruments")
+}
+
 model RiskAssessment {
-  id               String       @id @default(cuid())
-  transactionId    String       @unique
-  riskScore        Int
-  riskLevel        String       // LOW, MEDIUM, HIGH, CRITICAL
-  decision         String       // APPROVE, APPROVE_WITH_MONITORING, REVIEW, BLOCK
+  id               String         @id @default(cuid())
+  transactionId    String         @unique
+  riskScore        Int            // 0 - 100
+  riskProbability  Float?         // 0.0 - 1.0
+  confidence       Float?         // 0.0 - 1.0 (Information Availability & Context Density)
+  riskLevel        String         // LOW, MEDIUM, HIGH, CRITICAL
+  decision         String         // APPROVE, APPROVE_WITH_MONITORING, REVIEW, BLOCK
   anomalyScore     Float?
+  modelVersion     String?        // e.g. hybrid-v1, lightgbm-v1, gnn-v1
+  dataAvailability String?        // JSON: { historyAvailable, identityAvailable, graphAvailable, behavioralFeaturesAvailable }
   aiExplanation    String?
   processingTimeMs Int?
-  createdAt        DateTime     @default(now())
-  transaction      Transaction  @relation(fields: [transactionId], references: [id])
+  createdAt        DateTime       @default(now())
+  transaction      Transaction    @relation(fields: [transactionId], references: [id])
   riskFactors      RiskFactor[]
+  riskEvidences    RiskEvidence[]
 
   @@map("risk_assessments")
 }
@@ -126,38 +194,35 @@ model RiskFactor {
   @@map("risk_factors")
 }
 
-model RiskRule {
-  id          String     @id @default(cuid())
-  name        String
-  description String
-  category    String
-  condition   String     // JSON serialized string
-  score       Int
-  severity    String     // LOW, MEDIUM, HIGH, CRITICAL
-  enabled     Boolean    @default(true)
-  merchantId  String?
-  isGlobal    Boolean    @default(false)
-  createdBy   String?
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
-  merchant    Merchant?  @relation(fields: [merchantId], references: [id])
+model RiskEvidence {
+  id           String         @id @default(cuid())
+  assessmentId String
+  category     String         // TRANSACTION, BEHAVIOR, GRAPH, CONTEXT, DATA_AVAILABILITY
+  description  String
+  severity     String         // LOW, MEDIUM, HIGH
+  source       String?        // LIGHTGBM, BEHAVIORAL_ENGINE, GNN, HEURISTIC
+  evidenceData String?        // JSON payload
+  createdAt    DateTime       @default(now())
+  assessment   RiskAssessment @relation(fields: [assessmentId], references: [id])
 
-  @@map("risk_rules")
+  @@index([assessmentId])
+  @@index([category])
+  @@map("risk_evidences")
 }
 
 model RiskCase {
-  id                String       @id @default(cuid())
-  transactionId     String       @unique
+  id                String      @id @default(cuid())
+  transactionId     String      @unique
   customerId        String
-  status            String       @default("OPEN") // OPEN, INVESTIGATING, CONFIRMED_FRAUD, FALSE_POSITIVE, RESOLVED
-  priority          String       // LOW, MEDIUM, HIGH, CRITICAL
+  status            String      @default("OPEN") // OPEN, IN_REVIEW, ESCALATED, RESOLVED, FALSE_POSITIVE, CONFIRMED_FRAUD
+  priority          String      // LOW, MEDIUM, HIGH, CRITICAL
   assignedAnalystId String?
   resolution        String?
-  createdAt         DateTime     @default(now())
-  updatedAt         DateTime     @updatedAt
-  transaction       Transaction  @relation(fields: [transactionId], references: [id])
-  customer          Customer     @relation(fields: [customerId], references: [id])
-  assignedAnalyst   User?        @relation(fields: [assignedAnalystId], references: [id])
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+  transaction       Transaction @relation(fields: [transactionId], references: [id])
+  customer          Customer    @relation(fields: [customerId], references: [id])
+  assignedAnalyst   User?       @relation(fields: [assignedAnalystId], references: [id])
   notes             CaseNote[]
 
   @@index([status])
@@ -178,41 +243,44 @@ model CaseNote {
   @@map("case_notes")
 }
 
+model RiskRule {
+  id          String    @id @default(cuid())
+  name        String
+  description String
+  category    String
+  condition   String    // JSON serialized string
+  score       Int
+  severity    String    // LOW, MEDIUM, HIGH, CRITICAL
+  enabled     Boolean   @default(true)
+  merchantId  String?
+  isGlobal    Boolean   @default(false)
+  createdBy   String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  merchant    Merchant? @relation(fields: [merchantId], references: [id])
+
+  @@map("risk_rules")
+}
+
 model Alert {
-  id            String        @id @default(cuid())
-  type          String        // CRITICAL_TRANSACTION, MULTIPLE_SUSPICIOUS, etc.
-  severity      String        // INFO, WARNING, CRITICAL
+  id            String       @id @default(cuid())
+  type          String       // CRITICAL_TRANSACTION, MULTIPLE_SUSPICIOUS, etc.
+  severity      String       // INFO, WARNING, CRITICAL
   title         String
   message       String
   transactionId String?
-  read          Boolean       @default(false)
-  resolved      Boolean       @default(false)
+  read          Boolean      @default(false)
+  resolved      Boolean      @default(false)
   resolvedAt    DateTime?
   resolvedBy    String?
   merchantId    String
-  createdAt     DateTime      @default(now())
-  transaction   Transaction?  @relation(fields: [transactionId], references: [id])
+  createdAt     DateTime     @default(now())
+  transaction   Transaction? @relation(fields: [transactionId], references: [id])
 
   @@index([read])
   @@index([merchantId])
   @@index([createdAt])
   @@map("alerts")
-}
-
-model Device {
-  id              String           @id @default(cuid())
-  fingerprint     String           @unique
-  browser         String?
-  os              String?
-  deviceType      String?
-  firstSeen       DateTime
-  lastSeen        DateTime
-  createdAt       DateTime         @default(now())
-  updatedAt       DateTime         @updatedAt
-  customerDevices CustomerDevice[]
-  transactions    Transaction[]
-
-  @@map("devices")
 }
 
 model IPAddress {
@@ -224,8 +292,8 @@ model IPAddress {
   isVpn        Boolean  @default(false)
   isTor        Boolean  @default(false)
   isSuspicious Boolean  @default(false)
-  firstSeen    DateTime
-  lastSeen     DateTime
+  firstSeen    DateTime @default(now())
+  lastSeen     DateTime @default(now())
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
@@ -236,8 +304,8 @@ model CustomerDevice {
   id               String   @id @default(cuid())
   customerId       String
   deviceId         String
-  firstSeen        DateTime
-  lastSeen         DateTime
+  firstSeen        DateTime @default(now())
+  lastSeen         DateTime @default(now())
   transactionCount Int      @default(0)
   createdAt        DateTime @default(now())
   customer         Customer @relation(fields: [customerId], references: [id])
@@ -251,7 +319,9 @@ model AuditLog {
   id            String   @id @default(cuid())
   userId        String
   action        String
-  resource      String
+  entity        String?  // e.g. TRANSACTION, RISK_CASE, RISK_RULE, USER, SYSTEM
+  entityId      String?
+  resource      String?  // Legacy resource mapping
   resourceId    String?
   previousValue String?  // JSON string
   newValue      String?  // JSON string
@@ -262,40 +332,42 @@ model AuditLog {
 
   @@index([userId])
   @@index([createdAt])
-  @@index([resource])
+  @@index([entity])
   @@map("audit_logs")
 }
 
 model ModelVersion {
-  id                String      @id @default(cuid())
+  id                String    @id @default(cuid())
   name              String
   version           String
   description       String?
-  status            String      @default("TESTING") // ACTIVE, TESTING, ARCHIVED
+  status            String    @default("TESTING") // ACTIVE, TESTING, ARCHIVED
   accuracy          Float?
   precision         Float?
   recall            Float?
   f1Score           Float?
+  prAuc             Float?
+  rocAuc            Float?
   falsePositiveRate Float?
   detectionRate     Float?
   trainedAt         DateTime?
   activatedAt       DateTime?
-  createdAt         DateTime    @default(now())
-  updatedAt         DateTime    @updatedAt
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
 
   @@map("model_versions")
 }
 
 model Notification {
-  id        String           @id @default(cuid())
+  id        String   @id @default(cuid())
   userId    String
-  type      String           // CRITICAL_FRAUD, etc.
+  type      String   // CRITICAL_FRAUD, etc.
   title     String
   message   String
-  read      Boolean          @default(false)
+  read      Boolean  @default(false)
   link      String?
-  createdAt DateTime         @default(now())
-  user      User             @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
 
   @@index([userId])
   @@index([read])

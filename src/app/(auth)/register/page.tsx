@@ -37,23 +37,23 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="w-full max-w-md">
-      <div className="flex flex-col items-center mb-8">
-        <Link href="/" className="flex items-center">
-          <ShieldCheck className="h-10 w-10 text-primary mr-2" />
-          <span className="font-bold text-3xl tracking-tight">PayPilot AI</span>
+    <div className="w-full max-w-md px-2 sm:px-0">
+      <div className="flex flex-col items-center mb-6 sm:mb-8">
+        <Link href="/" className="flex items-center gap-2 whitespace-nowrap">
+          <ShieldCheck className="h-8 w-8 sm:h-10 sm:w-10 text-primary shrink-0" />
+          <span className="font-bold text-2xl sm:text-3xl tracking-tight">PayPilot AI</span>
         </Link>
       </div>
 
-      <Card className="w-full">
-        <CardHeader>
-          <CardTitle>Create an Account</CardTitle>
-          <CardDescription>
+      <Card className="w-full shadow-sm">
+        <CardHeader className="p-4 sm:p-6 pb-2">
+          <CardTitle className="text-xl sm:text-2xl">Create an Account</CardTitle>
+          <CardDescription className="text-xs sm:text-sm">
             {step === 1 && "Step 1 of 3: Account Details"}
             {step === 2 && "Step 2 of 3: Business Details"}
             {step === 3 && "Step 3 of 3: Risk Preferences"}
           </CardDescription>
-          <div className="flex gap-2 mt-4">
+          <div className="flex gap-2 mt-3 sm:mt-4">
             <div className={`h-2 flex-1 rounded-full ${step >= 1 ? "bg-primary" : "bg-muted"}`} />
             <div className={`h-2 flex-1 rounded-full ${step >= 2 ? "bg-primary" : "bg-muted"}`} />
             <div className={`h-2 flex-1 rounded-full ${step >= 3 ? "bg-primary" : "bg-muted"}`} />

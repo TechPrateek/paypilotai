@@ -24,42 +24,54 @@ export default async function CustomersPage() {
   }
 
   return (
-    <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
-      <div className="flex items-center justify-between space-y-2">
-        <h2 className="text-3xl font-bold tracking-tight">Customers</h2>
+    <div className="flex-1 space-y-4 p-2 sm:p-4 md:p-8 pt-4 sm:pt-6">
+      <div className="flex items-center justify-between">
+        <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">Customers</h2>
       </div>
       <Card>
         <CardContent className="p-0">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Name</TableHead>
-                <TableHead>Email</TableHead>
-                <TableHead>Country</TableHead>
-                <TableHead>Joined</TableHead>
-                <TableHead>Transactions</TableHead>
-                <TableHead>Risk Cases</TableHead>
-                <TableHead>Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {customers.map((c: any) => (
-                <TableRow key={c.id}>
-                  <TableCell className="font-medium">{c.name}</TableCell>
-                  <TableCell>{c.email}</TableCell>
-                  <TableCell>{c.country}</TableCell>
-                  <TableCell>{formatDistanceToNow(new Date(c.createdAt), { addSuffix: true })}</TableCell>
-                  <TableCell>{c._count.transactions}</TableCell>
-                  <TableCell>{c._count.riskCases}</TableCell>
-                  <TableCell>
-                    <Link href={`/customers/${c.id}`}>
-                      <Button variant="ghost" size="sm">View</Button>
-                    </Link>
-                  </TableCell>
+          <div className="rounded-md overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="text-xs">Name</TableHead>
+                  <TableHead className="text-xs">Email</TableHead>
+                  <TableHead className="text-xs">Country</TableHead>
+                  <TableHead className="text-xs">Joined</TableHead>
+                  <TableHead className="text-xs">Transactions</TableHead>
+                  <TableHead className="text-xs">Risk Cases</TableHead>
+                  <TableHead className="text-xs">Actions</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {customers.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={7} className="text-center py-6 text-muted-foreground text-xs">
+                      No customer records found.
+                    </TableCell>
+                  </TableRow>
+                ) : (
+                  customers.map((c: any) => (
+                    <TableRow key={c.id} className="text-xs sm:text-sm">
+                      <TableCell className="font-medium">{c.name}</TableCell>
+                      <TableCell className="text-muted-foreground">{c.email}</TableCell>
+                      <TableCell>{c.country}</TableCell>
+                      <TableCell className="text-muted-foreground text-xs">
+                        {c.createdAt ? formatDistanceToNow(new Date(c.createdAt), { addSuffix: true }) : 'N/A'}
+                      </TableCell>
+                      <TableCell>{c._count.transactions}</TableCell>
+                      <TableCell>{c._count.riskCases}</TableCell>
+                      <TableCell>
+                        <Link href={`/customers/${c.id}`}>
+                          <Button variant="ghost" size="sm" className="h-7 px-2.5 text-xs">View</Button>
+                        </Link>
+                      </TableCell>
+                    </TableRow>
+                  ))
+                )}
+              </TableBody>
+            </Table>
+          </div>
         </CardContent>
       </Card>
     </div>

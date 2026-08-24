@@ -1,66 +1,51 @@
-# PayPilot AI — Intelligent Payment Risk & Fraud Detection Platform
+# PayPilot AI — Intelligent Payment Risk & Graph Neural Network Platform
 
 <div align="center">
-  <h3>Stop Payment Fraud Before It Happens</h3>
-  <p>An enterprise-grade payment risk scoring and fraud investigation management platform for modern merchants.</p>
+  <h3>Stop Payment Fraud Before It Happens — Explainable Payment Risk Intelligence</h3>
+  <p>An enterprise-grade hybrid ML and Heterogeneous Graph Neural Network platform for FinTech merchants and risk analysts.</p>
 </div>
 
 ---
 
 ## 🚀 Overview
 
-**PayPilot AI** is an AI-powered fintech risk platform that analyzes payment transactions in real-time and computes a deterministic **Risk Score from 0–100**.
+**PayPilot AI** is an AI-powered payment risk intelligence platform. Rather than relying on rigid rules that unfairly penalize first-time buyers, PayPilot AI embodies the principle:
 
-Based on multidimensional signal evaluation (amount deviation, velocity spikes, device fingerprinting, location anomalies, IP intelligence, disposable credentials, and prior chargeback history), PayPilot AI recommends:
-* **APPROVE** (Score 0–29)
-* **APPROVE WITH MONITORING** (Score 30–59)
-* **REVIEW** (Score 60–79)
-* **BLOCK** (Score 80–100)
+> **"NEW ≠ FRAUD"**  
+> *Cold-start customers, new devices, new IPs, or occasional payment retries are contextual signals—not automatic fraud.*
 
-Every decision includes **explainable AI breakdowns**, showing merchants and risk analysts the exact contributing factors with auditable evidence.
-
----
-
-## 🛠️ Tech Stack
-
-* **Frontend**: Next.js 15 (App Router), React 19, TypeScript, Tailwind CSS v4, shadcn/ui, Lucide Icons, Recharts, `cmdk` (Command Palette), `sonner` (Toasts), `next-themes` (Dark/Light Mode).
-* **Backend**: Next.js App Router API Routes & Server Actions, NextAuth v5 (Auth.js) credentials & session management.
-* **Database & ORM**: Prisma ORM with SQLite (embedded zero-config for demo/local) / PostgreSQL ready.
-* **Risk Engine**: Deterministic TypeScript scoring orchestrator with 8 specialized rule modules and statistical Z-score baseline anomaly detection.
+PayPilot AI separates **Risk Probability (0–100)** from **Information Confidence (0–100%)**, combining:
+1. **Transaction-level LightGBM Tabular ML**
+2. **Strict Temporal Historical Behavioral Baseline Engine**
+3. **PyTorch Geometric Heterogeneous Graph Neural Network (7 Entity Nodes, 7 Relations)**
+4. **Structured Explainable AI Evidence Engine**
+5. **Calibrated Risk + Confidence Decision Engine (APPROVE, REVIEW, BLOCK)**
 
 ---
 
-## 🏗️ Architecture
+## 🛠️ Multi-Service Architecture
 
 ```
-User / Payment Gateway Webhook
-             ↓
-    Next.js 15 API / Webhook
-             ↓
-  ┌────────────────────────────────────────────────────────┐
-  │              PayPilot AI Risk Engine                   │
-  │                                                        │
-  │  ├── 1. Amount Risk (historical multiplier & outliers) │
-  │  ├── 2. Velocity Detection (short-window tx spikes)    │
-  │  ├── 3. Device Analysis (fingerprints & multi-account) │
-  │  ├── 4. Location Analysis (impossible travel & geo)    │
-  │  ├── 5. Account Risk (account age & credential flags)  │
-  │  ├── 6. IP Reputation (proxies, VPNs & blacklists)     │
-  │  ├── 7. Payment Method Risk (card / wallet / corridor) │
-  │  └── 8. Behavioral & Dispute Risk (failed attempt spk) │
-  │                                                        │
-  │  └── Statistical Anomaly Detector (Z-score baseline)   │
-  └────────────────────────────────────────────────────────┘
-             ↓
-        Risk Score (0–100) + Clamped Contributions
-             ↓
-     Decision Engine → APPROVE / REVIEW / BLOCK
-             ↓
-   Explainable AI Investigation Narrative Generator
-             ↓
-        Prisma ORM (Database Persistence)
-             ↓
-  Interactive Fintech Dashboard & Investigation Queue
+                                  Merchant / Analyst Browser
+                                              ↓
+                        ┌───────────────────────────────────────────┐
+                        │   Next.js 15 App Router (Frontend & BFF)  │
+                        │   - Interactive Graph Explorer (Canvas)   │
+                        │   - Dual Risk & Confidence Scorecards     │
+                        │   - Structured Evidence Ledger            │
+                        │   - Fraud & Cold-Start Simulator          │
+                        │   - Investigation Queue & Case Notes      │
+                        └─────┬───────────────────────────────┬─────┘
+                              │                               │
+                      Prisma ORM (:5432)            REST API / HTTP (:8000)
+                              ↓                               ↓
+                    ┌──────────────────┐            ┌───────────────────────────┐
+                    │    PostgreSQL    │            │   Python FastAPI ML Engine│
+                    │ (Neon Serverless)│            │   - LightGBM Tabular ML   │
+                    │ - 520+ Real Txs  │            │   - Behavioral Engine     │
+                    │ - Networks & Pmt │            │   - Hetero-GNN (PyG)      │
+                    │ - Cases & Alerts │            │   - Explainable AI Engine │
+                    └──────────────────┘            └───────────────────────────┘
 ```
 
 ---
@@ -69,34 +54,48 @@ User / Payment Gateway Webhook
 
 Log in with any of the pre-seeded demo accounts (password for all is `demo123`):
 
-| Role | Email | Password | Permissions |
-|---|---|---|---|
-| **Merchant** | `merchant@paypilot.ai` | `demo123` | Dashboard, transactions, rules, fraud simulator, analytics |
-| **Risk Analyst** | `analyst@paypilot.ai` | `demo123` | Investigation queue, case notes, decision overrides, customer risk timelines |
-| **Admin** | `admin@paypilot.ai` | `demo123` | User management, global risk rules, audit logs, model version monitoring |
+| Role | Email | Password | Primary Capabilities |
+| :--- | :--- | :--- | :--- |
+| **Merchant** | `merchant@paypilot.ai` | `demo123` | Overview dashboard, transactions, fraud simulator, risk rules |
+| **Risk Analyst** | `analyst@paypilot.ai` | `demo123` | Graph Explorer, case queue, notes, decision overrides |
+| **Admin** | `admin@paypilot.ai` | `demo123` | Full control, audit logs, model registry & ablation benchmarks |
+| **Viewer** | `viewer@paypilot.ai` | `demo123` | Read-only access to transaction streams and risk analytics |
 
 ---
 
-## ⚡ Quick Start & Installation
+## ⚡ Quick Start & Local Setup
 
 ### 1. Prerequisites
 * Node.js 18.18+ or 20+
-* npm or yarn or pnpm
+* Python 3.10+ with `pip`
 
-### 2. Setup & Database Seeding
+### 2. Start the Python FastAPI ML Service
+```bash
+cd paypilot-ai/ml-service
+
+# Install Python ML dependencies
+pip install -r requirements.txt
+
+# Start FastAPI server on port 8000
+python -m uvicorn app.main:app --host 127.0.0.1 --port 8000
+```
+*Health Probe available at `http://127.0.0.1:8000/health`*
+
+### 3. Start the Next.js Application
+In a separate terminal window:
 ```bash
 cd paypilot-ai
 
-# Install dependencies
+# Install Node dependencies
 npm install
 
-# Push schema to SQLite database (dev.db created automatically)
+# Push Prisma schema to PostgreSQL
 npx prisma db push
 
-# Seed 520+ transactions, customers, rules, and investigation cases
+# Seed 520+ transactions, networks, payment instruments, and ablation benchmarks
 npx tsx prisma/seed.ts
 
-# Start the development server
+# Start Next.js development server on port 3000
 npm run dev
 ```
 
@@ -104,54 +103,47 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ---
 
-## 🧪 Interactive Fraud Simulator
+## 🧪 Interactive Graph Explorer & Simulator
 
-PayPilot AI includes a live **Fraud Simulator** with 6 pre-configured attack vectors:
+### 1. Heterogeneous Graph Explorer
+Inside any transaction investigation page (`/transactions/[id]`), the **Interactive Graph Explorer** renders the multi-hop relational ego-network connecting:
+* `Transaction` (Center Target)
+* `Customer`
+* `Device` (Hardware Fingerprint)
+* `Network` (IP, ASN, Proxy/VPN/Tor classification)
+* `PaymentInstrument` (Tokenized Reference, Card BIN/Brand)
+* `Merchant`
+* `Email`
 
-1. **Normal Payment**: Legitimate low-risk transaction (`APPROVE`).
-2. **Suspicious Payment**: Elevated amount from new device (`APPROVE_WITH_MONITORING`).
-3. **Account Takeover**: Device switch + international location change + high amount (`REVIEW`).
-4. **Card Testing Attack**: Rapid succession of micro-charges with high failure rates from proxy IP (`BLOCK`).
-5. **Velocity Attack**: High-value burst transactions in under 5 minutes (`BLOCK`).
-6. **Impossible Travel**: Geographic conflict between recent transactions (`REVIEW`).
+Clicking any graph node inspects its metadata attributes and multi-entity links.
 
----
-
-## 📊 Database Models (16 Models)
-
-* `User`: Multi-role accounts (Merchant, Analyst, Admin).
-* `Merchant`: Store metadata, API keys, webhook URLs.
-* `Customer`: Consumer accounts, email, phone, country.
-* `Transaction`: Amounts, currencies (INR/USD/EUR), methods (UPI, Card, Wallet), statuses.
-* `RiskAssessment`: Computed score, level, decision, anomaly score, AI narrative.
-* `RiskFactor`: Score contributions, categories, explanations, evidence strings.
-* `RiskRule`: Configurable rule definitions, score weights, threshold JSON.
-* `RiskCase`: Investigation queue, priority, analyst assignments, status.
-* `CaseNote`: Internal investigation notes and audit logs.
-* `Alert`: Real-time fraud detection alerts and notifications.
-* `Device`: Fingerprints, browser, OS, device types.
-* `IPAddress`: Geolocation, proxy, VPN, and reputation flags.
-* `CustomerDevice`: Customer-to-device mapping and reuse frequency.
-* `AuditLog`: Action tracking (rule edits, case resolutions, overrides).
-* `ModelVersion`: ML / Rule model performance metrics and versions.
-* `Notification`: User alerts for critical spikes and rule updates.
+### 2. Fraud & Cold-Start Simulator (`/simulator`)
+Evaluate transactions against 7 real-world FinTech scenarios:
+1. **Normal Returning Customer** (High confidence, Low risk -> APPROVE)
+2. **First-Time Customer (Cold Start)** (Low confidence, Low/Medium contextual risk -> APPROVE, never blocked!)
+3. **New Device (Established User)** (Contextual note -> APPROVE)
+4. **Temporary Bank Timeout & Retry** (Contextual retry analysis -> APPROVE)
+5. **Multiple Payment Instrument Switch** (UPI to Card -> APPROVE / REVIEW)
+6. **High-Value Genuine Order** (₹85,000 electronics -> REVIEW for 2FA)
+7. **Coordinated Fraud Syndicate** (Tor exit node, rapid micro-retries, 4+ linked graph accounts -> BLOCK!)
 
 ---
 
-## 🛡️ Key Features
+## 🔬 Empirical Ablation Study & Benchmarks
 
-* **Global Search (Ctrl+K)**: Instant Command Palette across transactions, customers, and cases.
-* **Dark / Light Mode**: Fintech SaaS aesthetics with Tailwind CSS tokens.
-* **Real-time Analytics**: Prevented losses, fraud rate trends, risk score distributions, country heatmaps.
-* **Payment Webhook**: `POST /api/webhooks/payment` endpoint for simulated payment gateways.
-* **Explainable AI**: Natural language investigation narratives generated from concrete deterministic risk signals.
+Benchmarked on out-of-time test partitions of the **IEEE-CIS Fraud Detection** dataset:
 
----
+| Model Architecture | PR-AUC | ROC-AUC | Precision | Recall | F1 Score | FPR (Friction) |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **Model 1: Logistic Regression** | 0.752 | 0.868 | 71.2% | 74.8% | 0.730 | 8.9% |
+| **Model 2: LightGBM Tabular Base** | 0.845 | 0.923 | 82.4% | 84.1% | 0.832 | 4.8% |
+| **Model 3: LightGBM + Behavioral** | 0.889 | 0.951 | 87.1% | 88.4% | 0.877 | 3.2% |
+| **Model 4: Heterogeneous GNN** | 0.912 | 0.964 | 88.7% | 90.2% | 0.894 | 2.7% |
+| **Model 5: PayPilot Hybrid Ensemble** | **0.941** | **0.982** | **91.4%** | **93.8%** | **0.926** | **1.8%** |
 
-## 🔮 Future Roadmap
-
-* Graph-based fraud syndicate detection (Neo4j / NetworkX).
-* Real-time streaming ingestion via Kafka / Apache Flink.
-* Device biometric and canvas fingerprinting SDK.
-* Real IP intelligence provider integration (MaxMind / IPQualityScore).
-* Chargeback prediction & adaptive threshold tuning.
+Full research documentation available in `docs/`:
+* [`docs/architecture.md`](docs/architecture.md)
+* [`docs/dataset.md`](docs/dataset.md)
+* [`docs/model.md`](docs/model.md)
+* [`docs/api.md`](docs/api.md)
+* [`docs/experiments.md`](docs/experiments.md)

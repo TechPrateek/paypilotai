@@ -100,16 +100,18 @@ export default async function OverviewPage(props: {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Overview Dashboard</h1>
-          <p className="text-muted-foreground mt-1">
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">Overview Dashboard</h1>
+          <p className="text-muted-foreground text-xs sm:text-sm mt-1">
             Real-time payment risk detection, analytics, and prevented loss monitoring.
           </p>
         </div>
-        <DateFilter />
+        <div className="w-full sm:w-auto overflow-x-auto pb-1 sm:pb-0">
+          <DateFilter />
+        </div>
       </div>
 
       {/* Stats Grid */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         <StatCard
           title="Total Transactions"
           value={totalTransactions.toLocaleString()}

@@ -99,32 +99,34 @@ export default function AlertsPage() {
   });
 
   return (
-    <div className="flex-1 space-y-4 p-4 md:p-8 pt-6 max-w-5xl mx-auto">
-      <div className="flex items-center justify-between">
+    <div className="flex-1 space-y-4 p-2 sm:p-4 md:p-8 pt-4 sm:pt-6 max-w-5xl mx-auto">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
         <div>
-          <h2 className="text-3xl font-bold tracking-tight">Alert Center</h2>
-          <p className="text-muted-foreground">Monitor and respond to system alerts</p>
+          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">Alert Center</h2>
+          <p className="text-muted-foreground text-xs sm:text-sm">Monitor and respond to system alerts</p>
         </div>
-        <Button variant="outline" onClick={handleMarkAllAsRead}>
-          <CheckCircle2 className="mr-2 h-4 w-4" />
+        <Button variant="outline" size="sm" onClick={handleMarkAllAsRead} className="h-8 text-xs sm:text-sm">
+          <CheckCircle2 className="mr-1.5 h-3.5 w-3.5" />
           Mark all as read
         </Button>
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
-        <TabsList>
-          <TabsTrigger value="all">All Alerts</TabsTrigger>
-          <TabsTrigger value="unread">
-            Unread
-            {alerts.filter(a => a.unread).length > 0 && (
-              <span className="ml-2 rounded-full bg-primary w-5 h-5 flex items-center justify-center text-[10px] text-primary-foreground">
-                {alerts.filter(a => a.unread).length}
-              </span>
-            )}
-          </TabsTrigger>
-          <TabsTrigger value="critical">Critical</TabsTrigger>
-          <TabsTrigger value="warning">Warning</TabsTrigger>
-        </TabsList>
+        <div className="overflow-x-auto pb-1">
+          <TabsList className="w-full sm:w-auto justify-start inline-flex">
+            <TabsTrigger value="all">All Alerts</TabsTrigger>
+            <TabsTrigger value="unread">
+              Unread
+              {alerts.filter(a => a.unread).length > 0 && (
+                <span className="ml-2 rounded-full bg-primary w-5 h-5 flex items-center justify-center text-[10px] text-primary-foreground">
+                  {alerts.filter(a => a.unread).length}
+                </span>
+              )}
+            </TabsTrigger>
+            <TabsTrigger value="critical">Critical</TabsTrigger>
+            <TabsTrigger value="warning">Warning</TabsTrigger>
+          </TabsList>
+        </div>
 
         <TabsContent value={activeTab} className="space-y-4 mt-0">
           {filteredAlerts.length === 0 ? (
@@ -143,29 +145,29 @@ export default function AlertsPage() {
                     alert.unread ? "border-l-4 border-l-primary bg-muted/20" : ""
                   )}
                 >
-                  <CardHeader className="p-4 pb-2 flex flex-row items-start space-y-0 gap-4">
-                    <div className="mt-1">
+                  <CardHeader className="p-3 sm:p-4 pb-2 flex flex-row items-start space-y-0 gap-3 sm:gap-4">
+                    <div className="mt-0.5 shrink-0">
                       {getIcon(alert.type)}
                     </div>
-                    <div className="flex-1">
-                      <div className="flex items-center justify-between">
-                        <CardTitle className="text-base font-semibold">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                        <CardTitle className="text-sm sm:text-base font-semibold leading-tight">
                           {alert.title}
                         </CardTitle>
-                        <span className="text-xs text-muted-foreground flex items-center">
+                        <span className="text-[11px] sm:text-xs text-muted-foreground flex items-center shrink-0">
                           <Clock className="mr-1 h-3 w-3" />
                           {alert.timeAgo}
                         </span>
                       </div>
-                      <CardDescription className="mt-1 text-sm text-foreground/80">
+                      <CardDescription className="mt-1 text-xs sm:text-sm text-foreground/80 leading-relaxed">
                         {alert.message}
                       </CardDescription>
                     </div>
                   </CardHeader>
-                  <CardContent className="p-4 pt-2 flex items-center justify-end gap-2 ml-9">
+                  <CardContent className="p-3 sm:p-4 pt-1 sm:pt-2 flex flex-wrap items-center justify-end gap-2 sm:ml-9">
                     {alert.transactionId && (
-                      <Button variant="secondary" size="sm" className="h-8 text-xs">
-                        <ExternalLink className="mr-2 h-3 w-3" />
+                      <Button variant="secondary" size="sm" className="h-7 sm:h-8 text-[11px] sm:text-xs">
+                        <ExternalLink className="mr-1.5 h-3 w-3" />
                         View {alert.transactionId}
                       </Button>
                     )}
@@ -173,7 +175,7 @@ export default function AlertsPage() {
                       <Button 
                         variant="outline" 
                         size="sm" 
-                        className="h-8 text-xs"
+                        className="h-7 sm:h-8 text-[11px] sm:text-xs"
                         onClick={() => handleMarkAsRead(alert.id)}
                       >
                         Mark Read
@@ -182,7 +184,7 @@ export default function AlertsPage() {
                     <Button 
                       variant="default" 
                       size="sm" 
-                      className="h-8 text-xs"
+                      className="h-7 sm:h-8 text-[11px] sm:text-xs"
                       onClick={() => handleResolve(alert.id)}
                     >
                       Resolve

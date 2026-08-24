@@ -11,9 +11,29 @@ import { Badge } from "@/components/ui/badge";
 import { RiskGauge } from "@/components/dashboard/risk-gauge";
 import { RiskBadge } from "@/components/dashboard/risk-badge";
 import { DecisionBadge } from "@/components/dashboard/decision-badge";
+import { ConfidenceGauge } from "@/components/dashboard/confidence-gauge";
+import { StructuredEvidencePanel } from "@/components/transactions/structured-evidence-panel";
 import { DEMO_SCENARIOS, DemoScenario } from "@/constants/demo-scenarios";
 import { COUNTRIES } from "@/constants/countries";
-import { CheckCircle, AlertTriangle, UserX, CreditCard, Zap, Globe, Sparkles, Shield, Clock } from "lucide-react";
+import {
+  CheckCircle,
+  AlertTriangle,
+  UserX,
+  CreditCard,
+  Zap,
+  Globe,
+  Sparkles,
+  Shield,
+  Clock,
+  UserCheck,
+  Smartphone,
+  RefreshCw,
+  ShieldAlert,
+  Cpu,
+  Layers,
+  Activity,
+  Share2,
+} from "lucide-react";
 
 const SCENARIO_ICONS: Record<string, any> = {
   CheckCircle,
@@ -22,24 +42,34 @@ const SCENARIO_ICONS: Record<string, any> = {
   CreditCard,
   Zap,
   Globe,
+  UserCheck,
+  Smartphone,
+  RefreshCw,
+  ShieldAlert,
 };
 
 export default function SimulatorPage() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
-  const [activeScenario, setActiveScenario] = useState<string | null>(null);
+  const [activeScenario, setActiveScenario] = useState<string | null>("1. Regular Returning Customer");
 
   const [formData, setFormData] = useState({
-    amount: 85000,
+    amount: 2400,
     currency: "INR",
-    paymentMethod: "CREDIT_CARD",
+    paymentMethod: "UPI",
     country: "IN",
-    isNewDevice: true,
-    accountAgeDays: 2,
-    previousFailedAttempts: 5,
-    transactionsInLast5Min: 8,
-    isDisposableEmail: false,
+    isNewDevice: false,
+    isNewIp: false,
+    accountAgeDays: 380,
+    customerTotalTransactions: 42,
+    previousFailedAttempts: 0,
+    transactionsInLast5Min: 0,
+    paymentInstrumentSwitchCount: 0,
+    isProxyIp: false,
+    isVpnIp: false,
+    isTorIp: false,
     isSuspiciousIp: false,
+    isDisposableEmail: false,
   });
 
   const loadScenario = (scenario: DemoScenario) => {
@@ -50,11 +80,17 @@ export default function SimulatorPage() {
       paymentMethod: scenario.input.paymentMethod,
       country: scenario.input.country,
       isNewDevice: scenario.input.isNewDevice,
+      isNewIp: scenario.input.isNewIp || false,
       accountAgeDays: scenario.input.accountAgeDays,
+      customerTotalTransactions: scenario.input.customerTotalTransactions,
       previousFailedAttempts: scenario.input.previousFailedAttempts,
       transactionsInLast5Min: scenario.input.transactionsInLast5Min,
-      isDisposableEmail: scenario.input.isDisposableEmail,
+      paymentInstrumentSwitchCount: scenario.input.paymentInstrumentSwitchCount || 0,
+      isProxyIp: scenario.input.isProxyIp || false,
+      isVpnIp: scenario.input.isVpnIp || false,
+      isTorIp: scenario.input.isTorIp || false,
       isSuspiciousIp: scenario.input.isSuspiciousIp,
+      isDisposableEmail: scenario.input.isDisposableEmail,
     });
   };
 
@@ -68,8 +104,10 @@ export default function SimulatorPage() {
           ...formData,
           amount: Number(formData.amount),
           accountAgeDays: Number(formData.accountAgeDays),
+          customerTotalTransactions: Number(formData.customerTotalTransactions),
           previousFailedAttempts: Number(formData.previousFailedAttempts),
           transactionsInLast5Min: Number(formData.transactionsInLast5Min),
+          paymentInstrumentSwitchCount: Number(formData.paymentInstrumentSwitchCount),
         }),
       });
 
@@ -88,259 +126,317 @@ export default function SimulatorPage() {
   };
 
   return (
-    <div className="space-y-6 p-4 md:p-8">
+    <div className="space-y-6 p-2 sm:p-4 md:p-8">
       <div>
-        <h2 className="text-3xl font-bold tracking-tight">Fraud Simulator</h2>
-        <p className="text-muted-foreground text-sm mt-1">
-          Simulate transactions against PayPilot AI's deterministic risk engine. Test pre-built attack vectors or customize signals.
+        <div className="flex items-center gap-3">
+          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">Payment Risk Simulator</h2>
+          <Badge variant="secondary" className="font-mono text-xs bg-primary/10 text-primary border-primary/20">
+            Interactive Tester
+          </Badge>
+        </div>
+        <p className="text-muted-foreground text-xs sm:text-sm mt-1">
+          Test how PayPilot AI evaluates real customer orders. Click any sample order scenario below or enter custom details.
         </p>
       </div>
 
-      {/* Predefined Scenarios */}
+      {/* FinTech Core Scenarios */}
       <div>
-        <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">
-          Predefined Attack & Risk Scenarios
+        <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2.5">
+          Common Customer Situations (Click to test)
         </h3>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
-          {DEMO_SCENARIOS.map((s) => {
-            const Icon = SCENARIO_ICONS[s.icon] || Shield;
-            const isSelected = activeScenario === s.name;
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          {DEMO_SCENARIOS.map((scenario) => {
+            const Icon = SCENARIO_ICONS[scenario.icon] || Shield;
+            const isSelected = activeScenario === scenario.name;
+
             return (
-              <button
-                key={s.name}
-                onClick={() => loadScenario(s)}
-                className={`p-3 rounded-lg border text-left transition-all flex flex-col justify-between ${
+              <Card
+                key={scenario.name}
+                className={`cursor-pointer transition-all duration-150 hover:shadow-md border ${
                   isSelected
-                    ? "border-primary bg-primary/5 shadow-sm ring-1 ring-primary"
-                    : "border-border bg-card hover:bg-accent/50"
+                    ? "border-primary ring-1 ring-primary bg-primary/5 shadow-sm"
+                    : "border-border/60 hover:border-primary/50"
                 }`}
+                onClick={() => loadScenario(scenario)}
               >
-                <div className="flex items-center gap-2 mb-2">
-                  <Icon className={`h-4 w-4 text-${s.color}-500`} />
-                  <span className="font-semibold text-xs leading-tight">{s.name}</span>
-                </div>
-                <p className="text-[11px] text-muted-foreground line-clamp-2">{s.description}</p>
-              </button>
+                <CardContent className="p-3.5 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <div className="p-1 rounded bg-muted/60">
+                        <Icon className="h-4 w-4 text-primary" />
+                      </div>
+                      <span className="font-semibold text-xs text-foreground leading-tight">
+                        {scenario.name}
+                      </span>
+                    </div>
+                  </div>
+                  <p className="text-[11px] text-muted-foreground line-clamp-2">
+                    {scenario.description}
+                  </p>
+                  <div className="flex items-center justify-between pt-1 border-t border-border/40 text-[10px]">
+                    <span className="text-muted-foreground font-medium">Expected Result:</span>
+                    <Badge
+                      variant={scenario.expectedDecision === "BLOCK" ? "destructive" : scenario.expectedDecision === "REVIEW" ? "secondary" : "outline"}
+                      className="text-[10px] py-0 px-1.5 h-4 font-normal"
+                    >
+                      {scenario.expectedDecision} • {scenario.expectedConfidence}
+                    </Badge>
+                  </div>
+                </CardContent>
+              </Card>
             );
           })}
         </div>
       </div>
 
-      {/* Form & Results Grid */}
-      <div className="grid gap-6 lg:grid-cols-12">
-        {/* Left Form: 7 cols */}
-        <Card className="lg:col-span-6">
-          <CardHeader>
-            <CardTitle>Transaction Signals</CardTitle>
-            <CardDescription>Configure the transaction attributes to evaluate</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-1.5">
-                <Label>Amount</Label>
-                <Input
-                  type="number"
-                  value={formData.amount}
-                  onChange={(e) => setFormData({ ...formData, amount: Number(e.target.value) })}
-                />
-              </div>
-              <div className="space-y-1.5">
-                <Label>Currency</Label>
-                <Select
-                  value={formData.currency}
-                  onValueChange={(v) => v && setFormData({ ...formData, currency: v })}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Currency" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="INR">INR (₹)</SelectItem>
-                    <SelectItem value="USD">USD ($)</SelectItem>
-                    <SelectItem value="EUR">EUR (€)</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-1.5">
-                <Label>Payment Method</Label>
-                <Select
-                  value={formData.paymentMethod}
-                  onValueChange={(v) => v && setFormData({ ...formData, paymentMethod: v })}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Method" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="UPI">UPI</SelectItem>
-                    <SelectItem value="CREDIT_CARD">Credit Card</SelectItem>
-                    <SelectItem value="DEBIT_CARD">Debit Card</SelectItem>
-                    <SelectItem value="NET_BANKING">Net Banking</SelectItem>
-                    <SelectItem value="WALLET">Wallet</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="space-y-1.5">
-                <Label>Origin Country</Label>
-                <Select
-                  value={formData.country}
-                  onValueChange={(v) => v && setFormData({ ...formData, country: v })}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Country" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {COUNTRIES.map((c) => (
-                      <SelectItem key={c.code} value={c.code}>
-                        {c.flag} {c.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-3 gap-4 pt-2">
-              <div className="space-y-1.5">
-                <Label className="text-xs">Account Age (Days)</Label>
-                <Input
-                  type="number"
-                  value={formData.accountAgeDays}
-                  onChange={(e) => setFormData({ ...formData, accountAgeDays: Number(e.target.value) })}
-                />
-              </div>
-              <div className="space-y-1.5">
-                <Label className="text-xs">Failed Attempts</Label>
-                <Input
-                  type="number"
-                  value={formData.previousFailedAttempts}
-                  onChange={(e) => setFormData({ ...formData, previousFailedAttempts: Number(e.target.value) })}
-                />
-              </div>
-              <div className="space-y-1.5">
-                <Label className="text-xs">Tx in Last 5 Min</Label>
-                <Input
-                  type="number"
-                  value={formData.transactionsInLast5Min}
-                  onChange={(e) => setFormData({ ...formData, transactionsInLast5Min: Number(e.target.value) })}
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-3 gap-4 pt-2 border-t">
-              <div className="flex items-center space-x-2">
-                <Switch
-                  checked={formData.isNewDevice}
-                  onCheckedChange={(c) => setFormData({ ...formData, isNewDevice: c })}
-                />
-                <Label className="text-xs">New Device</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Switch
-                  checked={formData.isDisposableEmail}
-                  onCheckedChange={(c) => setFormData({ ...formData, isDisposableEmail: c })}
-                />
-                <Label className="text-xs">Disposable Email</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Switch
-                  checked={formData.isSuspiciousIp}
-                  onCheckedChange={(c) => setFormData({ ...formData, isSuspiciousIp: c })}
-                />
-                <Label className="text-xs">Suspicious IP</Label>
-              </div>
-            </div>
-
-            <Button onClick={analyze} disabled={loading} className="w-full mt-4 h-11 text-base font-semibold">
-              <Sparkles className="mr-2 h-5 w-5" />
-              {loading ? "Evaluating Risk Engine..." : "Analyze Transaction"}
-            </Button>
-          </CardContent>
-        </Card>
-
-        {/* Right Output: 6 cols */}
-        <Card className="lg:col-span-6">
-          <CardHeader>
-            <CardTitle>Evaluation Results</CardTitle>
-            <CardDescription>Deterministic score & explainable AI breakdown</CardDescription>
-          </CardHeader>
-          <CardContent>
-            {result ? (
-              <div className="space-y-6">
-                <div className="flex flex-col items-center justify-center p-4 bg-muted/40 rounded-xl border">
-                  <RiskGauge score={result.riskScore} size={180} />
-                  <div className="flex items-center gap-3 mt-4">
-                    <RiskBadge level={result.riskLevel} />
-                    <DecisionBadge decision={result.decision} />
-                    {result.attackPattern && (
-                      <Badge variant="destructive" className="animate-pulse">
-                        {result.attackPattern}
-                      </Badge>
-                    )}
-                  </div>
-                  <div className="flex items-center gap-4 text-xs text-muted-foreground mt-3">
-                    <span className="flex items-center gap-1">
-                      <Clock className="h-3.5 w-3.5" /> {result.processingTimeMs}ms execution
-                    </span>
-                    <span>•</span>
-                    <span>Anomaly Score: {result.anomalyScore}%</span>
-                  </div>
+      {/* Simulator Interface: Left Form / Right Results */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        {/* Left Form: Order Signals (6 cols) */}
+        <div className="lg:col-span-6 space-y-5">
+          <Card className="border border-border/60 shadow-sm">
+            <CardHeader className="p-4 sm:p-5 pb-3 bg-muted/20 border-b border-border/40">
+              <CardTitle className="text-sm font-semibold flex items-center gap-2">
+                <CreditCard className="h-4 w-4 text-primary" /> Order & Customer Details
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="p-4 sm:p-5 space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-1.5">
+                  <Label className="text-xs">Order Amount</Label>
+                  <Input
+                    type="number"
+                    value={formData.amount}
+                    onChange={(e) => setFormData({ ...formData, amount: Number(e.target.value) })}
+                    className="h-8 text-xs font-mono"
+                  />
                 </div>
 
-                {/* Risk Factors */}
-                <div>
-                  <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
-                    Contributing Risk Factors ({result.factors?.length || 0})
-                  </h4>
-                  <div className="space-y-2">
-                    {result.factors && result.factors.length > 0 ? (
-                      result.factors.map((f: any, idx: number) => (
-                        <div key={idx} className="flex items-start justify-between p-2.5 rounded-lg border bg-card text-xs">
-                          <div className="space-y-1">
-                            <div className="flex items-center gap-2">
-                              <span className="font-semibold">{f.name}</span>
-                              <Badge variant="outline" className="text-[10px] px-1.5 py-0">
-                                {f.category}
-                              </Badge>
-                            </div>
-                            <p className="text-muted-foreground">{f.explanation}</p>
-                            {f.evidence && (
-                              <p className="text-[11px] font-mono text-muted-foreground/80">{f.evidence}</p>
-                            )}
-                          </div>
-                          <span className="font-bold text-destructive shrink-0 ml-2">
-                            +{f.scoreContribution}
+                <div className="space-y-1.5">
+                  <Label className="text-xs">Currency</Label>
+                  <Select
+                    value={formData.currency}
+                    onValueChange={(val) => setFormData({ ...formData, currency: val || "INR" })}
+                  >
+                    <SelectTrigger className="h-8 text-xs">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="INR">INR (₹)</SelectItem>
+                      <SelectItem value="USD">USD ($)</SelectItem>
+                      <SelectItem value="EUR">EUR (€)</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-1.5">
+                  <Label className="text-xs">Payment Method</Label>
+                  <Select
+                    value={formData.paymentMethod}
+                    onValueChange={(val) => setFormData({ ...formData, paymentMethod: val || "UPI" })}
+                  >
+                    <SelectTrigger className="h-8 text-xs">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="UPI">UPI / VPA</SelectItem>
+                      <SelectItem value="CREDIT_CARD">Credit Card</SelectItem>
+                      <SelectItem value="DEBIT_CARD">Debit Card</SelectItem>
+                      <SelectItem value="NET_BANKING">Net Banking</SelectItem>
+                      <SelectItem value="WALLET">Digital Wallet</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-1.5">
+                  <Label className="text-xs">Customer Country</Label>
+                  <Select
+                    value={formData.country}
+                    onValueChange={(val) => setFormData({ ...formData, country: val || "IN" })}
+                  >
+                    <SelectTrigger className="h-8 text-xs">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {COUNTRIES.slice(0, 10).map((c) => (
+                        <SelectItem key={c.code} value={c.code}>
+                          {c.name} ({c.code})
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-1.5">
+                  <Label className="text-xs">Customer's Past Orders</Label>
+                  <Input
+                    type="number"
+                    value={formData.customerTotalTransactions}
+                    onChange={(e) => setFormData({ ...formData, customerTotalTransactions: Number(e.target.value) })}
+                    className="h-8 text-xs font-mono"
+                    placeholder="0 for First-Time Buyer"
+                  />
+                  <span className="text-[10px] text-muted-foreground">0 = First-Time Buyer</span>
+                </div>
+
+                <div className="space-y-1.5">
+                  <Label className="text-xs">Account Age (in Days)</Label>
+                  <Input
+                    type="number"
+                    value={formData.accountAgeDays}
+                    onChange={(e) => setFormData({ ...formData, accountAgeDays: Number(e.target.value) })}
+                    className="h-8 text-xs font-mono"
+                  />
+                </div>
+
+                <div className="space-y-1.5">
+                  <Label className="text-xs">Past Payment Failures</Label>
+                  <Input
+                    type="number"
+                    value={formData.previousFailedAttempts}
+                    onChange={(e) => setFormData({ ...formData, previousFailedAttempts: Number(e.target.value) })}
+                    className="h-8 text-xs font-mono"
+                  />
+                </div>
+
+                <div className="space-y-1.5">
+                  <Label className="text-xs">Payment Attempts in Last 5 Min</Label>
+                  <Input
+                    type="number"
+                    value={formData.transactionsInLast5Min}
+                    onChange={(e) => setFormData({ ...formData, transactionsInLast5Min: Number(e.target.value) })}
+                    className="h-8 text-xs font-mono"
+                  />
+                </div>
+              </div>
+
+              {/* Contextual Toggle Switches */}
+              <div className="pt-2 border-t border-border/40 space-y-2.5 text-xs">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <Label className="text-xs font-normal">Customer on a New Phone / Computer</Label>
+                    <p className="text-[11px] text-muted-foreground">Normal for buyers who upgrade devices</p>
+                  </div>
+                  <Switch
+                    checked={formData.isNewDevice}
+                    onCheckedChange={(val) => setFormData({ ...formData, isNewDevice: val })}
+                  />
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <div>
+                    <Label className="text-xs font-normal">Hidden IP Address / VPN / Proxy</Label>
+                    <p className="text-[11px] text-muted-foreground">Internet location masked or hidden</p>
+                  </div>
+                  <Switch
+                    checked={formData.isTorIp || formData.isProxyIp}
+                    onCheckedChange={(val) => setFormData({ ...formData, isTorIp: val, isProxyIp: val })}
+                  />
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <div>
+                    <Label className="text-xs font-normal">Temporary / Fake Email Address</Label>
+                    <p className="text-[11px] text-muted-foreground">Disposable email inbox service</p>
+                  </div>
+                  <Switch
+                    checked={formData.isDisposableEmail}
+                    onCheckedChange={(val) => setFormData({ ...formData, isDisposableEmail: val })}
+                  />
+                </div>
+              </div>
+
+              <Button
+                onClick={analyze}
+                disabled={loading}
+                className="w-full h-10 font-semibold mt-4"
+              >
+                {loading ? "Checking Order Safety..." : "Check Payment Safety"}
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Right Form: Live Evaluation Results (6 cols) */}
+        <div className="lg:col-span-6 space-y-5">
+          <Card className="border border-border/60 shadow-md">
+            <CardHeader className="p-4 sm:p-5 pb-3 bg-muted/20 border-b border-border/40">
+              <CardTitle className="text-sm font-semibold flex items-center justify-between">
+                <span className="flex items-center gap-2">
+                  <Shield className="h-4 w-4 text-primary" /> AI Risk Score & Recommendation
+                </span>
+                {result && (
+                  <Badge variant="outline" className="font-mono text-xs">
+                    {result.processingTimeMs || 12}ms analysis
+                  </Badge>
+                )}
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="p-4 sm:p-5 space-y-5">
+              {result ? (
+                <>
+                  {/* Gauge & Decision Badges */}
+                  <div className="flex flex-col items-center justify-center p-4 bg-muted/30 rounded-xl border border-border/50">
+                    <RiskGauge score={result.riskScore} size={160} />
+                    <div className="flex items-center gap-3 mt-3">
+                      <RiskBadge level={result.riskScore >= 80 ? "CRITICAL" : result.riskScore >= 60 ? "HIGH" : result.riskScore >= 30 ? "MEDIUM" : "LOW"} />
+                      <DecisionBadge decision={result.decision} />
+                    </div>
+                  </div>
+
+                  {/* Confidence Breakdown */}
+                  <div className="p-4 rounded-lg bg-card/80 border border-border/50">
+                    <ConfidenceGauge
+                      confidence={result.confidence}
+                      dataAvailability={result.dataAvailability}
+                    />
+                  </div>
+
+                  {/* Multi-Modal Breakdown in plain words */}
+                  {result.modelBreakdown && (
+                    <div className="p-3.5 rounded-lg bg-muted/30 border border-border/40 space-y-2">
+                      <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider block">
+                        What the AI Checked
+                      </span>
+                      <div className="grid grid-cols-3 gap-2 text-center text-xs">
+                        <div className="p-2 rounded bg-background/80 border border-border/40">
+                          <span className="text-[10px] text-muted-foreground block">Order Details</span>
+                          <span className="font-bold text-blue-400 font-mono">
+                            {Math.round(result.modelBreakdown.lightgbm * 100)}%
                           </span>
                         </div>
-                      ))
-                    ) : (
-                      <p className="text-xs text-muted-foreground">No high risk factors identified.</p>
-                    )}
-                  </div>
-                </div>
+                        <div className="p-2 rounded bg-background/80 border border-border/40">
+                          <span className="text-[10px] text-muted-foreground block">Past Habits</span>
+                          <span className="font-bold text-emerald-400 font-mono">
+                            {Math.round(result.modelBreakdown.behavioral * 100)}%
+                          </span>
+                        </div>
+                        <div className="p-2 rounded bg-background/80 border border-border/40">
+                          <span className="text-[10px] text-muted-foreground block">Connected Devices</span>
+                          <span className="font-bold text-purple-400 font-mono">
+                            {Math.round(result.modelBreakdown.gnn * 100)}%
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
 
-                {/* AI Explanation */}
-                <div className="p-4 bg-primary/5 rounded-lg border border-primary/20 space-y-1">
-                  <div className="flex items-center gap-1.5 text-xs font-semibold text-primary">
-                    <Sparkles className="h-3.5 w-3.5" /> Explainable AI Investigation Summary
-                  </div>
-                  <p className="text-xs leading-relaxed text-foreground/90">
-                    {result.aiExplanation || "Transaction conforms to standard risk parameters."}
+                  {/* Structured Evidence List */}
+                  {result.evidence && (
+                    <StructuredEvidencePanel evidenceList={result.evidence} />
+                  )}
+                </>
+              ) : (
+                <div className="flex flex-col items-center justify-center h-[340px] text-center text-muted-foreground p-6">
+                  <Shield className="h-10 w-10 mb-3 opacity-30 text-primary" />
+                  <h4 className="font-semibold text-sm text-foreground">Ready to Test</h4>
+                  <p className="text-xs mt-1 max-w-xs">
+                    Choose one of the sample situations above or enter order details, then click "Check Payment Safety".
                   </p>
                 </div>
-              </div>
-            ) : (
-              <div className="py-16 text-center space-y-3">
-                <Shield className="h-12 w-12 text-muted-foreground/40 mx-auto" />
-                <h4 className="font-medium text-sm">No Analysis Run Yet</h4>
-                <p className="text-xs text-muted-foreground max-w-xs mx-auto">
-                  Pick a scenario above or enter custom attributes, then click "Analyze Transaction" to run the risk engine.
-                </p>
-              </div>
-            )}
-          </CardContent>
-        </Card>
+              )}
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </div>
   );

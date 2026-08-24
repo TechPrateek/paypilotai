@@ -1,112 +1,187 @@
-export const DEMO_SCENARIOS = [
+export interface DemoScenario {
+  name: string;
+  description: string;
+  icon: string;
+  color: string;
+  expectedDecision: "APPROVE" | "REVIEW" | "BLOCK";
+  expectedConfidence: string;
+  input: {
+    amount: number;
+    currency: string;
+    paymentMethod: string;
+    country: string;
+    isNewDevice: boolean;
+    isNewIp?: boolean;
+    accountAgeDays: number;
+    customerTotalTransactions: number;
+    previousFailedAttempts: number;
+    transactionsInLast5Min: number;
+    paymentInstrumentSwitchCount?: number;
+    isProxyIp?: boolean;
+    isVpnIp?: boolean;
+    isTorIp?: boolean;
+    isSuspiciousIp: boolean;
+    isDisposableEmail: boolean;
+  };
+}
+
+export const DEMO_SCENARIOS: DemoScenario[] = [
   {
-    name: "Normal Payment",
-    description: "A regular, low-risk domestic payment",
+    name: "1. Regular Returning Customer",
+    description: "A trusted customer making a regular purchase from their usual phone. High safety, smooth checkout.",
     icon: "CheckCircle",
     color: "green",
+    expectedDecision: "APPROVE",
+    expectedConfidence: "High (94%)",
     input: {
-      amount: 2500,
+      amount: 2400,
       currency: "INR",
       paymentMethod: "UPI",
       country: "IN",
       isNewDevice: false,
-      accountAgeDays: 365,
+      accountAgeDays: 380,
+      customerTotalTransactions: 42,
       previousFailedAttempts: 0,
       transactionsInLast5Min: 0,
-      isDisposableEmail: false,
+      paymentInstrumentSwitchCount: 0,
       isSuspiciousIp: false,
+      isDisposableEmail: false,
     },
   },
   {
-    name: "Suspicious Payment",
-    description: "Medium risk: unusual amount from a new device",
-    icon: "AlertTriangle",
-    color: "yellow",
+    name: "2. First-Time Buyer (New Customer)",
+    description: "Brand new customer making their first purchase. PayPilot does not block new buyers without proof.",
+    icon: "UserCheck",
+    color: "blue",
+    expectedDecision: "APPROVE",
+    expectedConfidence: "New Customer (45%)",
     input: {
-      amount: 25000,
+      amount: 1850,
+      currency: "INR",
+      paymentMethod: "UPI",
+      country: "IN",
+      isNewDevice: true,
+      isNewIp: true,
+      accountAgeDays: 0,
+      customerTotalTransactions: 0,
+      previousFailedAttempts: 0,
+      transactionsInLast5Min: 0,
+      paymentInstrumentSwitchCount: 0,
+      isSuspiciousIp: false,
+      isDisposableEmail: false,
+    },
+  },
+  {
+    name: "3. Known Customer on New Phone",
+    description: "An existing buyer using a new mobile phone. Safe to approve, noted as a new device.",
+    icon: "Smartphone",
+    color: "blue",
+    expectedDecision: "APPROVE",
+    expectedConfidence: "High (88%)",
+    input: {
+      amount: 4500,
       currency: "INR",
       paymentMethod: "CREDIT_CARD",
       country: "IN",
       isNewDevice: true,
-      accountAgeDays: 90,
-      previousFailedAttempts: 1,
+      accountAgeDays: 240,
+      customerTotalTransactions: 19,
+      previousFailedAttempts: 0,
       transactionsInLast5Min: 1,
-      isDisposableEmail: false,
+      paymentInstrumentSwitchCount: 0,
       isSuspiciousIp: false,
+      isDisposableEmail: false,
     },
   },
   {
-    name: "Account Takeover",
-    description: "New device, new location, unusual spending",
-    icon: "UserX",
-    color: "orange",
+    name: "4. Payment Retry After Bank Timeout",
+    description: "Customer retrying payment after an initial bank server connection dropped.",
+    icon: "RefreshCw",
+    color: "emerald",
+    expectedDecision: "APPROVE",
+    expectedConfidence: "High (90%)",
     input: {
-      amount: 75000,
+      amount: 3200,
+      currency: "INR",
+      paymentMethod: "DEBIT_CARD",
+      country: "IN",
+      isNewDevice: false,
+      accountAgeDays: 180,
+      customerTotalTransactions: 14,
+      previousFailedAttempts: 2,
+      transactionsInLast5Min: 2,
+      paymentInstrumentSwitchCount: 0,
+      isSuspiciousIp: false,
+      isDisposableEmail: false,
+    },
+  },
+  {
+    name: "5. Switched from UPI to Card",
+    description: "Customer tried paying with UPI first, then switched to Card after bank delay.",
+    icon: "CreditCard",
+    color: "amber",
+    expectedDecision: "APPROVE",
+    expectedConfidence: "High (86%)",
+    input: {
+      amount: 6800,
       currency: "INR",
       paymentMethod: "CREDIT_CARD",
-      country: "US",
-      isNewDevice: true,
-      accountAgeDays: 180,
-      previousFailedAttempts: 3,
+      country: "IN",
+      isNewDevice: false,
+      accountAgeDays: 120,
+      customerTotalTransactions: 8,
+      previousFailedAttempts: 1,
       transactionsInLast5Min: 2,
-      isDisposableEmail: false,
+      paymentInstrumentSwitchCount: 2,
       isSuspiciousIp: false,
+      isDisposableEmail: false,
     },
   },
   {
-    name: "Card Testing Attack",
-    description: "Many small transactions in rapid succession",
-    icon: "CreditCard",
-    color: "red",
+    name: "6. Large Order (₹85,000)",
+    description: "High-value purchase from a loyal customer. Sent to review queue for quick verification.",
+    icon: "ShieldAlert",
+    color: "amber",
+    expectedDecision: "REVIEW",
+    expectedConfidence: "High (89%)",
     input: {
-      amount: 100,
+      amount: 85000,
+      currency: "INR",
+      paymentMethod: "CREDIT_CARD",
+      country: "IN",
+      isNewDevice: false,
+      accountAgeDays: 520,
+      customerTotalTransactions: 36,
+      previousFailedAttempts: 0,
+      transactionsInLast5Min: 1,
+      paymentInstrumentSwitchCount: 0,
+      isSuspiciousIp: false,
+      isDisposableEmail: false,
+    },
+  },
+  {
+    name: "7. Fraud Attack / Card Testing",
+    description: "Attacker making 14 rapid payment attempts from an anonymous hidden network.",
+    icon: "Zap",
+    color: "red",
+    expectedDecision: "BLOCK",
+    expectedConfidence: "High (95%)",
+    input: {
+      amount: 145000,
       currency: "INR",
       paymentMethod: "CREDIT_CARD",
       country: "NG",
       isNewDevice: true,
+      isNewIp: true,
       accountAgeDays: 1,
-      previousFailedAttempts: 8,
-      transactionsInLast5Min: 12,
+      customerTotalTransactions: 0,
+      previousFailedAttempts: 7,
+      transactionsInLast5Min: 14,
+      paymentInstrumentSwitchCount: 4,
+      isTorIp: true,
+      isProxyIp: true,
+      isSuspiciousIp: true,
       isDisposableEmail: true,
-      isSuspiciousIp: true,
     },
   },
-  {
-    name: "Velocity Attack",
-    description: "High-value transactions at extreme speed",
-    icon: "Zap",
-    color: "red",
-    input: {
-      amount: 100000,
-      currency: "INR",
-      paymentMethod: "DEBIT_CARD",
-      country: "IN",
-      isNewDevice: true,
-      accountAgeDays: 3,
-      previousFailedAttempts: 5,
-      transactionsInLast5Min: 10,
-      isDisposableEmail: false,
-      isSuspiciousIp: false,
-    },
-  },
-  {
-    name: "Impossible Travel",
-    description: "Transaction from unexpected country after recent domestic activity",
-    icon: "Globe",
-    color: "orange",
-    input: {
-      amount: 45000,
-      currency: "USD",
-      paymentMethod: "CREDIT_CARD",
-      country: "RU",
-      isNewDevice: true,
-      accountAgeDays: 200,
-      previousFailedAttempts: 2,
-      transactionsInLast5Min: 1,
-      isDisposableEmail: false,
-      isSuspiciousIp: true,
-    },
-  },
-] as const;
-
-export type DemoScenario = (typeof DEMO_SCENARIOS)[number];
+];
