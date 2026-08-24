@@ -1,135 +1,128 @@
-# PayPilot AI
+# PayPilot AI — Intelligent Payment Risk & Fraud Detection
 
-[![Next.js 15](https://img.shields.io/badge/Next.js-15.1-black?style=flat-square&logo=next.js)](https://nextjs.org/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.110-009688?style=flat-square&logo=fastapi)](https://fastapi.tiangolo.com/)
-[![PyTorch Geometric](https://img.shields.io/badge/PyTorch_Geometric-HeteroData-EE4C2C?style=flat-square&logo=pytorch)](https://pyg.org/)
-[![LightGBM](https://img.shields.io/badge/LightGBM-4.3-blue?style=flat-square)](https://lightgbm.readthedocs.io/)
-[![Prisma ORM](https://img.shields.io/badge/Prisma-6.19-2D3748?style=flat-square&logo=prisma)](https://prisma.io/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](LICENSE)
-
-An explainable payment risk decision engine for high-volume merchants. PayPilot combines gradient boosted tabular inference, rolling behavioral baselines, and heterogeneous graph neural networks to evaluate checkout transactions in real time without penalizing legitimate first-time buyers.
+A full-stack FinTech web application and machine learning project that analyzes online payment transactions in real-time, calculates a risk score from 0 to 100, and helps merchants decide whether to **Approve**, **Review**, or **Block** an order.
 
 ---
 
-## Key Design Principles
+## 📌 Project Motivation
 
-Traditional rule-based fraud detection suffers from high false-positive rates because it treats unfamiliarity as hostility. PayPilot decouples **Risk Probability** ($0.0 \le P \le 1.0$) from **Information Confidence** ($0.0 \le C \le 1.0$):
+Most simple fraud rules reject customers whenever they shop from a new phone or place their first order. In real life:
+> **A new customer or a new device does NOT automatically mean fraud.**
 
-1. **Cold-Start Safety ("New ≠ Fraud")**: First-time customers with no purchase history have low confidence ($C \approx 0.45\text{--}0.55$), but are evaluated against baseline distribution models rather than flagged as fraudulent.
-2. **Contextual Signals**: New devices, IP switches, and bank network retries are treated as contextual indicators requiring multi-source corroboration before triggering manual review.
-3. **Syndicate Detection via Graph Relational Learning**: Distributed card-testing rings and identity rotation attacks are captured by propagating multi-hop entity embeddings across shared hardware fingerprints, networks, and tokenized payment instruments.
-4. **Transparent Auditability**: Every recommendation includes structured evidence vectors across 5 categories (`TRANSACTION`, `BEHAVIOR`, `GRAPH`, `CONTEXT`, `DATA_AVAILABILITY`).
+I built **PayPilot AI** to solve this problem by combining transaction details, past buying habits, and a connected network map (Graph ML) so merchants don't lose good customers while still stopping real card testers and attackers.
 
 ---
 
-## Architecture Overview
+## 🚀 Key Features
 
-```
-                      [ Client Checkout / Merchant Gateway ]
-                                         │
-                                         ▼
-                     ┌───────────────────────────────────────┐
-                     │    Next.js 15 Web Application & BFF   │
-                     │  - Analyst Investigation Cockpit      │
-                     │  - Interactive Entity Graph Explorer  │
-                     │  - Risk & Cold-Start Simulator        │
-                     └───────┬───────────────────────┬───────┘
-                             │ (Prisma ORM)          │ (HTTP REST :8000)
-                             ▼                       ▼
-                   ┌──────────────────┐    ┌───────────────────────────┐
-                   │    PostgreSQL    │    │ Python FastAPI ML Service │
-                   │  - Transactions  │    │  - Tabular LightGBM       │
-                   │  - Networks & Dev│    │  - Temporal Behavioral    │
-                   │  - Cases & Notes │    │  - Hetero-GNN (PyG)       │
-                   └──────────────────┘    │  - Explainability Engine  │
-                                           └───────────────────────────┘
-```
-
-### Heterogeneous Graph Schema
-* **Node Types (7)**: `Customer`, `Transaction`, `Device`, `Network`, `PaymentInstrument`, `Merchant`, `Email`
-* **Edge Relations (7)**: `MADE`, `USED_DEVICE`, `USED_PAYMENT`, `FROM_NETWORK`, `BELONGS_TO`, `USES_EMAIL`, `ASSOCIATED_WITH`
+* **Merchant Dashboard**: Live overview of total orders, revenue, approval rate, risk scores, and charts.
+* **Risk Score & Decision (0–100)**: Evaluates transaction amounts, location, device, network, and past history.
+* **Interactive Connection Map**: Visual network graph showing how a customer, device, IP address, and card are connected.
+* **Payment Simulator**: Test 7 realistic scenarios (e.g. first-time buyer, network timeout retry, switching from UPI to card, and coordinated fraud attacks).
+* **Investigation Case Queue**: Risk analysts can open cases, review evidence, change status, and add investigation notes.
+* **Plain-English Explanations**: Every decision explains *why* an action was recommended in simple terms.
 
 ---
 
-## Empirical Benchmark & Ablation Study
+## 🛠️ Tech Stack Used
 
-Evaluated on out-of-time test partitions (latest 15% chronological split) of the **IEEE-CIS Fraud Detection** research benchmark:
-
-| Model Architecture | PR-AUC | ROC-AUC | Precision | Recall | F1 Score | FPR (Friction) |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| Logistic Regression (Standardized Tabular) | 0.752 | 0.868 | 71.2% | 74.8% | 0.730 | 8.9% |
-| LightGBM Tabular Baseline | 0.845 | 0.923 | 82.4% | 84.1% | 0.832 | 4.8% |
-| LightGBM + Temporal Behavioral Engine | 0.889 | 0.951 | 87.1% | 88.4% | 0.877 | 3.2% |
-| Heterogeneous GNN (PyG Relational) | 0.912 | 0.964 | 88.7% | 90.2% | 0.894 | 2.7% |
-| **PayPilot Hybrid Ensemble (`hybrid-v1`)** | **0.941** | **0.982** | **91.4%** | **93.8%** | **0.926** | **1.8%** |
-
-### Segment Performance (Cold-Start vs Established)
-* **Established Customers ($\ge 3$ txs)**: 97.4% Accuracy, 1.2% FPR, 0.92 Mean Confidence
-* **Cold-Start Customers ($0\text{--}1$ txs)**: 93.8% Accuracy, 3.4% FPR, 0.54 Mean Confidence
+* **Frontend**: Next.js 15 (App Router), React, Tailwind CSS, Shadcn/UI, Recharts, Lucide Icons
+* **Backend**: Next.js API Routes, NextAuth (Auth.js) session management
+* **Database**: PostgreSQL with Prisma ORM (includes 520+ seeded sample transactions)
+* **ML Microservice**: Python, FastAPI, LightGBM, NetworkX / PyTorch Geometric, Scikit-learn
 
 ---
 
-## Getting Started
+## 💻 How to Run Locally
 
-### Prerequisites
-* Node.js $\ge$ 18.18
-* Python $\ge$ 3.10
-* PostgreSQL connection string (configured in `.env`)
+### 1. Prerequisites
+* Node.js (v18 or higher)
+* Python (v3.10 or higher)
 
-### 1. Install & Launch ML Service
+### 2. Setup the Python ML Service
+In your first terminal:
 ```bash
-cd paypilot-ai/ml-service
+cd ml-service
 pip install -r requirements.txt
 python -m uvicorn app.main:app --host 127.0.0.1 --port 8000
 ```
-Health probe: `http://localhost:8000/health`
+*(FastAPI server will start on `http://127.0.0.1:8000`)*
 
-### 2. Install & Launch Web Application
-In a separate terminal:
+### 3. Setup the Next.js Frontend & Database
+In a second terminal:
 ```bash
-cd paypilot-ai
+# Install dependencies
 npm install
+
+# Push database schema to PostgreSQL
 npx prisma db push
+
+# Seed sample transactions and demo data
 npx tsx prisma/seed.ts
+
+# Start the web app
 npm run dev
 ```
-Application interface: `http://localhost:3000`
 
-### Demo Credentials (Password: `demo123`)
-* **Merchant**: `merchant@paypilot.ai` (Store metrics, simulator, risk configuration)
-* **Analyst**: `analyst@paypilot.ai` (Investigation queue, case resolution, graph explorer)
-* **Admin**: `admin@paypilot.ai` (Audit logs, model registry, global rule controls)
+Open **`http://localhost:3000`** in your browser.
 
 ---
 
-## Project Structure
+## 🔑 Demo Login Accounts
+
+Password for all demo accounts: `demo123`
+
+| Role | Email | Password | What You Can Test |
+| :--- | :--- | :--- | :--- |
+| **Store Merchant** | `merchant@paypilot.ai` | `demo123` | View store dashboard, test simulator, configure rules |
+| **Risk Analyst** | `analyst@paypilot.ai` | `demo123` | Investigate cases, add notes, view visual graph map |
+| **Administrator** | `admin@paypilot.ai` | `demo123` | View audit logs, user list, and model metrics |
+
+---
+
+## 🧠 How the Risk Engine Works
+
+1. **Order Details (LightGBM)**: Analyzes amount, payment method (UPI, Card, NetBanking), and country.
+2. **Customer Habits (Behavioral)**: Checks if the amount is normal for this customer and tracks velocity.
+3. **Connected Network (Graph ML)**: Checks if the phone fingerprint or IP is linked to previously reported accounts.
+4. **Confidence Score**: Separates fraud risk from customer age so first-time buyers are not blocked.
+
+---
+
+## 📂 Project Structure
 
 ```
 paypilot-ai/
-├── docs/                      # Research and engineering specifications
-│   ├── architecture.md        # System topology and graph schema
-│   ├── dataset.md             # Ingestion pipelines and temporal splitting
-│   ├── model.md               # Model specifications and aggregation formulas
-│   ├── api.md                 # Complete HTTP REST API reference
-│   └── experiments.md         # Ablation studies and cost curve derivations
-├── ml-service/                # Python FastAPI Microservice (:8000)
-│   ├── app/                   # API entrypoints and Pydantic schemas
-│   ├── features/              # Tabular & temporal behavioral extractors
-│   ├── graph/                 # PyG HeteroData builder & message passing
-│   ├── models/                # LightGBM, GNN, and confidence scorers
-│   ├── dataset/               # Benchmark loaders & temporal splits
-│   └── evaluation/            # Ablation and segment metric runners
-├── prisma/                    # Schema definition and database seed scripts
-├── src/                       # Next.js 15 App Router Frontend & BFF
-│   ├── app/                   # Route handlers and UI pages
-│   ├── components/            # Shadcn UI, charts, and graph explorer
-│   ├── engine/                # Embedded TypeScript fallback engine
-│   └── lib/                   # Database client, auth, and validators
+├── ml-service/             # Python FastAPI backend for ML models
+│   ├── app/                # FastAPI routes & prediction endpoints
+│   ├── features/           # Feature extraction functions
+│   ├── graph/              # Network graph builder & GNN logic
+│   └── models/             # LightGBM & Hybrid Risk Aggregator
+├── prisma/                 # Prisma database schema & seed script
+│   ├── schema.prisma
+│   └── seed.ts
+├── src/
+│   ├── app/                # Next.js pages & API routes
+│   │   ├── (auth)/         # Login & Register pages
+│   │   ├── (dashboard)/    # Overview, Transactions, Cases, Simulator
+│   │   └── api/            # Backend API endpoints
+│   ├── components/         # React UI components & Graph Explorer
+│   └── lib/                # Database connection & helpers
 └── README.md
 ```
 
 ---
 
-## License
+## 🎓 What I Learned Building This
 
-This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
+* How to build a multi-service architecture connecting a Next.js web application to a Python FastAPI service.
+* Designing relational databases and writing seed scripts with Prisma ORM and PostgreSQL.
+* Building interactive custom data visualizations and network graphs with SVG in React.
+* Implementing authentication and role-based access control (Merchant, Analyst, Admin).
+* Handling real-world FinTech edge cases like cold-start users and payment retry behavior.
+
+---
+
+## 📄 License
+
+This project is open source and available under the [MIT License](LICENSE).
