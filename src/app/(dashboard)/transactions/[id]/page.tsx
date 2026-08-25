@@ -314,8 +314,14 @@ export default async function TransactionDetailPage(props: { params: Promise<{ i
         </div>
       </div>
 
-      {/* Structured Evidence Ledger */}
-      <div className="mt-6">
+      {/* Module 1: Chargeback Evidence Responder */}
+      <div className="mt-6 space-y-2">
+        <div className="flex items-center justify-between">
+          <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
+            <span className="h-2 w-2 rounded-full bg-purple-500" /> Chargeback Evidence Responder (Dispute Audit Trail)
+          </h3>
+          <Badge variant="outline" className="text-[11px] font-mono">Bank-Ready Dispute Packet</Badge>
+        </div>
         <StructuredEvidencePanel
           evidenceList={
             assessment?.riskEvidences && assessment.riskEvidences.length > 0
@@ -346,8 +352,14 @@ export default async function TransactionDetailPage(props: { params: Promise<{ i
         />
       </div>
 
-      {/* Interactive Entity Graph Explorer */}
-      <div className="mt-6">
+      {/* Module 2: Abuse-Ring Sentinel */}
+      <div className="mt-6 space-y-2">
+        <div className="flex items-center justify-between">
+          <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
+            <span className="h-2 w-2 rounded-full bg-emerald-500" /> Abuse-Ring Sentinel (Multi-Hop Entity Isolation)
+          </h3>
+          <Badge variant="outline" className="text-[11px] font-mono">Graph GNN Active</Badge>
+        </div>
         <GraphExplorer transactionId={transaction.id} />
       </div>
     </div>

@@ -6,18 +6,19 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import {
   LayoutDashboard,
-  ArrowLeftRight,
-  ShieldAlert,
-  FlaskConical,
+  Share2,
+  FileCheck2,
+  Zap,
   Activity,
+  ShieldCheck,
 } from "lucide-react";
 
 const navigation = [
-  { name: "Overview", href: "/overview", icon: LayoutDashboard },
-  { name: "Transactions & Graph", href: "/transactions", icon: ArrowLeftRight },
-  { name: "Fraud Simulator", href: "/simulator", icon: FlaskConical },
-  { name: "Investigation Cases", href: "/risk-cases", icon: ShieldAlert },
-  { name: "Model & Metrics", href: "/settings", icon: Activity },
+  { name: "Overview & Spike Monitor", href: "/overview", icon: LayoutDashboard },
+  { name: "Abuse-Ring Sentinel", href: "/transactions", icon: Share2 },
+  { name: "Fraud-Spike Simulator", href: "/simulator", icon: Zap },
+  { name: "Chargeback Evidence & Cases", href: "/risk-cases", icon: FileCheck2 },
+  { name: "Model & Test Metrics", href: "/settings", icon: Activity },
 ];
 
 export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
@@ -31,7 +32,7 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
           onClick={onNavigate}
           className="flex items-center gap-2 font-bold text-xl tracking-tight text-primary"
         >
-          <ShieldAlert className="h-6 w-6 text-primary" />
+          <ShieldCheck className="h-6 w-6 text-primary" />
           <span>PayPilot AI</span>
         </Link>
       </div>
@@ -60,14 +61,21 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
         })}
       </nav>
 
-      <div className="p-4 border-t border-border/40 text-xs text-muted-foreground">
-        <div className="flex items-center justify-between">
-          <span>Target Loss:</span>
-          <span className="font-semibold text-primary">Payment Fraud</span>
+      <div className="p-4 border-t border-border/40 text-xs text-muted-foreground space-y-1.5">
+        <div className="text-[11px] font-semibold text-foreground uppercase tracking-wider">
+          Active Defense Modules
         </div>
-        <div className="flex items-center justify-between mt-1">
-          <span>Engine Status:</span>
-          <span className="text-emerald-500 font-medium">Active (91.4% P)</span>
+        <div className="flex items-center gap-1.5 text-emerald-400">
+          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+          <span>Abuse-Ring Sentinel (GNN)</span>
+        </div>
+        <div className="flex items-center gap-1.5 text-emerald-400">
+          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+          <span>Fraud-Spike Detector</span>
+        </div>
+        <div className="flex items-center gap-1.5 text-emerald-400">
+          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+          <span>Chargeback Evidence Responder</span>
         </div>
       </div>
     </div>

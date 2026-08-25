@@ -100,13 +100,46 @@ export default async function OverviewPage(props: {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">Overview Dashboard</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">Payment Risk Overview & Spike Monitor</h1>
           <p className="text-muted-foreground text-xs sm:text-sm mt-1">
-            Real-time payment risk detection, analytics, and prevented loss monitoring.
+            Real-time multi-account abuse ring isolation, fraud spike detection, and chargeback evidence monitoring.
           </p>
         </div>
         <div className="w-full sm:w-auto overflow-x-auto pb-1 sm:pb-0">
           <DateFilter />
+        </div>
+      </div>
+
+      {/* 3 Active Defense Modules Banner */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <div className="p-3.5 rounded-lg border border-border/60 bg-card flex items-center justify-between">
+          <div className="space-y-0.5">
+            <span className="text-xs font-semibold text-foreground flex items-center gap-1.5">
+              <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" /> Abuse-Ring Sentinel
+            </span>
+            <p className="text-[11px] text-muted-foreground">Isolating shared devices & IP networks</p>
+          </div>
+          <span className="text-xs font-mono font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded">Active</span>
+        </div>
+
+        <div className="p-3.5 rounded-lg border border-border/60 bg-card flex items-center justify-between">
+          <div className="space-y-0.5">
+            <span className="text-xs font-semibold text-foreground flex items-center gap-1.5">
+              <span className="h-2 w-2 rounded-full bg-blue-500 animate-pulse" /> Fraud-Spike Detector
+            </span>
+            <p className="text-[11px] text-muted-foreground">Rapid card-testing & velocity limiter</p>
+          </div>
+          <span className="text-xs font-mono font-bold text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded">Active</span>
+        </div>
+
+        <div className="p-3.5 rounded-lg border border-border/60 bg-card flex items-center justify-between">
+          <div className="space-y-0.5">
+            <span className="text-xs font-semibold text-foreground flex items-center gap-1.5">
+              <span className="h-2 w-2 rounded-full bg-purple-500 animate-pulse" /> Chargeback Evidence Responder
+            </span>
+            <p className="text-[11px] text-muted-foreground">Audit-ready bank dispute packaging</p>
+          </div>
+          <span className="text-xs font-mono font-bold text-purple-400 bg-purple-500/10 px-2 py-0.5 rounded">Active</span>
         </div>
       </div>
 
