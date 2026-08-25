@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import { Search, Sun, Moon, Menu, Settings, LogOut, User, ShieldCheck } from "lucide-react";
+import { Search, Sun, Moon, Menu, Settings, LogOut, User, ShieldCheck, Languages } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "next-themes";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -11,10 +11,12 @@ import { Sidebar } from "./sidebar";
 import { NotificationCenter } from "@/components/shared/notification-center";
 import { CommandPalette } from "@/components/search/command-palette";
 import { useAuth } from "@/providers/session-provider";
+import { useLanguage } from "@/providers/language-provider";
 
 export function Topbar() {
   const { theme, setTheme } = useTheme();
   const { data: sessionData, logout } = useAuth();
+  const { language, setLanguage, t } = useLanguage();
   const [searchOpen, setSearchOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
@@ -66,7 +68,7 @@ export function Topbar() {
               className="w-full justify-start text-muted-foreground h-9 px-3"
             >
               <Search className="mr-2 h-4 w-4" />
-              <span>Search transactions, customers, cases...</span>
+              <span>{t("search")}</span>
               <kbd className="pointer-events-none ml-auto inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
                 <span className="text-xs">Ctrl</span>K
               </kbd>
@@ -74,30 +76,33 @@ export function Topbar() {
           </div>
 
           <div className="flex items-center gap-1.5 sm:gap-2">
-            {/* Mobile Search Button */}
+            {/* Language Switcher Button (English / हिन्दी) */}
             <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setSearchOpen(true)}
-              className="md:hidden h-9 w-9 text-muted-foreground"
-              title="Search"
+              variant="outline"
+              size="sm"
+              onClick={() => setLanguage(language === "en" ? "hi" : "en")}
+              className="h-8 sm:h-9 px-2 sm:px-2.5 text-xs font-semibold flex items-center gap-1.5 border-primary/30 text-primary hover:bg-primary/10"
+              title="Toggle Language"
             >
-              <Search className="h-4 w-4" />
-              <span className="sr-only">Search</span>
+              <Languages className="h-3.5 w-3.5" />
+              <span>{language === "en" ? "हिन्दी" : "English"}</span>
             </Button>
 
-            <NotificationCenter />
-
+            {/* Dark Mode Toggle */}
             <Button
               variant="ghost"
               size="icon"
               onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
               className="h-9 w-9"
+              title="Toggle Dark/Light Mode"
             >
-              <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-              <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+              <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0 text-amber-500" />
+              <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100 text-blue-400" />
               <span className="sr-only">Toggle theme</span>
             </Button>
+
+            {/* Notification Center */}
+            <NotificationCenter />
 
             {/* Profile Dropdown */}
             <div className="relative ml-1 sm:ml-2" ref={menuRef}>
@@ -139,16 +144,7 @@ export function Topbar() {
                       className="flex items-center gap-2 px-3 py-2 text-xs font-medium rounded-md hover:bg-accent transition-colors"
                     >
                       <User className="h-3.5 w-3.5 text-muted-foreground" />
-                      <span>Profile & Settings</span>
-                    </Link>
-
-                    <Link
-                      href="/settings"
-                      onClick={() => setProfileOpen(false)}
-                      className="flex items-center gap-2 px-3 py-2 text-xs font-medium rounded-md hover:bg-accent transition-colors"
-                    >
-                      <Settings className="h-3.5 w-3.5 text-muted-foreground" />
-                      <span>Model Monitoring</span>
+                      <span>{language === "hi" ? "मॉडल और मेट्रिक्स" : "Model Metrics & Settings"}</span>
                     </Link>
 
                     <button
@@ -160,7 +156,7 @@ export function Topbar() {
                       className="w-full flex items-center gap-2 px-3 py-2 text-xs font-medium rounded-md text-destructive hover:bg-destructive/10 transition-colors text-left mt-1 border-t pt-2 cursor-pointer"
                     >
                       <LogOut className="h-3.5 w-3.5" />
-                      <span>Sign Out</span>
+                      <span>{t("signOut")}</span>
                     </button>
                   </div>
                 </div>

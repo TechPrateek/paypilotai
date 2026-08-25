@@ -12,17 +12,19 @@ import {
   Activity,
   ShieldCheck,
 } from "lucide-react";
-
-const navigation = [
-  { name: "Overview & Spike Monitor", href: "/overview", icon: LayoutDashboard },
-  { name: "Abuse-Ring Sentinel", href: "/transactions", icon: Share2 },
-  { name: "Fraud-Spike Simulator", href: "/simulator", icon: Zap },
-  { name: "Chargeback Evidence & Cases", href: "/risk-cases", icon: FileCheck2 },
-  { name: "Model & Test Metrics", href: "/settings", icon: Activity },
-];
+import { useLanguage } from "@/providers/language-provider";
 
 export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = usePathname();
+  const { language, t } = useLanguage();
+
+  const navigation = [
+    { name: t("overview"), href: "/overview", icon: LayoutDashboard },
+    { name: t("transactions"), href: "/transactions", icon: Share2 },
+    { name: t("simulator"), href: "/simulator", icon: Zap },
+    { name: t("cases"), href: "/risk-cases", icon: FileCheck2 },
+    { name: t("metrics"), href: "/settings", icon: Activity },
+  ];
 
   return (
     <div className="flex flex-col w-64 border-r bg-card h-full">
@@ -33,7 +35,7 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
           className="flex items-center gap-2 font-bold text-xl tracking-tight text-primary"
         >
           <ShieldCheck className="h-6 w-6 text-primary" />
-          <span>PayPilot AI</span>
+          <span>{language === "hi" ? "PayPilot AI" : "PayPilot AI"}</span>
         </Link>
       </div>
 
@@ -63,19 +65,19 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
 
       <div className="p-4 border-t border-border/40 text-xs text-muted-foreground space-y-1.5">
         <div className="text-[11px] font-semibold text-foreground uppercase tracking-wider">
-          Active Defense Modules
+          {language === "hi" ? "सक्रिय सुरक्षा इंजन" : "Active Defense Modules"}
         </div>
-        <div className="flex items-center gap-1.5 text-emerald-400">
+        <div className="flex items-center gap-1.5 text-emerald-400 text-[11px]">
           <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-          <span>Abuse-Ring Sentinel (GNN)</span>
+          <span>{t("abuseRingSentinel")}</span>
         </div>
-        <div className="flex items-center gap-1.5 text-emerald-400">
-          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-          <span>Fraud-Spike Detector</span>
+        <div className="flex items-center gap-1.5 text-blue-400 text-[11px]">
+          <span className="h-1.5 w-1.5 rounded-full bg-blue-500" />
+          <span>{t("fraudSpikeDetector")}</span>
         </div>
-        <div className="flex items-center gap-1.5 text-emerald-400">
-          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-          <span>Chargeback Evidence Responder</span>
+        <div className="flex items-center gap-1.5 text-purple-400 text-[11px]">
+          <span className="h-1.5 w-1.5 rounded-full bg-purple-500" />
+          <span>{t("chargebackEvidence")}</span>
         </div>
       </div>
     </div>

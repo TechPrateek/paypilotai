@@ -6,19 +6,24 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ShieldCheck, Loader2 } from "lucide-react";
+import { ShieldCheck, Loader2, KeyRound } from "lucide-react";
 import { toast } from "sonner";
 import { useAuth } from "@/providers/session-provider";
 
 export default function LoginPage() {
   const { setUser } = useAuth();
   const [loading, setLoading] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("merchant@paypilot.ai");
+  const [password, setPassword] = useState("demo123");
   const [error, setError] = useState("");
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!email || !password) {
+      setError("Please enter your email and password.");
+      return;
+    }
+
     setLoading(true);
     setError("");
 
@@ -49,36 +54,11 @@ export default function LoginPage() {
     }
   };
 
-  const loginDemo = async (demoEmail: string) => {
+  const selectDemoAccount = (demoEmail: string) => {
     setEmail(demoEmail);
     setPassword("demo123");
-    setLoading(true);
     setError("");
-
-    try {
-      const res = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: demoEmail,
-          password: "demo123",
-        }),
-      });
-
-      const data = await res.json();
-
-      if (res.ok && data.success) {
-        setUser(data.user);
-        toast.success(`Signed in as ${data.user?.name}!`);
-        window.location.href = "/overview";
-      } else {
-        setError(data.error || "Failed to sign in with demo account.");
-        setLoading(false);
-      }
-    } catch (err) {
-      setError("Failed to sign in. Please try again.");
-      setLoading(false);
-    }
+    toast.info(`Filled credentials for ${demoEmail}. Click 'Sign In' to continue.`);
   };
 
   return (
@@ -88,17 +68,22 @@ export default function LoginPage() {
           <ShieldCheck className="h-8 w-8 sm:h-10 sm:w-10 text-primary shrink-0" />
           <span className="font-bold text-2xl sm:text-3xl tracking-tight">PayPilot AI</span>
         </Link>
+        <p className="text-xs sm:text-sm text-muted-foreground mt-1 text-center">
+          Payment Fraud & Abuse-Ring Risk Manager
+        </p>
       </div>
 
-      <Card className="w-full shadow-sm">
+      <Card className="w-full shadow-md border border-border/60">
         <CardHeader className="p-4 sm:p-6 pb-2">
-          <CardTitle className="text-xl sm:text-2xl">Sign In</CardTitle>
-          <CardDescription className="text-xs sm:text-sm">Enter your credentials to access your dashboard.</CardDescription>
+          <CardTitle className="text-xl sm:text-2xl">Sign In to Dashboard</CardTitle>
+          <CardDescription className="text-xs sm:text-sm">
+            Enter your email and password, or click a demo account below to fill.
+          </CardDescription>
         </CardHeader>
         <CardContent className="p-4 sm:p-6 pt-2">
           <form onSubmit={handleLogin} className="space-y-4">
             <div className="space-y-1.5">
-              <Label htmlFor="email" className="text-xs sm:text-sm">Email</Label>
+              <Label htmlFor="email" className="text-xs sm:text-sm">Email Address</Label>
               <Input
                 id="email"
                 type="email"
@@ -106,7 +91,7 @@ export default function LoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="h-10 text-sm"
+                className="h-10 text-sm font-mono"
               />
             </div>
             <div className="space-y-1.5">
@@ -127,7 +112,7 @@ export default function LoginPage() {
             </div>
             
             {error && (
-              <div className="p-3 text-xs sm:text-sm text-red-500 bg-red-100/50 dark:bg-red-900/20 rounded-md">
+              <div className="p-3 text-xs sm:text-sm text-destructive bg-destructive/10 border border-destructive/20 rounded-md">
                 {error}
               </div>
             )}
@@ -139,72 +124,51 @@ export default function LoginPage() {
                   Signing in...
                 </>
               ) : (
-                "Sign In"
+                "Sign In →"
               )}
             </Button>
           </form>
-          
-          <div className="mt-5 text-center text-xs sm:text-sm text-muted-foreground">
-            Don't have an account?{" "}
-            <Link href="/register" className="text-primary hover:underline font-medium">
-              Register here
-            </Link>
-          </div>
         </CardContent>
       </Card>
 
-      <div className="mt-6 sm:mt-8 space-y-3 sm:space-y-4">
+      <div className="mt-6 space-y-3">
         <div className="relative">
           <div className="absolute inset-0 flex items-center">
-            <span className="w-full border-t" />
+            <span className="w-full border-t border-border/40" />
           </div>
           <div className="relative flex justify-center text-[11px] uppercase tracking-wider">
-            <span className="bg-muted/50 sm:bg-background px-2 text-muted-foreground font-medium rounded">
-              Demo Accounts (Instant Access)
+            <span className="bg-background px-2 text-muted-foreground font-semibold rounded">
+              Click to Auto-Fill Credentials
             </span>
           </div>
         </div>
 
-        <div className="grid gap-2 sm:gap-3">
+        <div className="grid gap-2">
           <button 
             type="button"
-            onClick={() => loginDemo("merchant@paypilot.ai")}
-            className="flex items-center justify-between p-2.5 sm:p-3 border rounded-lg bg-card hover:border-primary hover:bg-primary/5 transition-all text-left group cursor-pointer"
+            onClick={() => selectDemoAccount("merchant@paypilot.ai")}
+            className="flex items-center justify-between p-2.5 sm:p-3 border border-border/60 rounded-lg bg-card hover:border-primary hover:bg-primary/5 transition-all text-left cursor-pointer"
           >
             <div className="min-w-0 pr-2">
-              <p className="font-medium text-xs sm:text-sm group-hover:text-primary leading-tight">Merchant Role</p>
-              <p className="text-[11px] text-muted-foreground truncate">merchant@paypilot.ai</p>
+              <p className="font-semibold text-xs sm:text-sm text-foreground">1. Merchant Account (Store Owner)</p>
+              <p className="text-[11px] text-muted-foreground font-mono">merchant@paypilot.ai</p>
             </div>
-            <span className="text-[11px] sm:text-xs bg-primary/10 text-primary font-semibold px-2 py-0.5 sm:px-2.5 sm:py-1 rounded shrink-0">
-              Login →
+            <span className="text-[11px] bg-primary/10 text-primary font-semibold px-2 py-1 rounded shrink-0">
+              Select
             </span>
           </button>
           
           <button 
             type="button"
-            onClick={() => loginDemo("analyst@paypilot.ai")}
-            className="flex items-center justify-between p-2.5 sm:p-3 border rounded-lg bg-card hover:border-primary hover:bg-primary/5 transition-all text-left group cursor-pointer"
+            onClick={() => selectDemoAccount("analyst@paypilot.ai")}
+            className="flex items-center justify-between p-2.5 sm:p-3 border border-border/60 rounded-lg bg-card hover:border-primary hover:bg-primary/5 transition-all text-left cursor-pointer"
           >
             <div className="min-w-0 pr-2">
-              <p className="font-medium text-xs sm:text-sm group-hover:text-primary leading-tight">Analyst Role</p>
-              <p className="text-[11px] text-muted-foreground truncate">analyst@paypilot.ai</p>
+              <p className="font-semibold text-xs sm:text-sm text-foreground">2. Risk Analyst Account (Investigator)</p>
+              <p className="text-[11px] text-muted-foreground font-mono">analyst@paypilot.ai</p>
             </div>
-            <span className="text-[11px] sm:text-xs bg-primary/10 text-primary font-semibold px-2 py-0.5 sm:px-2.5 sm:py-1 rounded shrink-0">
-              Login →
-            </span>
-          </button>
-          
-          <button 
-            type="button"
-            onClick={() => loginDemo("admin@paypilot.ai")}
-            className="flex items-center justify-between p-2.5 sm:p-3 border rounded-lg bg-card hover:border-primary hover:bg-primary/5 transition-all text-left group cursor-pointer"
-          >
-            <div className="min-w-0 pr-2">
-              <p className="font-medium text-xs sm:text-sm group-hover:text-primary leading-tight">Admin Role</p>
-              <p className="text-[11px] text-muted-foreground truncate">admin@paypilot.ai</p>
-            </div>
-            <span className="text-[11px] sm:text-xs bg-primary/10 text-primary font-semibold px-2 py-0.5 sm:px-2.5 sm:py-1 rounded shrink-0">
-              Login →
+            <span className="text-[11px] bg-primary/10 text-primary font-semibold px-2 py-1 rounded shrink-0">
+              Select
             </span>
           </button>
         </div>

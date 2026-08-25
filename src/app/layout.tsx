@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/providers/theme-provider";
+import { LanguageProvider } from "@/providers/language-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AppSessionProvider } from "@/providers/session-provider";
 import { Toaster } from "sonner";
@@ -24,14 +25,16 @@ export default function RootLayout({
         <AppSessionProvider>
           <ThemeProvider
             attribute="class"
-            defaultTheme="system"
+            defaultTheme="dark"
             enableSystem
             disableTransitionOnChange
           >
-            <TooltipProvider>
-              {children}
-            </TooltipProvider>
-            <Toaster position="top-right" />
+            <LanguageProvider>
+              <TooltipProvider>
+                {children}
+              </TooltipProvider>
+              <Toaster position="top-right" />
+            </LanguageProvider>
           </ThemeProvider>
         </AppSessionProvider>
       </body>
