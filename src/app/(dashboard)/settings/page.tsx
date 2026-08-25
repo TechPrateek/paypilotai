@@ -37,16 +37,17 @@ export default function SettingsPage() {
 
   return (
     <div className="flex-1 space-y-4 p-2 sm:p-4 md:p-8 pt-4 sm:pt-6 max-w-6xl mx-auto">
-      <div className="flex items-center justify-between">
-        <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">System Settings & Model Registry</h2>
+      <div className="flex flex-col gap-1">
+        <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">Model Evaluation & Test Metrics</h2>
+        <p className="text-xs sm:text-sm text-muted-foreground">
+          Measured Precision, Recall, and False-Positive Cost on held-out test data for Payment Fraud Detection.
+        </p>
       </div>
 
       <Tabs defaultValue="model" className="space-y-4">
         <div className="overflow-x-auto pb-1">
           <TabsList className="w-full sm:w-auto justify-start inline-flex">
-            <TabsTrigger value="model">ML Models & Ablation</TabsTrigger>
-            <TabsTrigger value="profile">Profile</TabsTrigger>
-            <TabsTrigger value="notifications">Notifications</TabsTrigger>
+            <TabsTrigger value="model">Model Benchmark & Test Set</TabsTrigger>
             <TabsTrigger value="about">About System</TabsTrigger>
           </TabsList>
         </div>
@@ -299,65 +300,6 @@ export default function SettingsPage() {
               </CardContent>
             </Card>
           </div>
-        </TabsContent>
-
-        {/* Profile Tab */}
-        <TabsContent value="profile" className="space-y-4">
-          <Card>
-            <CardHeader className="p-4 sm:p-6">
-              <CardTitle className="text-lg sm:text-xl">Profile Information</CardTitle>
-              <CardDescription className="text-xs sm:text-sm">
-                Update your personal details and change your password.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="p-4 sm:p-6 pt-0 space-y-4">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="name">Full Name</Label>
-                  <Input id="name" defaultValue="Vikram Singh" />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
-                  <Input id="email" type="email" defaultValue="admin@paypilot.ai" />
-                </div>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="role">Role</Label>
-                <Input id="role" defaultValue="ADMIN" readOnly disabled className="bg-muted" />
-              </div>
-            </CardContent>
-            <CardFooter>
-              <Button onClick={handleSave} disabled={loading}>
-                {loading ? "Saving..." : "Save Changes"}
-              </Button>
-            </CardFooter>
-          </Card>
-        </TabsContent>
-
-        {/* Notifications Tab */}
-        <TabsContent value="notifications" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-base">Notification Preferences</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4 text-xs">
-              <div className="flex items-center justify-between">
-                <div>
-                  <Label className="font-medium text-xs">Critical Attack Alerts</Label>
-                  <p className="text-muted-foreground text-[11px]">Instant notification for multi-entity fraud clusters.</p>
-                </div>
-                <Switch defaultChecked />
-              </div>
-              <Separator />
-              <div className="flex items-center justify-between">
-                <div>
-                  <Label className="font-medium text-xs">Case Queue Assignments</Label>
-                  <p className="text-muted-foreground text-[11px]">Alerts when an analyst investigation case is assigned.</p>
-                </div>
-                <Switch defaultChecked />
-              </div>
-            </CardContent>
-          </Card>
         </TabsContent>
 
         {/* About System Tab */}
