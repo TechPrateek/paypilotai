@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   Search,
   Sun,
@@ -10,18 +10,83 @@ import {
   Menu,
   Share2,
   UserCheck,
+  LogOut,
+  Sliders,
+  ChevronDown,
+  ShieldAlert,
+  User,
+  Sparkles,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { useTheme } from "next-themes";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Sidebar } from "./sidebar";
 import { CommandPalette } from "@/components/search/command-palette";
+import { useAuth } from "@/providers/session-provider";
+import { toast } from "sonner";
 
 export function Topbar() {
   const { theme, setTheme } = useTheme();
   const pathname = usePathname();
+  const router = useRouter();
+  const { data: session, setUser, logout } = useAuth();
   const [searchOpen, setSearchOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
+  const profileRef = useRef<HTMLDivElement>(null);
+
+  const currentUser = session?.user || {
+    id: "analyst-01",
+    name: "Priya Sharma",
+    email: "analyst@sentinel.ai",
+    role: "ANALYST",
+  };
+
+  // Close profile dropdown on outside click
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (profileRef.current && !profileRef.current.contains(event.target as Node)) {
+        setProfileOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const handleSwitchPersona = (role: "ANALYST" | "ADMIN") => {
+    const newUser =
+      role === "ADMIN"
+        ? {
+            id: "admin-01",
+            name: "Vikram Singh",
+            email: "admin@sentinel.ai",
+            role: "ADMIN",
+          }
+        : {
+            id: "analyst-01",
+            name: "Priya Sharma",
+            email: "analyst@sentinel.ai",
+            role: "ANALYST",
+          };
+
+    setUser(newUser);
+    try {
+      localStorage.setItem("paypilot_user", JSON.stringify(newUser));
+    } catch {}
+    setProfileOpen(false);
+    toast.success(`Switched persona to ${newUser.name} (${role})`);
+  };
+
+  const handleLogout = () => {
+    setProfileOpen(false);
+    try {
+      localStorage.removeItem("paypilot_user");
+    } catch {}
+    logout();
+    toast.info("Signed out successfully.");
+    window.location.href = "/login";
+  };
 
   const getPageInfo = () => {
     if (pathname.includes("/investigations")) {
@@ -112,15 +177,98 @@ export function Topbar() {
             <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100 text-blue-400" />
           </Button>
 
-          {/* Investigator Identity */}
-          <div className="flex items-center gap-2 pl-2 border-l border-border/40">
-            <div className="h-7 w-7 rounded-xl bg-red-500/15 text-red-500 font-mono font-bold text-xs flex items-center justify-center border border-red-500/30 shadow-xs">
-              <UserCheck className="h-3.5 w-3.5" />
-            </div>
-            <div className="hidden xl:flex flex-col text-left leading-tight">
-              <span className="font-bold text-xs text-foreground font-mono">Priya Sharma</span>
-              <span className="text-[9px] font-mono text-muted-foreground uppercase">Risk Analyst</span>
-            </div>
+          {/* Interactive Profile Dropdown Menu */}
+          <div className="relative pl-2 border-l border-border/40" ref={profileRef}>
+            <button
+              type="button"
+              onClick={() => setProfileOpen(!profileOpen)}
+              className="flex items-center gap-2 p-1 rounded-xl hover:bg-muted/60 transition-colors cursor-pointer text-left"
+            >
+              <div className="h-7 w-7 rounded-xl bg-red-500/15 text-red-500 font-mono font-bold text-xs flex items-center justify-center border border-red-500/30 shadow-xs">
+                <UserCheck className="h-3.5 w-3.5" />
+              </div>
+              <div className="hidden xl:flex flex-col text-left leading-tight">
+                <span className="font-bold text-xs text-foreground font-mono">{currentUser.name}</span>
+                <span className="text-[9px] font-mono text-muted-foreground uppercase">{currentUser.role}</span>
+              </div>
+              <ChevronDown className="h-3 w-3 text-muted-foreground hidden xl:block" />
+            </button>
+
+            {/* Dropdown Menu Popup */}
+            {profileOpen && (
+              <div className="absolute right-0 mt-2 w-64 rounded-2xl border border-border/60 bg-card/98 backdrop-blur-xl shadow-xl z-50 p-2 font-mono text-xs animate-in fade-in zoom-in-95 duration-100">
+                {/* User Info Header */}
+                <div className="p-2.5 border-b border-border/40 space-y-1">
+                  <div className="flex items-center justify-between">
+                    <span className="font-bold text-foreground">{currentUser.name}</span>
+                    <Badge variant="outline" className="text-[9px] font-mono uppercase text-red-500 border-red-500/30">
+                      {currentUser.role}
+                    </Badge>
+                  </div>
+                  <p className="text-[10px] text-muted-foreground truncate">{currentUser.email}</p>
+                </div>
+
+                {/* Persona Switcher Section */}
+                <div className="py-2 px-1 space-y-1 border-b border-border/40">
+                  <span className="text-[9px] font-bold text-muted-foreground/70 uppercase px-2 block">
+                    Switch Evaluation Persona
+                  </span>
+                  
+                  <button
+                    type="button"
+                    onClick={() => handleSwitchPersona("ANALYST")}
+                    className={`w-full flex items-center justify-between p-2 rounded-xl text-left transition-colors cursor-pointer ${
+                      currentUser.role === "ANALYST"
+                        ? "bg-red-500/10 text-red-500 font-bold"
+                        : "hover:bg-muted/60 text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    <div className="flex items-center gap-2">
+                      <UserCheck className="h-3.5 w-3.5 text-red-500" />
+                      <span>Priya Sharma (Analyst)</span>
+                    </div>
+                    {currentUser.role === "ANALYST" && <span className="text-[9px]">✓ Active</span>}
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => handleSwitchPersona("ADMIN")}
+                    className={`w-full flex items-center justify-between p-2 rounded-xl text-left transition-colors cursor-pointer ${
+                      currentUser.role === "ADMIN"
+                        ? "bg-purple-500/10 text-purple-500 font-bold"
+                        : "hover:bg-muted/60 text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    <div className="flex items-center gap-2">
+                      <ShieldAlert className="h-3.5 w-3.5 text-purple-500" />
+                      <span>Vikram Singh (Admin)</span>
+                    </div>
+                    {currentUser.role === "ADMIN" && <span className="text-[9px]">✓ Active</span>}
+                  </button>
+                </div>
+
+                {/* Settings & Logout Links */}
+                <div className="pt-1 space-y-0.5">
+                  <Link
+                    href="/settings"
+                    onClick={() => setProfileOpen(false)}
+                    className="flex items-center gap-2 p-2 rounded-xl text-muted-foreground hover:bg-muted/60 hover:text-foreground transition-colors"
+                  >
+                    <Sliders className="h-3.5 w-3.5" />
+                    <span>Configuration</span>
+                  </Link>
+
+                  <button
+                    type="button"
+                    onClick={handleLogout}
+                    className="w-full flex items-center gap-2 p-2 rounded-xl text-red-500 hover:bg-red-500/10 transition-colors cursor-pointer text-left font-bold"
+                  >
+                    <LogOut className="h-3.5 w-3.5" />
+                    <span>Sign Out</span>
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </header>
