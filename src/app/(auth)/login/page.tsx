@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import {
   Share2,
   Lock,
@@ -12,6 +11,7 @@ import {
   UserCheck,
   Sparkles,
   Info,
+  KeyRound,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -22,44 +22,63 @@ import { toast } from "sonner";
 import { useAuth } from "@/providers/session-provider";
 
 export default function LoginPage() {
-  const router = useRouter();
   const { setUser } = useAuth();
   const [email, setEmail] = useState("analyst@sentinel.ai");
   const [password, setPassword] = useState("demo123");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const performLogin = async (loginEmail: string, loginPass: string) => {
     setLoading(true);
     setError(null);
 
-    try {
-      // Direct local session login for instant reliable auth
-      const role = email.includes("admin") ? "ADMIN" : "ANALYST";
-      const name = email.includes("admin") ? "Vikram Singh" : "Priya Sharma";
+    const isAdmin = loginEmail.includes("admin");
+    const name = isAdmin ? "Vikram Singh" : "Priya Sharma";
+    const role = isAdmin ? "ADMIN" : "ANALYST";
 
-      setUser({
-        id: "user-1",
-        email,
-        name,
-        role,
-      });
+    const userObj = {
+      id: isAdmin ? "admin-01" : "analyst-01",
+      email: loginEmail,
+      name,
+      role,
+    };
+
+    try {
+      // 1. Store in localStorage for instant client hydration
+      localStorage.setItem("paypilot_user", JSON.stringify(userObj));
+      setUser(userObj);
+
+      // 2. Call API route to set cookie
+      try {
+        await fetch("/api/auth/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: loginEmail, password: loginPass }),
+        });
+      } catch (apiErr) {
+        console.warn("Background API login sync note:", apiErr);
+      }
 
       toast.success(`Welcome to Abuse-Ring Sentinel, ${name}!`);
-      router.push("/overview");
+
+      // 3. Direct browser navigation to /overview
+      window.location.href = "/overview";
     } catch (err: any) {
       setError(err?.message || "Invalid credentials");
       toast.error("Failed to sign in");
-    } finally {
       setLoading(false);
     }
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    performLogin(email, password);
   };
 
   const handleSelectDemoUser = (userEmail: string, roleTitle: string, name: string) => {
     setEmail(userEmail);
     setPassword("demo123");
-    toast.info(`Loaded ${roleTitle} credentials (${name})`);
+    toast.info(`Filled credentials for ${roleTitle} (${name}). Click 'Sign In' to enter.`);
   };
 
   return (
@@ -131,7 +150,7 @@ export default function LoginPage() {
                 disabled={loading}
                 className="w-full h-10 text-xs font-bold font-mono bg-red-600 hover:bg-red-700 text-white rounded-xl shadow-md gap-2 cursor-pointer"
               >
-                <span>{loading ? "Authenticating..." : "Sign In to Console →"}</span>
+                <span>{loading ? "Signing in..." : "Sign In to Console →"}</span>
               </Button>
             </form>
           </CardContent>
