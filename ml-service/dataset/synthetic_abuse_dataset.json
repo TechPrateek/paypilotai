@@ -3,7 +3,7 @@
     "dataset_name": "Synthetic Abuse Dataset v1",
     "version": "1.0.0",
     "random_seed": 42,
-    "generated_at": "2026-08-26T14:42:55.270289",
+    "generated_at": "2026-08-26T16:08:42.899007",
     "total_transactions": 301,
     "total_customers": 120,
     "total_devices": 101,

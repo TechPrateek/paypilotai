@@ -10,6 +10,7 @@ import {
   Menu,
   Share2,
   UserCheck,
+  Building2,
   LogOut,
   Sliders,
   ChevronDown,
@@ -54,21 +55,30 @@ export function Topbar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const handleSwitchPersona = (role: "ANALYST" | "ADMIN") => {
-    const newUser =
-      role === "ADMIN"
-        ? {
-            id: "admin-01",
-            name: "Vikram Singh",
-            email: "admin@sentinel.ai",
-            role: "ADMIN",
-          }
-        : {
-            id: "analyst-01",
-            name: "Priya Sharma",
-            email: "analyst@sentinel.ai",
-            role: "ANALYST",
-          };
+  const handleSwitchPersona = (role: "ANALYST" | "MERCHANT" | "ADMIN") => {
+    let newUser;
+    if (role === "ADMIN") {
+      newUser = {
+        id: "admin-01",
+        name: "Vikram Singh",
+        email: "admin@sentinel.ai",
+        role: "ADMIN",
+      };
+    } else if (role === "MERCHANT") {
+      newUser = {
+        id: "merchant-01",
+        name: "Raj Patel",
+        email: "merchant@sentinel.ai",
+        role: "MERCHANT",
+      };
+    } else {
+      newUser = {
+        id: "analyst-01",
+        name: "Priya Sharma",
+        email: "analyst@sentinel.ai",
+        role: "ANALYST",
+      };
+    }
 
     setUser(newUser);
     try {
@@ -201,7 +211,16 @@ export function Topbar() {
                 <div className="p-2.5 border-b border-border/40 space-y-1">
                   <div className="flex items-center justify-between">
                     <span className="font-bold text-foreground">{currentUser.name}</span>
-                    <Badge variant="outline" className="text-[9px] font-mono uppercase text-red-500 border-red-500/30">
+                    <Badge
+                      variant="outline"
+                      className={`text-[9px] font-mono uppercase ${
+                        currentUser.role === "ADMIN"
+                          ? "text-purple-500 border-purple-500/30"
+                          : currentUser.role === "MERCHANT"
+                          ? "text-emerald-500 border-emerald-500/30"
+                          : "text-red-500 border-red-500/30"
+                      }`}
+                    >
                       {currentUser.role}
                     </Badge>
                   </div>
@@ -214,6 +233,7 @@ export function Topbar() {
                     Switch Evaluation Persona
                   </span>
                   
+                  {/* Analyst */}
                   <button
                     type="button"
                     onClick={() => handleSwitchPersona("ANALYST")}
@@ -230,6 +250,24 @@ export function Topbar() {
                     {currentUser.role === "ANALYST" && <span className="text-[9px]">✓ Active</span>}
                   </button>
 
+                  {/* Merchant */}
+                  <button
+                    type="button"
+                    onClick={() => handleSwitchPersona("MERCHANT")}
+                    className={`w-full flex items-center justify-between p-2 rounded-xl text-left transition-colors cursor-pointer ${
+                      currentUser.role === "MERCHANT"
+                        ? "bg-emerald-500/10 text-emerald-500 font-bold"
+                        : "hover:bg-muted/60 text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    <div className="flex items-center gap-2">
+                      <Building2 className="h-3.5 w-3.5 text-emerald-500" />
+                      <span>Raj Patel (Merchant)</span>
+                    </div>
+                    {currentUser.role === "MERCHANT" && <span className="text-[9px]">✓ Active</span>}
+                  </button>
+
+                  {/* Admin */}
                   <button
                     type="button"
                     onClick={() => handleSwitchPersona("ADMIN")}

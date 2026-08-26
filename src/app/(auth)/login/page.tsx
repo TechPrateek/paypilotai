@@ -9,6 +9,7 @@ import {
   ArrowRight,
   ShieldCheck,
   UserCheck,
+  Building2,
   Sparkles,
   Info,
   KeyRound,
@@ -32,12 +33,15 @@ export default function LoginPage() {
     setLoading(true);
     setError(null);
 
-    const isAdmin = loginEmail.includes("admin");
-    const name = isAdmin ? "Vikram Singh" : "Priya Sharma";
-    const role = isAdmin ? "ADMIN" : "ANALYST";
+    const cleanEmail = loginEmail.trim().toLowerCase();
+    const isMerchant = cleanEmail.includes("merchant") || cleanEmail.includes("raj");
+    const isAdmin = cleanEmail.includes("admin") || cleanEmail.includes("vikram");
+    const name = isMerchant ? "Raj Patel" : isAdmin ? "Vikram Singh" : "Priya Sharma";
+    const role = isMerchant ? "MERCHANT" : isAdmin ? "ADMIN" : "ANALYST";
+    const id = isMerchant ? "merchant-01" : isAdmin ? "admin-01" : "analyst-01";
 
     const userObj = {
-      id: isAdmin ? "admin-01" : "analyst-01",
+      id,
       email: loginEmail,
       name,
       role,
@@ -101,10 +105,10 @@ export default function LoginPage() {
         <Card className="rounded-3xl border border-border/60 shadow-md bg-card">
           <CardHeader className="p-6 pb-4 border-b border-border/40 bg-muted/10">
             <CardTitle className="text-base font-bold font-mono tracking-tight">
-              Investigator Sign In
+              Investigator & Merchant Sign In
             </CardTitle>
             <CardDescription className="text-xs">
-              Access the SOC console, relationship graph, and held-out model evaluation
+              Access the SOC console, relationship graph, and risk policy controls
             </CardDescription>
           </CardHeader>
           <CardContent className="p-6 space-y-4 font-mono text-xs">
@@ -162,33 +166,50 @@ export default function LoginPage() {
             Demo Evaluation Personas (Click to Auto-Fill)
           </span>
 
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-3 gap-2">
+            {/* Analyst */}
             <button
               type="button"
               onClick={() => handleSelectDemoUser("analyst@sentinel.ai", "Risk Analyst", "Priya Sharma")}
-              className="p-3 rounded-2xl border border-border/60 bg-card hover:bg-muted/40 transition-all text-left space-y-1 cursor-pointer group"
+              className="p-2.5 rounded-2xl border border-border/60 bg-card hover:bg-muted/40 transition-all text-left space-y-1 cursor-pointer group"
             >
               <div className="flex items-center justify-between">
-                <span className="font-bold text-xs text-foreground group-hover:text-red-500">Priya Sharma</span>
-                <Badge variant="outline" className="text-[9px] px-1 py-0 text-red-500 border-red-500/30">
+                <span className="font-bold text-[11px] text-foreground group-hover:text-red-500 truncate">Priya S.</span>
+                <Badge variant="outline" className="text-[8px] px-1 py-0 text-red-500 border-red-500/30">
                   ANALYST
                 </Badge>
               </div>
-              <p className="text-[10px] text-muted-foreground truncate">analyst@sentinel.ai</p>
+              <p className="text-[9px] text-muted-foreground truncate">analyst@sentinel.ai</p>
             </button>
 
+            {/* Merchant */}
+            <button
+              type="button"
+              onClick={() => handleSelectDemoUser("merchant@sentinel.ai", "Merchant Lead", "Raj Patel")}
+              className="p-2.5 rounded-2xl border border-border/60 bg-card hover:bg-muted/40 transition-all text-left space-y-1 cursor-pointer group"
+            >
+              <div className="flex items-center justify-between">
+                <span className="font-bold text-[11px] text-foreground group-hover:text-emerald-500 truncate">Raj Patel</span>
+                <Badge variant="outline" className="text-[8px] px-1 py-0 text-emerald-500 border-emerald-500/30">
+                  MERCHANT
+                </Badge>
+              </div>
+              <p className="text-[9px] text-muted-foreground truncate">merchant@sentinel.ai</p>
+            </button>
+
+            {/* Admin */}
             <button
               type="button"
               onClick={() => handleSelectDemoUser("admin@sentinel.ai", "Security Admin", "Vikram Singh")}
-              className="p-3 rounded-2xl border border-border/60 bg-card hover:bg-muted/40 transition-all text-left space-y-1 cursor-pointer group"
+              className="p-2.5 rounded-2xl border border-border/60 bg-card hover:bg-muted/40 transition-all text-left space-y-1 cursor-pointer group"
             >
               <div className="flex items-center justify-between">
-                <span className="font-bold text-xs text-foreground group-hover:text-purple-500">Vikram Singh</span>
-                <Badge variant="outline" className="text-[9px] px-1 py-0 text-purple-500 border-purple-500/30">
+                <span className="font-bold text-[11px] text-foreground group-hover:text-purple-500 truncate">Vikram S.</span>
+                <Badge variant="outline" className="text-[8px] px-1 py-0 text-purple-500 border-purple-500/30">
                   ADMIN
                 </Badge>
               </div>
-              <p className="text-[10px] text-muted-foreground truncate">admin@sentinel.ai</p>
+              <p className="text-[9px] text-muted-foreground truncate">admin@sentinel.ai</p>
             </button>
           </div>
         </div>

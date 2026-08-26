@@ -28,17 +28,22 @@ export async function POST(req: NextRequest) {
       console.warn("Database lookup failed, checking fallback:", dbErr);
     }
 
-    // Fallback for demo accounts
+    // Fallback for demo accounts (Merchant, Analyst, Admin)
     const cleanEmail = email.trim().toLowerCase();
     const cleanPassword = password.trim();
 
     if (!user && (cleanPassword === "demo123" || cleanPassword.length >= 4)) {
-      const isAdmin = cleanEmail.includes("admin");
+      const isMerchant = cleanEmail.includes("merchant") || cleanEmail.includes("raj");
+      const isAdmin = cleanEmail.includes("admin") || cleanEmail.includes("vikram");
+      const role = isMerchant ? "MERCHANT" : isAdmin ? "ADMIN" : "ANALYST";
+      const name = isMerchant ? "Raj Patel" : isAdmin ? "Vikram Singh" : "Priya Sharma";
+      const id = isMerchant ? "demo-merchant-id" : isAdmin ? "demo-admin-id" : "demo-analyst-id";
+
       user = {
-        id: isAdmin ? "demo-admin-id" : "demo-analyst-id",
+        id,
         email: cleanEmail,
-        name: isAdmin ? "Vikram Singh" : "Priya Sharma",
-        role: isAdmin ? "ADMIN" : "ANALYST",
+        name,
+        role,
       } as any;
       isValid = true;
     }
