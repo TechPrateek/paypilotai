@@ -2,14 +2,14 @@ import numpy as np
 import math
 from typing import Dict, Any
 
-class LightGBMTabularModel:
+class CalibratedTabularModel:
     """
-    LightGBM Tabular Fraud Model.
-    Predicts transaction-level fraud probability based on transaction parameters,
-    amount scaling, network properties, and retry indicators.
+    Calibrated Tabular Risk Scorer.
+    Predicts transaction-level fraud probability based on calibrated weights over
+    transaction parameters, amount scaling, network properties, and retry indicators.
     """
     def __init__(self):
-        # Calibrated feature weights derived from IEEE-CIS baseline training
+        # Calibrated feature weights derived from IEEE-CIS baseline feature distributions
         self.weights = np.array([
             0.35,  # log_amount
             0.12,  # payment_code
@@ -37,3 +37,6 @@ class LightGBMTabularModel:
         score = float(np.dot(feats, self.weights)) + self.intercept
         prob = 1.0 / (1.0 + math.exp(-max(min(score, 10.0), -10.0)))
         return float(np.clip(prob, 0.01, 0.99))
+
+# Backward-compatible alias for existing imports
+LightGBMTabularModel = CalibratedTabularModel

@@ -94,28 +94,32 @@ def predict_transaction(req: TransactionPredictionRequest):
         # Extract risk factors with explicit contributions
         factors = []
         model_breakdown = eval_result.get("modelBreakdown", {})
-        if model_breakdown.get("gnn", 0) >= 0.5:
+        graph_prob = model_breakdown.get("graph", model_breakdown.get("gnn", 0))
+        tabular_prob = model_breakdown.get("tabular", model_breakdown.get("lightgbm", 0))
+        beh_prob = model_breakdown.get("behavioral", 0)
+
+        if graph_prob >= 0.5:
             factors.append({
                 "name": "shared_entity_infrastructure",
                 "category": "GRAPH",
-                "severity": "CRITICAL" if model_breakdown.get("gnn", 0) >= 0.75 else "HIGH",
-                "score_contribution": int(round(model_breakdown.get("gnn", 0) * 35)),
-                "explanation": f"Elevated multi-hop entity sharing score ({model_breakdown.get('gnn', 0):.2f}) across devices/IPs."
+                "severity": "CRITICAL" if graph_prob >= 0.75 else "HIGH",
+                "score_contribution": int(round(graph_prob * 35)),
+                "explanation": f"Graph relational engine detected elevated multi-hop entity sharing score ({graph_prob:.2f}) across devices/IPs."
             })
-        if model_breakdown.get("lightgbm", 0) >= 0.5:
+        if tabular_prob >= 0.5:
             factors.append({
                 "name": "tabular_fraud_anomaly",
                 "category": "TRANSACTION",
                 "severity": "HIGH",
-                "score_contribution": int(round(model_breakdown.get("lightgbm", 0) * 30)),
-                "explanation": f"Tabular risk classifier estimated fraud probability of {model_breakdown.get('lightgbm', 0):.2f}."
+                "score_contribution": int(round(tabular_prob * 30)),
+                "explanation": f"Calibrated tabular risk scorer estimated fraud probability of {tabular_prob:.2f}."
             })
-        if model_breakdown.get("behavioral", 0) >= 0.5:
+        if beh_prob >= 0.5:
             factors.append({
                 "name": "behavioral_deviation",
                 "category": "BEHAVIOR",
-                "severity": "HIGH" if model_breakdown.get("behavioral", 0) >= 0.75 else "MEDIUM",
-                "score_contribution": int(round(model_breakdown.get("behavioral", 0) * 25)),
+                "severity": "HIGH" if beh_prob >= 0.75 else "MEDIUM",
+                "score_contribution": int(round(beh_prob * 25)),
                 "explanation": f"Transaction deviates significantly from customer historical baseline."
             })
             

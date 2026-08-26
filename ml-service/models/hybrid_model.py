@@ -3,8 +3,7 @@ from typing import Dict, Any, List
 from features.transaction import extract_transaction_features
 from features.behavioral import extract_behavioral_features
 from graph.builder import HeterogeneousGraphBuilder
-from graph.model import HeterogeneousGNN
-from models.lightgbm_model import LightGBMTabularModel
+from models.lightgbm_model import CalibratedTabularModel
 from models.confidence import ConfidenceScorer
 from config import (
     COST_FALSE_POSITIVE,
@@ -20,15 +19,14 @@ from config import (
 class HybridRiskAggregator:
     """
     Cost-Aware, False-Positive-Resistant Hybrid Decision Engine:
-    1. Feature Pipelines (Tabular + Behavioral)
-    2. Abuse-Ring Relational Graph Scoring (ring_risk ∈ [0, 1])
-    3. Multi-Modal Risk Aggregation
+    1. Feature Extraction Pipelines (Tabular + Behavioral)
+    2. Abuse-Ring Relational Graph Engine (ring_risk ∈ [0, 1])
+    3. Multi-Modal Risk Aggregation (Tabular + Behavioral + Graph)
     4. Evidence-Based False-Positive Guard
     5. Expected Business Loss Optimization (C_fp vs C_fn)
     """
     def __init__(self):
-        self.lightgbm = LightGBMTabularModel()
-        self.gnn = HeterogeneousGNN()
+        self.tabular_model = CalibratedTabularModel()
         self.graph_builder = HeterogeneousGraphBuilder()
 
     def evaluate(self, tx_dict: Dict[str, Any]) -> Dict[str, Any]:
@@ -44,7 +42,7 @@ class HybridRiskAggregator:
         ring_risk = self.graph_builder.compute_ring_risk(tx_id, tx_dict)
         
         # 3. Model Inferences
-        p_tabular = self.lightgbm.predict_proba(tx_features)
+        p_tabular = self.tabular_model.predict_proba(tx_features)
         
         # Behavioral deviation score
         if history_available:
@@ -77,15 +75,11 @@ class HybridRiskAggregator:
         )
 
         # 6. Expected Business Loss Calculation (Cost-Aware Decisioning)
-        # Expected Loss if Approved: P(Fraud) * C_fn
         loss_approve = risk_prob * COST_FALSE_NEGATIVE
-        # Expected Loss if Blocked: P(Legit) * C_fp
         loss_block = (1.0 - risk_prob) * COST_FALSE_POSITIVE
-        # Expected Loss if Reviewed: Review labor + residual risk
         loss_review = COST_MANUAL_REVIEW + (risk_prob * 0.10 * COST_FALSE_NEGATIVE)
 
         # 7. False-Positive Protection Guard (Evidence-Based)
-        # Identify strong fraud indicators vs weak contextual anomalies
         is_tor = bool(tx_dict.get("isTorIp"))
         is_suspicious_net = bool(tx_dict.get("isSuspiciousIp"))
         extreme_velocity = int(tx_dict.get("transactionsInLast5Min", 0) or 0) >= 10
@@ -100,18 +94,15 @@ class HybridRiskAggregator:
             (risk_prob >= 0.85 and confidence >= 0.70)
         )
 
-        # Weak contextual signals (New device, New IP, First order, Unusual amount)
         is_weak_anomaly_only = not has_strong_fraud_evidence
 
         # Cost-aware action selection
         if is_weak_anomaly_only:
-            # False Positive Guard: Weak signals CANNOT trigger a hard BLOCK
             if loss_approve <= loss_review or risk_score < 60:
                 decision = "APPROVE"
             else:
                 decision = "REVIEW"
         else:
-            # Strong evidence present: choose action with lowest expected business loss
             min_loss = min(loss_approve, loss_review, loss_block)
             if min_loss == loss_block and risk_prob >= 0.75:
                 decision = "BLOCK"
@@ -160,13 +151,13 @@ class HybridRiskAggregator:
                 "evidenceData": {"network": net_type}
             })
 
-        # Abuse-Ring Evidence
+        # Abuse-Ring Graph Relational Evidence
         if ring_risk >= 0.50:
             evidence.append({
                 "category": "GRAPH",
                 "description": f"Abuse-Ring Sentinel flagged elevated ring risk ({ring_risk:.2f}) across shared entity infrastructure.",
                 "severity": "HIGH" if ring_risk >= 0.70 else "MEDIUM",
-                "source": "GNN",
+                "source": "GRAPH_RELATIONAL_ENGINE",
                 "evidenceData": {"ringRisk": round(ring_risk, 3), "sharedEntities": graph_context.get("sharedEntityCount", 0)}
             })
         else:
@@ -174,16 +165,16 @@ class HybridRiskAggregator:
                 "category": "GRAPH",
                 "description": f"Abuse-Ring Sentinel confirmed clean isolation with low ring risk ({ring_risk:.2f}).",
                 "severity": "LOW",
-                "source": "GNN",
+                "source": "GRAPH_RELATIONAL_ENGINE",
                 "evidenceData": {"ringRisk": round(ring_risk, 3)}
             })
 
-        # Tabular ML Evidence
+        # Tabular Risk Scorer Evidence
         evidence.append({
             "category": "TRANSACTION",
-            "description": f"LightGBM tabular model predicted fraud probability of {p_tabular:.2f}.",
+            "description": f"Calibrated tabular risk scorer predicted fraud probability of {p_tabular:.2f}.",
             "severity": "HIGH" if p_tabular >= 0.70 else "MEDIUM" if p_tabular >= 0.40 else "LOW",
-            "source": "LIGHTGBM",
+            "source": "TABULAR_RISK_SCORER",
             "evidenceData": {"p_tabular": round(p_tabular, 3)}
         })
 
@@ -195,7 +186,7 @@ class HybridRiskAggregator:
             "ringRisk": round(ring_risk, 3),
             "confidence": confidence,
             "decision": decision,
-            "modelVersion": "hybrid-v1",
+            "modelVersion": "abuse-ring-sentinel-v1.0",
             "anomalyScore": round(float(ring_risk * 100), 1),
             "dataAvailability": {
                 "historyAvailable": history_available,
@@ -205,8 +196,11 @@ class HybridRiskAggregator:
             },
             "evidence": evidence,
             "modelBreakdown": {
-                "lightgbm": round(p_tabular, 3),
+                "tabular": round(p_tabular, 3),
                 "behavioral": round(p_beh, 3),
+                "graph": round(ring_risk, 3),
+                # Backward-compatible aliases
+                "lightgbm": round(p_tabular, 3),
                 "gnn": round(ring_risk, 3)
             },
             "expectedCosts": {

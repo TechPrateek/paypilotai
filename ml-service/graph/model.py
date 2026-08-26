@@ -4,19 +4,22 @@ from typing import Dict, Any
 
 class HeterogeneousGNN:
     """
-    Heterogeneous Graph Neural Network for Transaction Fraud Detection.
-    Implements relation-aware message passing across Customer, Device, Network,
-    PaymentInstrument, and Merchant entities.
-    Produces P(fraud | transaction, graph, context).
+    Experimental Heterogeneous Graph Message-Passing Prototype.
+    Implements deterministic projection and neighborhood message passing across
+    Customer, Device, Network, and PaymentInstrument entities.
+    
+    Note: For production inference and held-out evaluation, Abuse-Ring Sentinel uses
+    HeterogeneousGraphBuilder (NetworkX Relational Graph Engine) to compute multi-hop
+    connectivity, ego-network density, and temporal burst risk.
     """
     def __init__(self, hidden_dim: int = 64):
         self.hidden_dim = hidden_dim
-        # Learned projection weights (deterministic initialization)
+        # Deterministic projection weights
         np.random.seed(42)
         self.w_trans = np.random.randn(15, hidden_dim) * 0.1
         self.w_msg = np.random.randn(hidden_dim, hidden_dim) * 0.1
         self.w_out = np.random.randn(hidden_dim, 1) * 0.1
-        self.bias = -1.2 # Prior baseline fraud bias (~15-20%)
+        self.bias = -1.2
 
     def forward(self, tx_features: np.ndarray, graph_context: Dict[str, Any]) -> float:
         """

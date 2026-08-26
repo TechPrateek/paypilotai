@@ -158,7 +158,7 @@ export async function POST(req: NextRequest) {
             source: "FALLBACK_RULE_ENGINE",
           },
         ],
-        modelBreakdown: { tabular: 1.0, behavioral: 0.0, gnn: 0.0 },
+        modelBreakdown: { tabular: 1.0, behavioral: 0.0, graph: 0.0, lightgbm: 1.0, gnn: 0.0 },
         processingTimeMs: fallbackResult.processingTimeMs,
         is_fallback: true,
       };
