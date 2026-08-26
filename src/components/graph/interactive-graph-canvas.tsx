@@ -35,7 +35,7 @@ interface Edge {
 interface InteractiveGraphCanvasProps {
   nodes: Node[];
   edges: Edge[];
-  selectedNode: Node | null;
+  selectedNode?: any;
   onSelectNode: (node: Node) => void;
   height?: number;
 }

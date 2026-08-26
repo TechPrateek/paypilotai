@@ -22,10 +22,15 @@ import {
   ExternalLink,
   Layers,
   Zap,
+  Copy,
+  MessageSquare,
+  Send,
+  Trash2,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { InteractiveGraphCanvas } from "@/components/graph/interactive-graph-canvas";
 import { toast } from "sonner";
 
@@ -42,7 +47,37 @@ export default function InvestigationDetailPage(props: { params: Promise<{ ringI
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [loading, setLoading] = useState(true);
 
+  // 🌟 Real-time Case Notes
+  const [notes, setNotes] = useState<Array<{ id: string; text: string; author: string; timestamp: string }>>([]);
+  const [newNote, setNewNote] = useState("");
+
   useEffect(() => {
+    // Load isolation status
+    try {
+      const storedIso = localStorage.getItem("paypilot_isolated_rings");
+      if (storedIso) {
+        const parsed = JSON.parse(storedIso);
+        if (parsed[ringId]) setIsIsolated(true);
+      }
+    } catch {}
+
+    // Load notes from localStorage
+    try {
+      const storedNotes = localStorage.getItem(`paypilot_notes_${ringId}`);
+      if (storedNotes) {
+        setNotes(JSON.parse(storedNotes));
+      } else {
+        setNotes([
+          {
+            id: "note-1",
+            text: "Initial multi-account burst identified on Device D102 across 11 stolen cards. Velocity threshold exceeded 8.4 tx/min.",
+            author: "Priya Sharma (Analyst)",
+            timestamp: "Aug 20, 10:02",
+          },
+        ]);
+      }
+    } catch {}
+
     async function loadInvestigation() {
       try {
         const [ringRes, graphRes, timeRes] = await Promise.all([
@@ -92,13 +127,78 @@ export default function InvestigationDetailPage(props: { params: Promise<{ ringI
     return () => clearInterval(timer);
   }, [isPlaying, timelineData]);
 
-  const handleIsolateRing = () => {
-    setIsIsolated(true);
-    toast.success(`Ring ${ringId} Isolated! All ${ringData?.blast_radius?.affected_customers || 17} accounts and connected hardware IDs blacklisted.`);
+  const handleIsolateToggle = () => {
+    const nextState = !isIsolated;
+    setIsIsolated(nextState);
+    try {
+      const storedIso = localStorage.getItem("paypilot_isolated_rings") || "{}";
+      const parsed = JSON.parse(storedIso);
+      parsed[ringId] = nextState;
+      localStorage.setItem("paypilot_isolated_rings", JSON.stringify(parsed));
+    } catch {}
+
+    if (nextState) {
+      toast.success(`Ring ${ringId} ISOLATED! All ${ringData?.blast_radius?.affected_customers || 17} accounts and connected hardware IDs blacklisted.`);
+    } else {
+      toast.info(`Ring ${ringId} isolation removed.`);
+    }
   };
 
   const handleExportDossier = () => {
-    toast.success(`Downloaded Forensic Audit Packet (PDF) for ${ringId}`);
+    const packet = {
+      ring_id: ringId,
+      exported_at: new Date().toISOString(),
+      investigator: "Priya Sharma (Fraud Analyst)",
+      ring_metadata: ringData?.ring || {},
+      blast_radius: ringData?.blast_radius || {},
+      signals: ringData?.signals || [],
+      ring_dna: ringData?.dna || {},
+      notes: notes,
+      timeline_events: timelineData?.events || [],
+    };
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(packet, null, 2));
+    const downloadAnchor = document.createElement("a");
+    downloadAnchor.setAttribute("href", dataStr);
+    downloadAnchor.setAttribute("download", `paypilot_forensic_packet_${ringId}.json`);
+    document.body.appendChild(downloadAnchor);
+    downloadAnchor.click();
+    downloadAnchor.remove();
+    toast.success(`Downloaded Forensic Audit Packet for ${ringId}!`);
+  };
+
+  const handleCopyDNA = () => {
+    const hash = `RING_DNA_${ringId}_${Math.random().toString(36).substring(2, 10).toUpperCase()}`;
+    navigator.clipboard.writeText(hash);
+    toast.success(`Copied Ring DNA Fingerprint: ${hash}`);
+  };
+
+  const handleAddNote = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newNote.trim()) return;
+
+    const noteObj = {
+      id: `note-${Date.now()}`,
+      text: newNote.trim(),
+      author: "Priya Sharma (Analyst)",
+      timestamp: "Just now",
+    };
+
+    const updated = [noteObj, ...notes];
+    setNotes(updated);
+    setNewNote("");
+    try {
+      localStorage.setItem(`paypilot_notes_${ringId}`, JSON.stringify(updated));
+    } catch {}
+    toast.success("Case note added to investigation log.");
+  };
+
+  const handleDeleteNote = (noteId: string) => {
+    const updated = notes.filter((n) => n.id !== noteId);
+    setNotes(updated);
+    try {
+      localStorage.setItem(`paypilot_notes_${ringId}`, JSON.stringify(updated));
+    } catch {}
+    toast.info("Note removed.");
   };
 
   if (loading) {
@@ -152,7 +252,7 @@ export default function InvestigationDetailPage(props: { params: Promise<{ ringI
         <div className="space-y-2">
           <div className="flex items-center gap-3 flex-wrap">
             <Link href="/rings">
-              <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-lg">
+              <Button variant="outline" size="sm" className="h-7 w-7 p-0 rounded-lg cursor-pointer">
                 <ChevronLeft className="h-4 w-4" />
               </Button>
             </Link>
@@ -160,10 +260,12 @@ export default function InvestigationDetailPage(props: { params: Promise<{ ringI
               {ring.id}
             </h1>
             <Badge
-              variant={isIsolated ? "outline" : ring.severity === "CRITICAL" ? "destructive" : "secondary"}
-              className="font-mono text-xs uppercase font-bold px-2.5 py-0.5"
+              variant={isIsolated ? "default" : ring.severity === "CRITICAL" ? "destructive" : "secondary"}
+              className={`font-mono text-xs uppercase font-bold px-2.5 py-0.5 ${
+                isIsolated ? "bg-emerald-600 text-white" : ""
+              }`}
             >
-              {isIsolated ? "ISOLATED & BLOCKED" : ring.severity}
+              {isIsolated ? "ISOLATED & BLOCKED ✓" : ring.severity}
             </Badge>
             <Badge variant="outline" className="font-mono text-xs">
               {ring.pattern_type}
@@ -185,167 +287,178 @@ export default function InvestigationDetailPage(props: { params: Promise<{ ringI
         <div className="flex items-center gap-2">
           <Button
             size="sm"
-            onClick={handleIsolateRing}
-            disabled={isIsolated}
-            className={`h-9 px-4 text-xs font-bold rounded-xl shadow-xs gap-1.5 ${
-              isIsolated ? "bg-emerald-600 text-white" : "bg-rose-600 hover:bg-rose-700 text-white"
+            onClick={handleIsolateToggle}
+            className={`h-9 px-4 text-xs font-bold rounded-xl shadow-xs gap-1.5 cursor-pointer ${
+              isIsolated ? "bg-emerald-600 hover:bg-emerald-700 text-white" : "bg-rose-600 hover:bg-rose-700 text-white"
             }`}
           >
             {isIsolated ? (
               <>
                 <ShieldCheck className="h-4 w-4" />
-                <span>Ring Blacklisted</span>
+                <span>Ring Contained (Click to Unblock)</span>
               </>
             ) : (
               <>
                 <Ban className="h-4 w-4" />
-                <span>Isolate Entire Ring</span>
+                <span>Isolate Syndicate</span>
               </>
             )}
           </Button>
 
           <Button
-            variant="outline"
             size="sm"
+            variant="outline"
             onClick={handleExportDossier}
-            className="h-9 px-3 text-xs font-bold rounded-xl border-border/60 gap-1.5"
+            className="h-9 px-3 text-xs font-bold rounded-xl gap-1.5 border-border/60 cursor-pointer"
           >
-            <Download className="h-3.5 w-3.5" />
-            <span>Export Case Dossier</span>
+            <Download className="h-3.5 w-3.5 text-emerald-500" />
+            <span className="hidden sm:inline">Export Audit Packet</span>
           </Button>
         </div>
       </div>
 
-      {/* 🌟 2. Blast Radius Summary Cards */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-        <div className="p-3.5 rounded-2xl bg-card border border-border/60 shadow-xs text-center">
-          <span className="text-[10px] font-mono text-muted-foreground uppercase font-bold block">
-            ACCOUNTS
-          </span>
-          <span className="text-xl sm:text-2xl font-black text-foreground font-mono">
-            {blastRadius.affected_customers}
-          </span>
-        </div>
-        <div className="p-3.5 rounded-2xl bg-card border border-border/60 shadow-xs text-center">
-          <span className="text-[10px] font-mono text-muted-foreground uppercase font-bold block">
-            TRANSACTIONS
-          </span>
-          <span className="text-xl sm:text-2xl font-black text-foreground font-mono">
-            {blastRadius.affected_transactions}
-          </span>
-        </div>
-        <div className="p-3.5 rounded-2xl bg-card border border-border/60 shadow-xs text-center">
-          <span className="text-[10px] font-mono text-muted-foreground uppercase font-bold block">
-            DEVICES
-          </span>
-          <span className="text-xl sm:text-2xl font-black text-foreground font-mono">
-            {blastRadius.affected_devices}
-          </span>
-        </div>
-        <div className="p-3.5 rounded-2xl bg-card border border-border/60 shadow-xs text-center">
-          <span className="text-[10px] font-mono text-muted-foreground uppercase font-bold block">
-            IPS
-          </span>
-          <span className="text-xl sm:text-2xl font-black text-foreground font-mono">
-            {blastRadius.affected_ips}
-          </span>
-        </div>
-        <div className="p-3.5 rounded-2xl bg-card border border-border/60 shadow-xs text-center">
-          <span className="text-[10px] font-mono text-muted-foreground uppercase font-bold block">
-            PAYMENTS
-          </span>
-          <span className="text-xl sm:text-2xl font-black text-foreground font-mono">
-            {blastRadius.affected_payments}
-          </span>
-        </div>
-        <div className="p-3.5 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 shadow-xs text-center col-span-2 sm:col-span-1">
-          <span className="text-[10px] font-mono text-emerald-500 uppercase font-bold block">
-            EXPOSURE
-          </span>
-          <span className="text-xl sm:text-2xl font-black text-foreground font-mono">
-            ₹{(blastRadius.total_exposure / 100000).toFixed(1)}L
-          </span>
-        </div>
+      {/* 🌟 2. Blast Radius Stats Grid */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
+        <Card className="rounded-2xl border border-border/60 bg-card shadow-xs">
+          <CardContent className="p-4 flex flex-col justify-between h-full space-y-1">
+            <span className="text-[10px] font-mono font-bold text-muted-foreground uppercase">
+              AFFECTED ACCOUNTS
+            </span>
+            <div className="text-2xl font-black text-foreground font-mono">
+              {blastRadius.affected_customers}
+            </div>
+            <p className="text-[10px] text-muted-foreground font-mono">Shared Hardware/IP</p>
+          </CardContent>
+        </Card>
+
+        <Card className="rounded-2xl border border-border/60 bg-card shadow-xs">
+          <CardContent className="p-4 flex flex-col justify-between h-full space-y-1">
+            <span className="text-[10px] font-mono font-bold text-muted-foreground uppercase">
+              FLAGGED TXS
+            </span>
+            <div className="text-2xl font-black text-foreground font-mono">
+              {blastRadius.affected_transactions}
+            </div>
+            <p className="text-[10px] text-rose-500 font-mono">18 in 120s burst</p>
+          </CardContent>
+        </Card>
+
+        <Card className="rounded-2xl border border-border/60 bg-card shadow-xs">
+          <CardContent className="p-4 flex flex-col justify-between h-full space-y-1">
+            <span className="text-[10px] font-mono font-bold text-muted-foreground uppercase">
+              HARDWARE DEVICES
+            </span>
+            <div className="text-2xl font-black text-foreground font-mono">
+              {blastRadius.affected_devices}
+            </div>
+            <p className="text-[10px] text-rose-500 font-mono">D102 (High Hub)</p>
+          </CardContent>
+        </Card>
+
+        <Card className="rounded-2xl border border-border/60 bg-card shadow-xs">
+          <CardContent className="p-4 flex flex-col justify-between h-full space-y-1">
+            <span className="text-[10px] font-mono font-bold text-muted-foreground uppercase">
+              GATEWAY IPS
+            </span>
+            <div className="text-2xl font-black text-foreground font-mono">
+              {blastRadius.affected_ips}
+            </div>
+            <p className="text-[10px] text-muted-foreground font-mono">Tor & VPN detected</p>
+          </CardContent>
+        </Card>
+
+        <Card className="rounded-2xl border border-border/60 bg-card shadow-xs">
+          <CardContent className="p-4 flex flex-col justify-between h-full space-y-1">
+            <span className="text-[10px] font-mono font-bold text-muted-foreground uppercase">
+              STOLEN CARDS
+            </span>
+            <div className="text-2xl font-black text-foreground font-mono">
+              {blastRadius.affected_payments}
+            </div>
+            <p className="text-[10px] text-muted-foreground font-mono">Cross-account reuse</p>
+          </CardContent>
+        </Card>
+
+        <Card className="rounded-2xl border border-emerald-500/30 bg-emerald-500/5 shadow-xs">
+          <CardContent className="p-4 flex flex-col justify-between h-full space-y-1">
+            <span className="text-[10px] font-mono font-bold text-emerald-500 uppercase">
+              PREVENTED LOSS
+            </span>
+            <div className="text-2xl font-black text-foreground font-mono">
+              ₹{(blastRadius.total_exposure / 100000).toFixed(1)}L
+            </div>
+            <p className="text-[10px] text-emerald-500 font-mono">Direct Chargeback Saved</p>
+          </CardContent>
+        </Card>
       </div>
 
-      {/* 🌟 3. Flagship Interactive Relationship Graph (Split with Entity Inspector) */}
+      {/* 🌟 3. Interactive Multi-Hop Graph Canvas */}
       <Card className="rounded-3xl border border-border/60 shadow-md bg-card overflow-hidden">
-        <CardHeader className="p-5 pb-3 border-b border-border/40 bg-muted/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <CardHeader className="p-5 pb-3 border-b border-border/40 bg-muted/10 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
-            <CardTitle className="text-base font-bold text-foreground flex items-center gap-2">
-              <Share2 className="h-4 w-4 text-emerald-500" />
-              <span>Heterogeneous Relationship Graph</span>
+            <CardTitle className="text-sm font-bold tracking-tight flex items-center gap-2">
+              <Share2 className="h-4 w-4 text-rose-500" />
+              <span>Multi-Hop Relationship Graph</span>
             </CardTitle>
             <CardDescription className="text-xs">
-              Click any node (Customer, Device, IP, or Payment) to inspect multi-hop relational dependencies
+              Interactive SVG canvas — Mouse scroll to zoom, click & drag to pan, glowing nodes represent high-risk hub devices.
             </CardDescription>
           </div>
-          <div className="flex items-center gap-2 text-[11px] font-mono text-muted-foreground">
-            <span>{graphData?.total_nodes || 35} Nodes</span> • <span>{graphData?.total_edges || 48} Relationships</span>
-          </div>
+          <Link href="/graph">
+            <Button variant="outline" size="sm" className="h-7 text-xs font-bold gap-1 rounded-xl">
+              <span>Full Graph Explorer</span>
+              <ExternalLink className="h-3 w-3" />
+            </Button>
+          </Link>
         </CardHeader>
 
         <CardContent className="p-4 sm:p-6">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            {/* Interactive Animated Graph Canvas (8 cols) */}
             <div className="lg:col-span-8">
               <InteractiveGraphCanvas
                 nodes={graphData?.nodes || []}
                 edges={graphData?.edges || []}
-                selectedNode={selectedEntity}
                 onSelectNode={(node) => setSelectedEntity(node)}
-                height={460}
               />
             </div>
 
-            {/* Right Entity Inspector (4 cols) */}
+            {/* Entity Inspector Side Panel (4 cols) */}
             <div className="lg:col-span-4 space-y-4">
-              <Card className="rounded-2xl border border-border/60 shadow-xs bg-muted/15 h-full flex flex-col justify-between p-4">
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between border-b border-border/40 pb-3">
-                    <span className="text-xs font-bold text-foreground font-mono uppercase">
-                      Entity Inspector
-                    </span>
-                    <Badge variant="destructive" className="font-mono text-[10px]">
-                      {selectedEntity?.data?.type || "Device"}
+              <Card className="rounded-2xl border border-border/60 bg-muted/20 p-4 space-y-4">
+                <div className="flex items-center justify-between border-b border-border/40 pb-3">
+                  <span className="text-xs font-bold font-mono text-muted-foreground uppercase">
+                    Entity Inspector
+                  </span>
+                  <Badge variant="outline" className="font-mono text-[10px]">
+                    {selectedEntity?.type || "DEVICE"}
+                  </Badge>
+                </div>
+
+                <div className="space-y-3 font-mono text-xs">
+                  <div>
+                    <span className="text-[10px] text-muted-foreground block">Entity ID</span>
+                    <span className="font-bold text-foreground text-sm">{selectedEntity?.id || "D102"}</span>
+                  </div>
+
+                  <div>
+                    <span className="text-[10px] text-muted-foreground block">Label / Descriptor</span>
+                    <span className="font-bold text-foreground">{selectedEntity?.label || "Hardware Laptop (Windows 11)"}</span>
+                  </div>
+
+                  <div>
+                    <span className="text-[10px] text-muted-foreground block">Risk Status</span>
+                    <Badge variant="destructive" className="font-mono text-[10px] uppercase font-bold mt-1">
+                      HIGH RISK HUB
                     </Badge>
-                  </div>
-
-                  <div className="space-y-1.5">
-                    <span className="text-sm font-bold text-foreground font-mono block">
-                      {selectedEntity?.data?.label || "Device D102"}
-                    </span>
-                    <p className="text-xs text-muted-foreground leading-relaxed bg-background/90 p-3 rounded-xl border border-border/40 font-medium">
-                      Shared hardware fingerprint linked to 7 distinct customer registrations within 45 minutes.
-                    </p>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-2 text-xs">
-                    <div className="p-2.5 rounded-xl bg-background/90 border border-border/40">
-                      <span className="text-[10px] text-muted-foreground uppercase font-bold block">
-                        Risk Level
-                      </span>
-                      <span className="text-base font-extrabold text-rose-500 font-mono">
-                        CRITICAL
-                      </span>
-                    </div>
-
-                    <div className="p-2.5 rounded-xl bg-background/90 border border-border/40">
-                      <span className="text-[10px] text-muted-foreground uppercase font-bold block">
-                        Connections
-                      </span>
-                      <span className="text-base font-extrabold text-foreground font-mono">
-                        17 Entities
-                      </span>
-                    </div>
                   </div>
                 </div>
 
-                <div className="pt-3 border-t border-border/40">
+                <div className="pt-2 border-t border-border/40">
                   <Button
-                    onClick={() => toast.success(`Flagged ${selectedEntity?.data?.label} in central registry`)}
+                    size="sm"
                     variant="outline"
-                    className="w-full h-8 text-xs font-bold border-rose-500/30 text-rose-500 hover:bg-rose-500/10 rounded-xl"
+                    onClick={() => toast.success(`Entity ${selectedEntity?.id || "D102"} added to platform hardware blacklist.`)}
+                    className="w-full text-xs font-bold rounded-xl border-rose-500/30 text-rose-500 hover:bg-rose-500/10 cursor-pointer"
                   >
                     Blacklist Entity Hardware ID
                   </Button>
@@ -398,13 +511,24 @@ export default function InvestigationDetailPage(props: { params: Promise<{ ringI
         {/* Right: Ring DNA Feature Bars (5 cols) */}
         <div className="lg:col-span-5 space-y-4">
           <Card className="rounded-3xl border border-border/60 shadow-xs bg-card">
-            <CardHeader className="p-5 pb-3 border-b border-border/40 bg-muted/10">
-              <CardTitle className="text-sm font-bold tracking-tight">
-                Ring DNA Fingerprint
-              </CardTitle>
-              <CardDescription className="text-xs">
-                Normalized structural and behavioral dimensions (0 - 100)
-              </CardDescription>
+            <CardHeader className="p-5 pb-3 border-b border-border/40 bg-muted/10 flex items-center justify-between">
+              <div>
+                <CardTitle className="text-sm font-bold tracking-tight">
+                  Ring DNA Fingerprint
+                </CardTitle>
+                <CardDescription className="text-xs">
+                  Normalized structural dimensions (0 - 100)
+                </CardDescription>
+              </div>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleCopyDNA}
+                className="h-7 text-xs font-bold gap-1 rounded-xl cursor-pointer"
+              >
+                <Copy className="h-3 w-3" />
+                <span>Copy DNA</span>
+              </Button>
             </CardHeader>
             <CardContent className="p-5 space-y-3.5 text-xs">
               {Object.entries(dna).map(([key, val]: [string, any]) => (
@@ -428,69 +552,125 @@ export default function InvestigationDetailPage(props: { params: Promise<{ ringI
         </div>
       </div>
 
-      {/* 🌟 5. Activity Timeline & Formation Replay */}
-      <Card className="rounded-3xl border border-border/60 shadow-xs bg-card overflow-hidden">
-        <CardHeader className="p-5 pb-3 border-b border-border/40 bg-muted/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <div>
-            <CardTitle className="text-sm font-bold tracking-tight flex items-center gap-2">
-              <Clock className="h-4 w-4 text-primary" />
-              <span>Chronological Event Timeline & Formation Replay</span>
-            </CardTitle>
-            <CardDescription className="text-xs">
-              18 transactions occurred within 120 seconds — High temporal coordination
-            </CardDescription>
-          </div>
-
-          {/* Replay Controls */}
-          <div className="flex items-center gap-2">
-            <Button
-              size="sm"
-              variant="outline"
-              onClick={() => setIsPlaying(!isPlaying)}
-              className="h-8 text-xs font-bold rounded-xl gap-1.5 border-border/60"
-            >
-              {isPlaying ? <Pause className="h-3.5 w-3.5" /> : <Play className="h-3.5 w-3.5 text-emerald-500" />}
-              <span>{isPlaying ? "Pause Replay" : "Play Formation Replay"}</span>
-            </Button>
-            <Button
-              size="sm"
-              variant="ghost"
-              onClick={() => { setReplayIndex(0); setIsPlaying(false); }}
-              className="h-8 text-xs rounded-xl"
-            >
-              <RotateCcw className="h-3 w-3" />
-            </Button>
-          </div>
-        </CardHeader>
-
-        <CardContent className="p-5">
-          <div className="space-y-2 max-h-64 overflow-y-auto pr-2">
-            {timelineData?.events?.slice(0, 15).map((ev: any, i: number) => (
-              <div
-                key={ev.id}
-                className={`p-3 rounded-2xl border transition-all flex items-center justify-between text-xs font-mono ${
-                  i <= replayIndex
-                    ? "bg-rose-500/10 border-rose-500/30 text-foreground"
-                    : "bg-muted/10 border-border/30 text-muted-foreground opacity-40"
-                }`}
-              >
-                <div className="flex items-center gap-3">
-                  <span className="text-[10px] font-bold text-rose-500">#{i + 1}</span>
-                  <span className="font-bold text-foreground">{ev.timestamp.slice(11, 19)}</span>
-                  <span>{ev.customer_id}</span>
-                  <span className="text-muted-foreground">via {ev.device_id}</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <span className="font-bold text-emerald-500">₹{ev.amount}</span>
-                  <Badge variant="destructive" className="text-[9px] py-0 px-1.5 h-4">
-                    FLAGGED
-                  </Badge>
-                </div>
+      {/* 🌟 5. Timeline Replay & Real-Time Case Notes */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        {/* Timeline (7 cols) */}
+        <div className="lg:col-span-7">
+          <Card className="rounded-3xl border border-border/60 shadow-xs bg-card overflow-hidden">
+            <CardHeader className="p-5 pb-3 border-b border-border/40 bg-muted/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <CardTitle className="text-sm font-bold tracking-tight flex items-center gap-2">
+                  <Clock className="h-4 w-4 text-primary" />
+                  <span>Formation Replay ({replayIndex + 1} / {timelineData?.events?.length || 18})</span>
+                </CardTitle>
+                <CardDescription className="text-xs">
+                  Chronological event replay showing sub-minute burst activation
+                </CardDescription>
               </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+
+              {/* Replay Controls */}
+              <div className="flex items-center gap-2">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => setIsPlaying(!isPlaying)}
+                  className="h-8 text-xs font-bold rounded-xl gap-1.5 border-border/60 cursor-pointer"
+                >
+                  {isPlaying ? <Pause className="h-3.5 w-3.5" /> : <Play className="h-3.5 w-3.5 text-emerald-500" />}
+                  <span>{isPlaying ? "Pause Replay" : "Play Formation Replay"}</span>
+                </Button>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  onClick={() => { setReplayIndex(0); setIsPlaying(false); }}
+                  className="h-8 text-xs rounded-xl cursor-pointer"
+                  title="Reset Replay"
+                >
+                  <RotateCcw className="h-3 w-3" />
+                </Button>
+              </div>
+            </CardHeader>
+
+            <CardContent className="p-5">
+              <div className="space-y-2 max-h-72 overflow-y-auto pr-2">
+                {timelineData?.events?.slice(0, 15).map((ev: any, i: number) => (
+                  <div
+                    key={ev.id}
+                    className={`p-3 rounded-2xl border transition-all flex items-center justify-between text-xs font-mono ${
+                      i <= replayIndex
+                        ? "bg-rose-500/10 border-rose-500/30 text-foreground"
+                        : "bg-muted/10 border-border/30 text-muted-foreground opacity-40"
+                    }`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className="text-[10px] font-bold text-rose-500">#{i + 1}</span>
+                      <span className="font-bold text-foreground">{ev.timestamp.slice(11, 19)}</span>
+                      <span>{ev.customer_id}</span>
+                      <span className="text-muted-foreground">via {ev.device_id}</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <span className="font-bold text-emerald-500">₹{ev.amount}</span>
+                      <Badge variant="destructive" className="text-[9px] py-0 px-1.5 h-4">
+                        FLAGGED
+                      </Badge>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Real-time Case Notes (5 cols) */}
+        <div className="lg:col-span-5">
+          <Card className="rounded-3xl border border-border/60 shadow-xs bg-card">
+            <CardHeader className="p-5 pb-3 border-b border-border/40 bg-muted/10">
+              <CardTitle className="text-sm font-bold tracking-tight flex items-center gap-2">
+                <MessageSquare className="h-4 w-4 text-primary" />
+                <span>Investigator Case Notes</span>
+              </CardTitle>
+              <CardDescription className="text-xs">
+                Real-time commentary saved with forensic record
+              </CardDescription>
+            </CardHeader>
+
+            <CardContent className="p-5 space-y-3">
+              <form onSubmit={handleAddNote} className="flex gap-2">
+                <Input
+                  placeholder="Type investigation note..."
+                  value={newNote}
+                  onChange={(e) => setNewNote(e.target.value)}
+                  className="h-9 text-xs rounded-xl font-mono"
+                />
+                <Button type="submit" size="sm" className="h-9 px-3 rounded-xl cursor-pointer">
+                  <Send className="h-3.5 w-3.5" />
+                </Button>
+              </form>
+
+              <div className="space-y-2 max-h-56 overflow-y-auto pr-1">
+                {notes.map((n) => (
+                  <div key={n.id} className="p-3 rounded-2xl bg-muted/20 border border-border/40 space-y-1 text-xs font-mono relative group">
+                    <div className="flex items-center justify-between text-[10px] text-muted-foreground">
+                      <span className="font-bold text-foreground">{n.author}</span>
+                      <div className="flex items-center gap-2">
+                        <span>{n.timestamp}</span>
+                        <button
+                          type="button"
+                          onClick={() => handleDeleteNote(n.id)}
+                          className="opacity-0 group-hover:opacity-100 text-rose-500 hover:text-rose-600 transition-opacity cursor-pointer"
+                        >
+                          <Trash2 className="h-3 w-3" />
+                        </button>
+                      </div>
+                    </div>
+                    <p className="text-xs text-muted-foreground font-sans">{n.text}</p>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
     </div>
   );
 }
