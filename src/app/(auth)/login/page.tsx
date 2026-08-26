@@ -61,6 +61,27 @@ export default function LoginPage() {
     toast.info(`Filled credentials for ${demoEmail}. Click 'Sign In' to continue.`);
   };
 
+  const quickInstantLogin = (role: "ANALYST" | "MERCHANT") => {
+    if (role === "ANALYST") {
+      setUser({
+        id: "analyst-01",
+        name: "Priya Sharma",
+        email: "analyst@paypilot.ai",
+        role: "ANALYST",
+      });
+      toast.success("Signed in as Priya Sharma (Fraud Analyst)!");
+    } else {
+      setUser({
+        id: "merchant-01",
+        name: "Raj Patel",
+        email: "merchant@paypilot.ai",
+        role: "MERCHANT",
+      });
+      toast.success("Signed in as Raj Patel (Merchant)!");
+    }
+    window.location.href = "/overview";
+  };
+
   return (
     <div className="w-full max-w-md px-2 sm:px-0">
       <div className="flex flex-col items-center mb-6 sm:mb-8">
@@ -146,29 +167,29 @@ export default function LoginPage() {
         <div className="grid gap-2">
           <button 
             type="button"
-            onClick={() => selectDemoAccount("merchant@paypilot.ai")}
-            className="flex items-center justify-between p-2.5 sm:p-3 border border-border/60 rounded-lg bg-card hover:border-primary hover:bg-primary/5 transition-all text-left cursor-pointer"
+            onClick={() => quickInstantLogin("ANALYST")}
+            className="flex items-center justify-between p-2.5 sm:p-3 border border-rose-500/40 rounded-xl bg-rose-500/5 hover:bg-rose-500/10 transition-all text-left cursor-pointer shadow-xs"
           >
             <div className="min-w-0 pr-2">
-              <p className="font-semibold text-xs sm:text-sm text-foreground">1. Merchant Account (Store Owner)</p>
-              <p className="text-[11px] text-muted-foreground font-mono">merchant@paypilot.ai</p>
+              <p className="font-bold text-xs sm:text-sm text-foreground">1. Risk Analyst Account (Recommended)</p>
+              <p className="text-[11px] text-muted-foreground font-mono">Priya Sharma • analyst@paypilot.ai</p>
             </div>
-            <span className="text-[11px] bg-primary/10 text-primary font-semibold px-2 py-1 rounded shrink-0">
-              Select
+            <span className="text-[11px] bg-rose-500 text-white font-bold px-2.5 py-1 rounded-lg shrink-0">
+              1-Click Login →
             </span>
           </button>
           
           <button 
             type="button"
-            onClick={() => selectDemoAccount("analyst@paypilot.ai")}
-            className="flex items-center justify-between p-2.5 sm:p-3 border border-border/60 rounded-lg bg-card hover:border-primary hover:bg-primary/5 transition-all text-left cursor-pointer"
+            onClick={() => quickInstantLogin("MERCHANT")}
+            className="flex items-center justify-between p-2.5 sm:p-3 border border-border/60 rounded-xl bg-card hover:bg-muted/40 transition-all text-left cursor-pointer"
           >
             <div className="min-w-0 pr-2">
-              <p className="font-semibold text-xs sm:text-sm text-foreground">2. Risk Analyst Account (Investigator)</p>
-              <p className="text-[11px] text-muted-foreground font-mono">analyst@paypilot.ai</p>
+              <p className="font-bold text-xs sm:text-sm text-foreground">2. Merchant Store Owner</p>
+              <p className="text-[11px] text-muted-foreground font-mono">Raj Patel • merchant@paypilot.ai</p>
             </div>
-            <span className="text-[11px] bg-primary/10 text-primary font-semibold px-2 py-1 rounded shrink-0">
-              Select
+            <span className="text-[11px] bg-muted text-foreground font-semibold px-2.5 py-1 rounded-lg shrink-0">
+              1-Click Login →
             </span>
           </button>
         </div>

@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   Search,
   Sun,
@@ -10,20 +10,37 @@ import {
   Menu,
   ShieldAlert,
   Share2,
-  Radio,
-  Sparkles,
+  LogOut,
+  LogIn,
+  UserCheck,
+  ChevronDown,
+  User,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "next-themes";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Badge } from "@/components/ui/badge";
 import { Sidebar } from "./sidebar";
 import { CommandPalette } from "@/components/search/command-palette";
+import { useAuth } from "@/providers/session-provider";
 
 export function Topbar() {
   const { theme, setTheme } = useTheme();
   const pathname = usePathname();
+  const router = useRouter();
   const [searchOpen, setSearchOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { data: session, status, switchRole, logout } = useAuth();
+
+  const user = session?.user;
 
   const getPageInfo = () => {
     if (pathname.includes("/investigations")) {
@@ -97,7 +114,7 @@ export function Topbar() {
           </Button>
 
           {/* Environment Pill */}
-          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-500/10 text-slate-400 border border-slate-500/20 text-[10px] font-mono font-bold">
+          <div className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-500/10 text-slate-400 border border-slate-500/20 text-[10px] font-mono font-bold">
             <span className="h-1.5 w-1.5 rounded-full bg-amber-500" />
             <span>SYNTHETIC EVAL</span>
           </div>
@@ -113,6 +130,70 @@ export function Topbar() {
             <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0 text-amber-500" />
             <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100 text-blue-400" />
           </Button>
+
+          {/* 🌟 User Profile & Login / Logout Button */}
+          {user ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger className="flex items-center gap-2 pl-1 pr-2 py-1 rounded-xl hover:bg-muted/60 transition-colors border border-border/40 outline-none cursor-pointer">
+                <div className="h-6 w-6 rounded-lg bg-rose-500/15 text-rose-500 font-mono font-bold text-[11px] flex items-center justify-center border border-rose-500/30">
+                  {user.name?.slice(0, 2).toUpperCase() || "PS"}
+                </div>
+                <div className="hidden lg:flex flex-col text-left text-xs leading-none">
+                  <span className="font-bold text-foreground truncate max-w-[100px]">{user.name?.split(" ")[0]}</span>
+                  <span className="text-[9px] font-mono text-muted-foreground uppercase">{user.role}</span>
+                </div>
+                <ChevronDown className="h-3 w-3 text-muted-foreground" />
+              </DropdownMenuTrigger>
+
+              <DropdownMenuContent align="end" className="w-56 p-2 rounded-2xl">
+                <DropdownMenuLabel className="p-2 space-y-0.5">
+                  <span className="text-xs font-bold text-foreground block">{user.name}</span>
+                  <span className="text-[10px] font-mono text-muted-foreground block">{user.email}</span>
+                  <Badge variant="outline" className="font-mono text-[9px] mt-1 uppercase">
+                    Role: {user.role}
+                  </Badge>
+                </DropdownMenuLabel>
+
+                <DropdownMenuSeparator />
+
+                <DropdownMenuLabel className="text-[10px] uppercase font-mono text-muted-foreground px-2 py-1">
+                  Switch Active Role
+                </DropdownMenuLabel>
+                <DropdownMenuItem
+                  onClick={() => switchRole("ANALYST")}
+                  className={`cursor-pointer text-xs rounded-xl px-2 py-1.5 ${user.role === "ANALYST" ? "bg-rose-500/10 text-rose-500 font-bold" : ""}`}
+                >
+                  <UserCheck className="h-3.5 w-3.5 mr-2" />
+                  <span>Fraud Analyst Mode</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => switchRole("MERCHANT")}
+                  className={`cursor-pointer text-xs rounded-xl px-2 py-1.5 ${user.role === "MERCHANT" ? "bg-rose-500/10 text-rose-500 font-bold" : ""}`}
+                >
+                  <User className="h-3.5 w-3.5 mr-2" />
+                  <span>Merchant Store Mode</span>
+                </DropdownMenuItem>
+
+                <DropdownMenuSeparator />
+
+                {/* Direct Logout Option */}
+                <DropdownMenuItem
+                  onClick={logout}
+                  className="cursor-pointer text-xs text-rose-500 hover:text-rose-600 hover:bg-rose-500/10 rounded-xl px-2 py-1.5 font-bold"
+                >
+                  <LogOut className="h-3.5 w-3.5 mr-2 text-rose-500" />
+                  <span>Sign Out / Logout</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <Link href="/login">
+              <Button size="sm" className="h-8 px-3 text-xs font-bold bg-rose-600 hover:bg-rose-700 text-white rounded-xl gap-1.5 shadow-xs">
+                <LogIn className="h-3.5 w-3.5" />
+                <span>Sign In</span>
+              </Button>
+            </Link>
+          )}
         </div>
       </header>
 

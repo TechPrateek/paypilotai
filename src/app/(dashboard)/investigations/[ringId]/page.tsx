@@ -26,6 +26,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { InteractiveGraphCanvas } from "@/components/graph/interactive-graph-canvas";
 import { toast } from "sonner";
 
 export default function InvestigationDetailPage(props: { params: Promise<{ ringId: string }> }) {
@@ -286,125 +287,15 @@ export default function InvestigationDetailPage(props: { params: Promise<{ ringI
 
         <CardContent className="p-4 sm:p-6">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            {/* SVG Visual Canvas (8 cols) */}
-            <div className="lg:col-span-8 bg-slate-950 rounded-2xl p-4 relative overflow-hidden border border-slate-800 min-h-[440px] flex items-center justify-center">
-              <div className="absolute inset-0 bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:16px_16px] opacity-40" />
-
-              <svg viewBox="0 0 800 440" className="w-full h-full relative z-10 select-none">
-                {/* Render Edges */}
-                {graphData?.edges?.map((edge: any) => {
-                  const sNode = graphData.nodes.find((n: any) => n.id === edge.source);
-                  const tNode = graphData.nodes.find((n: any) => n.id === edge.target);
-                  if (!sNode || !tNode) return null;
-
-                  const isSel = selectedEntity?.id === sNode.id || selectedEntity?.id === tNode.id;
-
-                  return (
-                    <g key={edge.id}>
-                      <line
-                        x1={sNode.position.x}
-                        y1={sNode.position.y}
-                        x2={tNode.position.x}
-                        y2={tNode.position.y}
-                        stroke={isSel ? "#10B981" : "#475569"}
-                        strokeWidth={isSel ? 2.5 : 1.2}
-                        strokeDasharray={edge.animated ? "4 2" : "none"}
-                        className="transition-all duration-300"
-                      />
-                    </g>
-                  );
-                })}
-
-                {/* Render Nodes */}
-                {graphData?.nodes?.map((node: any) => {
-                  const isSel = selectedEntity?.id === node.id;
-                  const isDev = node.type === "device";
-                  const isIP = node.type === "ip";
-                  const isCust = node.type === "customer";
-                  const isPay = node.type === "payment";
-
-                  let fill = "#1E293B";
-                  let stroke = "#64748B";
-
-                  if (isDev) {
-                    fill = isSel ? "#DC2626" : "#7F1D1D";
-                    stroke = "#EF4444";
-                  } else if (isIP) {
-                    fill = isSel ? "#7C3AED" : "#4C1D95";
-                    stroke = "#A855F7";
-                  } else if (isCust) {
-                    fill = isSel ? "#2563EB" : "#1E3A8A";
-                    stroke = "#3B82F6";
-                  } else if (isPay) {
-                    fill = isSel ? "#D97706" : "#78350F";
-                    stroke = "#F59E0B";
-                  }
-
-                  return (
-                    <g
-                      key={node.id}
-                      onClick={() => setSelectedEntity(node)}
-                      className="cursor-pointer transition-transform duration-200 hover:scale-110"
-                    >
-                      {isDev && (
-                        <circle
-                          cx={node.position.x}
-                          cy={node.position.y}
-                          r="28"
-                          fill="none"
-                          stroke="#EF4444"
-                          strokeWidth="1.5"
-                          className="animate-ping opacity-20"
-                        />
-                      )}
-
-                      <circle
-                        cx={node.position.x}
-                        cy={node.position.y}
-                        r={isDev ? "22" : "18"}
-                        fill={fill}
-                        stroke={isSel ? "#10B981" : stroke}
-                        strokeWidth={isSel ? 3 : 2}
-                        className="shadow-lg"
-                      />
-
-                      <text
-                        x={node.position.x}
-                        y={node.position.y + 4}
-                        fill="#FFFFFF"
-                        fontSize={isDev ? "10" : "8"}
-                        fontWeight="bold"
-                        textAnchor="middle"
-                      >
-                        {isDev ? "📱" : isIP ? "🌐" : isCust ? "👤" : "💳"}
-                      </text>
-
-                      <text
-                        x={node.position.x}
-                        y={node.position.y + (isDev ? 34 : 28)}
-                        fill={isSel ? "#10B981" : "#E2E8F0"}
-                        fontSize="9"
-                        fontWeight={isSel ? "bold" : "normal"}
-                        textAnchor="middle"
-                        fontFamily="monospace"
-                      >
-                        {node.data?.label}
-                      </text>
-                    </g>
-                  );
-                })}
-              </svg>
-
-              {/* Legend */}
-              <div className="absolute bottom-2 left-4 right-4 flex items-center justify-between text-[10px] text-slate-400 font-mono">
-                <div className="flex items-center gap-3">
-                  <span>📱 Device</span>
-                  <span>🌐 IP</span>
-                  <span>👤 Customer</span>
-                  <span>💳 Card</span>
-                </div>
-                <span>Click any node to inspect</span>
-              </div>
+            {/* Interactive Animated Graph Canvas (8 cols) */}
+            <div className="lg:col-span-8">
+              <InteractiveGraphCanvas
+                nodes={graphData?.nodes || []}
+                edges={graphData?.edges || []}
+                selectedNode={selectedEntity}
+                onSelectNode={(node) => setSelectedEntity(node)}
+                height={460}
+              />
             </div>
 
             {/* Right Entity Inspector (4 cols) */}
