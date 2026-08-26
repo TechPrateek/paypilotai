@@ -1,45 +1,39 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import Link from "next/link";
+import React, { useEffect, useState } from "react";
 import {
-  Network,
-  Search,
-  Filter,
   Share2,
+  Users,
   Smartphone,
   Globe,
-  User,
   CreditCard,
+  Building,
+  Search,
   RotateCcw,
   Maximize2,
-  ShieldAlert,
-  Download,
-  ShieldCheck,
-  Ban,
-  CheckCircle2,
+  Filter,
+  Layers,
+  ZoomIn,
+  ZoomOut,
+  Sliders,
+  Sparkles,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { SeverityBadge, EntityIcon } from "@/components/sentinel/severity-badge";
 import { InteractiveGraphCanvas } from "@/components/graph/interactive-graph-canvas";
 import { toast } from "sonner";
 
 export default function GraphExplorerPage() {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedType, setSelectedType] = useState("ALL");
   const [graphData, setGraphData] = useState<any>(null);
-  const [selectedNode, setSelectedNode] = useState<any>(null);
-  const [blacklistedNodes, setBlacklistedNodes] = useState<Record<string, boolean>>({});
+  const [selectedEntity, setSelectedEntity] = useState<any>(null);
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [typeFilter, setTypeFilter] = useState<string>("ALL");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    try {
-      const stored = localStorage.getItem("paypilot_blacklisted_nodes");
-      if (stored) setBlacklistedNodes(JSON.parse(stored));
-    } catch {}
-
     async function loadGraph() {
       try {
         const res = await fetch("/api/rings/RING-0042/graph");
@@ -47,7 +41,7 @@ export default function GraphExplorerPage() {
           const data = await res.json();
           setGraphData(data);
           if (data.nodes && data.nodes.length > 0) {
-            setSelectedNode(data.nodes[0]);
+            setSelectedEntity(data.nodes[0]);
           }
         }
       } catch (err) {
@@ -59,40 +53,27 @@ export default function GraphExplorerPage() {
     loadGraph();
   }, []);
 
-  const handleToggleBlacklist = (nodeId: string) => {
-    const nextState = !blacklistedNodes[nodeId];
-    const updated = { ...blacklistedNodes, [nodeId]: nextState };
-    setBlacklistedNodes(updated);
-    try {
-      localStorage.setItem("paypilot_blacklisted_nodes", JSON.stringify(updated));
-    } catch {}
+  const rawNodes = graphData?.nodes || [];
+  const rawEdges = graphData?.edges || [];
 
-    if (nextState) {
-      toast.success(`Entity ${nodeId} added to global blacklist.`);
-    } else {
-      toast.info(`Entity ${nodeId} removed from blacklist.`);
-    }
-  };
-
-  const handleExportGraph = () => {
-    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(graphData || {}, null, 2));
-    const downloadAnchor = document.createElement("a");
-    downloadAnchor.setAttribute("href", dataStr);
-    downloadAnchor.setAttribute("download", `paypilot_entity_graph_${new Date().toISOString().slice(0, 10)}.json`);
-    document.body.appendChild(downloadAnchor);
-    downloadAnchor.click();
-    downloadAnchor.remove();
-    toast.success("Exported Heterogeneous Graph Topology (JSON)");
-  };
-
-  // Filter nodes according to selectedType & searchQuery
-  const filteredNodes = (graphData?.nodes || []).filter((n: any) => {
-    const matchesType = selectedType === "ALL" || n.type === selectedType;
+  const filteredNodes = rawNodes.filter((node: any) => {
+    const matchesType = typeFilter === "ALL" || (node.data?.type || "").toUpperCase() === typeFilter.toUpperCase();
     const matchesSearch =
-      n.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      n.label.toLowerCase().includes(searchQuery.toLowerCase());
+      (node.data?.label || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (node.data?.entityId || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
+      node.id.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesType && matchesSearch;
   });
+
+  const nodeIds = new Set(filteredNodes.map((n: any) => n.id));
+  const filteredEdges = rawEdges.filter((e: any) => nodeIds.has(e.source) && nodeIds.has(e.target));
+
+  const selectedNodeData = selectedEntity?.data || {
+    label: "Device D102",
+    type: "Device",
+    risk: "CRITICAL",
+    entityId: "D102",
+  };
 
   return (
     <div className="space-y-6 p-4 sm:p-6 md:p-8 max-w-[1600px] mx-auto">
@@ -103,153 +84,170 @@ export default function GraphExplorerPage() {
             <h1 className="text-xl sm:text-2xl font-black tracking-tight text-foreground font-mono">
               GRAPH EXPLORER
             </h1>
-            <Badge variant="outline" className="font-mono text-xs text-purple-500 border-purple-500/30">
-              {filteredNodes.length} Visible Nodes
+            <Badge variant="outline" className="font-mono text-xs text-red-500 border-red-500/30">
+              {filteredNodes.length} Active Nodes
             </Badge>
           </div>
           <p className="text-xs sm:text-sm text-muted-foreground mt-0.5 font-medium">
-            Search any customer, device hardware fingerprint, IP address, or payment card to reveal hidden syndicate clusters.
+            Full-screen heterogeneous entity network inspection across customers, devices, IPs, and payment instruments.
           </p>
         </div>
 
-        {/* Search & Action Controls */}
-        <div className="flex flex-wrap items-center gap-2">
-          <div className="relative">
-            <Search className="absolute left-3 top-2.5 h-3.5 w-3.5 text-muted-foreground" />
-            <Input
-              placeholder="Search Customer, Device, IP, Card..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="h-8 pl-8 text-xs rounded-xl w-52 sm:w-72 font-mono"
-            />
-          </div>
-
-          <Button
-            size="sm"
-            variant="outline"
-            onClick={handleExportGraph}
-            className="h-8 px-3 text-xs font-bold rounded-xl gap-1.5 cursor-pointer"
-          >
-            <Download className="h-3.5 w-3.5 text-emerald-500" />
-            <span>Export Graph</span>
-          </Button>
+        {/* Entity Type Filter Tabs */}
+        <div className="flex items-center gap-1 bg-muted/60 p-1 rounded-xl text-xs font-mono font-bold">
+          {[
+            { id: "ALL", label: "ALL" },
+            { id: "CUSTOMER", label: "CUSTOMER" },
+            { id: "DEVICE", label: "DEVICE" },
+            { id: "IP", label: "IP" },
+            { id: "PAYMENTINSTRUMENT", label: "PAYMENT" },
+          ].map((t) => (
+            <button
+              key={t.id}
+              type="button"
+              onClick={() => setTypeFilter(t.id)}
+              className={`px-3 py-1 rounded-lg transition-all cursor-pointer text-[10px] sm:text-xs font-bold ${
+                typeFilter === t.id
+                  ? "bg-background text-foreground shadow-xs font-bold"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              {t.label}
+            </button>
+          ))}
         </div>
       </div>
 
-      {/* Entity Filter Tabs */}
-      <div className="flex items-center gap-1.5 bg-muted/40 p-1.5 rounded-2xl w-fit text-xs font-semibold overflow-x-auto">
-        {[
-          { id: "ALL", label: "All Entities" },
-          { id: "CUSTOMER", label: "👤 Customers" },
-          { id: "DEVICE", label: "📱 Devices" },
-          { id: "IP", label: "🌐 Gateway IPs" },
-          { id: "PAYMENT", label: "💳 Card BINs" },
-        ].map((tab) => (
-          <button
-            key={tab.id}
-            type="button"
-            onClick={() => setSelectedType(tab.id)}
-            className={`px-3 py-1.5 rounded-xl transition-all cursor-pointer font-mono text-[11px] ${
-              selectedType === tab.id
-                ? "bg-background text-foreground shadow-xs font-bold border border-border/40"
-                : "text-muted-foreground hover:text-foreground"
-            }`}
-          >
-            {tab.label}
-          </button>
-        ))}
-      </div>
+      {/* Main Canvas & Inspector (12 cols) */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        {/* Graph Canvas (8 cols) */}
+        <div className="lg:col-span-8 space-y-4">
+          <Card className="rounded-3xl border border-border/60 shadow-md bg-card overflow-hidden">
+            <CardHeader className="p-4 sm:p-5 pb-3 border-b border-border/40 bg-muted/10 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div className="relative w-full sm:w-72">
+                <Search className="absolute left-3 top-2.5 h-3.5 w-3.5 text-muted-foreground" />
+                <Input
+                  placeholder="Search entity (e.g. D102, C001)..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="h-8 pl-8 text-xs rounded-xl font-mono"
+                />
+              </div>
 
-      {/* Main Full-Screen Graph Canvas (Split with Entity Inspector) */}
-      <Card className="rounded-3xl border border-border/60 shadow-md bg-card overflow-hidden">
-        <CardContent className="p-4 sm:p-6">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            {/* Interactive Animated Graph Canvas (8 cols) */}
-            <div className="lg:col-span-8">
+              <div className="flex items-center gap-2">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => { setSearchQuery(""); setTypeFilter("ALL"); }}
+                  className="h-8 text-xs font-bold font-mono rounded-xl gap-1.5 cursor-pointer"
+                >
+                  <RotateCcw className="h-3.5 w-3.5" />
+                  <span>RESET</span>
+                </Button>
+              </div>
+            </CardHeader>
+
+            <CardContent className="p-4 sm:p-6">
               <InteractiveGraphCanvas
                 nodes={filteredNodes}
-                edges={graphData?.edges || []}
-                onSelectNode={(node) => setSelectedNode(node)}
+                edges={filteredEdges}
+                selectedNode={selectedEntity}
+                onSelectNode={(node) => setSelectedEntity(node)}
+                height={500}
               />
+
+              {/* Bottom Legend */}
+              <div className="mt-4 pt-4 border-t border-border/40 flex items-center justify-between flex-wrap gap-3 text-xs font-mono text-muted-foreground">
+                <div className="flex items-center gap-4">
+                  <span className="font-bold text-foreground">LEGEND:</span>
+                  <span className="flex items-center gap-1"><Users className="h-3.5 w-3.5 text-blue-400" /> Customer</span>
+                  <span className="flex items-center gap-1"><Smartphone className="h-3.5 w-3.5 text-red-400" /> Device</span>
+                  <span className="flex items-center gap-1"><Globe className="h-3.5 w-3.5 text-purple-400" /> IP Address</span>
+                  <span className="flex items-center gap-1"><CreditCard className="h-3.5 w-3.5 text-emerald-400" /> Payment</span>
+                </div>
+                <span className="text-[10px]">Animated lines = Active device usage</span>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Right-Side Entity Inspector (4 cols) */}
+        <div className="lg:col-span-4 space-y-4">
+          <Card className="rounded-3xl border border-border/60 bg-card p-5 space-y-4 font-mono text-xs shadow-xs">
+            <div className="flex items-center justify-between border-b border-border/40 pb-3">
+              <span className="font-bold text-muted-foreground uppercase text-[10px] tracking-wider">
+                ENTITY INSPECTOR
+              </span>
+              <Badge variant="outline" className="text-[10px] uppercase font-bold">
+                {selectedNodeData.type || "Device"}
+              </Badge>
             </div>
 
-            {/* Entity Inspector Side Panel (4 cols) */}
-            <div className="lg:col-span-4 space-y-4">
-              <Card className="rounded-2xl border border-border/60 bg-muted/20 p-4 space-y-4">
-                <div className="flex items-center justify-between border-b border-border/40 pb-3">
-                  <span className="text-xs font-bold font-mono text-muted-foreground uppercase">
-                    Selected Entity Inspector
-                  </span>
-                  <Badge variant="outline" className="font-mono text-[10px]">
-                    {selectedNode?.type || "DEVICE"}
-                  </Badge>
+            <div className="space-y-3">
+              <div>
+                <span className="text-[10px] text-muted-foreground uppercase block">Entity ID</span>
+                <span className="font-bold text-foreground text-sm">{selectedNodeData.entityId || "D102"}</span>
+              </div>
+
+              <div>
+                <span className="text-[10px] text-muted-foreground uppercase block">Risk Level</span>
+                <SeverityBadge severity={selectedNodeData.risk || "HIGH"} />
+              </div>
+
+              <div>
+                <span className="text-[10px] text-muted-foreground uppercase block">Connected Accounts</span>
+                <span className="font-bold text-foreground">7</span>
+              </div>
+
+              <div>
+                <span className="text-[10px] text-muted-foreground uppercase block">Transactions</span>
+                <span className="font-bold text-foreground">31</span>
+              </div>
+
+              <div className="grid grid-cols-2 gap-2">
+                <div>
+                  <span className="text-[10px] text-muted-foreground uppercase block">First Seen</span>
+                  <span className="font-bold text-foreground text-[11px]">10:01:02</span>
                 </div>
-
-                <div className="space-y-3 font-mono text-xs">
-                  <div>
-                    <span className="text-[10px] text-muted-foreground block font-bold">Node ID</span>
-                    <span className="font-bold text-foreground text-sm">{selectedNode?.id || "D102"}</span>
-                  </div>
-
-                  <div>
-                    <span className="text-[10px] text-muted-foreground block font-bold">Description</span>
-                    <span className="font-bold text-foreground">{selectedNode?.label || "Hardware Laptop (Windows 11)"}</span>
-                  </div>
-
-                  <div>
-                    <span className="text-[10px] text-muted-foreground block font-bold">Blacklist Status</span>
-                    {blacklistedNodes[selectedNode?.id || "D102"] ? (
-                      <Badge variant="destructive" className="font-mono text-[10px] uppercase font-bold mt-1">
-                        BLACKLISTED ✗
-                      </Badge>
-                    ) : (
-                      <Badge variant="outline" className="font-mono text-[10px] uppercase font-bold mt-1 text-emerald-500 border-emerald-500/30">
-                        ACTIVE / CLEAN ✓
-                      </Badge>
-                    )}
-                  </div>
-
-                  <div>
-                    <span className="text-[10px] text-muted-foreground block font-bold">Syndicate Ring</span>
-                    <Link href="/investigations/RING-0042">
-                      <span className="text-rose-500 font-bold hover:underline cursor-pointer">
-                        RING-0042 (84 txs) →
-                      </span>
-                    </Link>
-                  </div>
+                <div>
+                  <span className="text-[10px] text-muted-foreground uppercase block">Last Seen</span>
+                  <span className="font-bold text-foreground text-[11px]">10:08:44</span>
                 </div>
+              </div>
 
-                <div className="pt-2 border-t border-border/40 space-y-2">
-                  <Button
-                    size="sm"
-                    variant={blacklistedNodes[selectedNode?.id || "D102"] ? "secondary" : "destructive"}
-                    onClick={() => handleToggleBlacklist(selectedNode?.id || "D102")}
-                    className="w-full text-xs font-bold rounded-xl cursor-pointer"
-                  >
-                    {blacklistedNodes[selectedNode?.id || "D102"] ? (
-                      <>
-                        <ShieldCheck className="h-3.5 w-3.5 mr-1 text-emerald-500" />
-                        <span>Remove from Blacklist</span>
-                      </>
-                    ) : (
-                      <>
-                        <Ban className="h-3.5 w-3.5 mr-1" />
-                        <span>Blacklist This Entity</span>
-                      </>
-                    )}
-                  </Button>
-
-                  <Link href="/investigations/RING-0042" className="block">
-                    <Button size="sm" variant="outline" className="w-full text-xs font-bold rounded-xl">
-                      <span>Open Syndicate Dossier →</span>
-                    </Button>
-                  </Link>
+              <div>
+                <span className="text-[10px] text-muted-foreground uppercase block">Connected Entities</span>
+                <div className="flex items-center gap-1.5 mt-1 flex-wrap">
+                  {["C001", "C007", "C012", "C018"].map((c) => (
+                    <span key={c} className="px-2 py-0.5 rounded bg-muted border border-border/60 text-[10px] font-bold">
+                      {c}
+                    </span>
+                  ))}
                 </div>
-              </Card>
+              </div>
             </div>
-          </div>
-        </CardContent>
-      </Card>
+
+            <div className="pt-2 border-t border-border/40 grid grid-cols-2 gap-2">
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => toast.info(`Viewing timeline for ${selectedNodeData.entityId || "D102"}`)}
+                className="h-8 text-[10px] font-bold font-mono rounded-xl cursor-pointer"
+              >
+                [VIEW TIMELINE]
+              </Button>
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => toast.info(`Focus locked to ${selectedNodeData.entityId || "D102"}`)}
+                className="h-8 text-[10px] font-bold font-mono rounded-xl cursor-pointer"
+              >
+                [FOCUS GRAPH]
+              </Button>
+            </div>
+          </Card>
+        </div>
+      </div>
     </div>
   );
 }

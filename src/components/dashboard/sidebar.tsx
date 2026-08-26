@@ -8,105 +8,60 @@ import {
   LayoutDashboard,
   Share2,
   Search,
-  Activity,
-  CreditCard,
-  Settings,
-  ShieldAlert,
-  Store,
-  Sliders,
-  ShieldCheck,
-  TrendingUp,
   Network,
-  Lock,
+  CreditCard,
+  Activity,
+  Sliders,
+  ShieldAlert,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { useAuth } from "@/providers/session-provider";
 
 export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = usePathname();
-  const { data: session } = useAuth();
-  const user = session?.user;
-  const role = user?.role || "ANALYST";
 
-  // 🌟 Distinct Navigation Items per Role
-  const getNavItems = () => {
-    if (role === "MERCHANT") {
-      return [
-        { name: "Store Dashboard", href: "/overview", icon: LayoutDashboard, badge: "Live" },
-        { name: "Orders & Payments", href: "/transactions", icon: CreditCard },
-        { name: "Blocked Threats", href: "/rings", icon: ShieldCheck, badge: "₹8.4L Saved" },
-        { name: "Store Settings", href: "/settings", icon: Settings },
-      ];
-    }
+  const navItems = [
+    { name: "OVERVIEW", href: "/overview", icon: LayoutDashboard },
+    { name: "ABUSE RINGS", href: "/rings", icon: Share2, badge: "3" },
+    { name: "INVESTIGATIONS", href: "/investigations/RING-0042", icon: Search },
+    { name: "GRAPH EXPLORER", href: "/graph", icon: Network },
+    { name: "TRANSACTIONS", href: "/transactions", icon: CreditCard },
+    { name: "MODEL EVALUATION", href: "/evaluation", icon: Activity, badge: "96.6%" },
+  ];
 
-    if (role === "ADMIN") {
-      return [
-        { name: "Executive Overview", href: "/overview", icon: LayoutDashboard },
-        { name: "Model Evaluation", href: "/evaluation", icon: Activity, badge: "96.6% F1" },
-        { name: "Abuse Syndicates", href: "/rings", icon: Share2, badge: "3 Active" },
-        { name: "Global Graph", href: "/graph", icon: Network },
-        { name: "All Transactions", href: "/transactions", icon: CreditCard },
-        { name: "Cost & Rules Config", href: "/settings", icon: Sliders },
-      ];
-    }
-
-    // Default: ANALYST (Flagship Investigation Mode)
-    return [
-      { name: "Threat Overview", href: "/overview", icon: LayoutDashboard },
-      { name: "Abuse Rings", href: "/rings", icon: Share2, badge: "3 Active" },
-      { name: "Flagship Investigation", href: "/investigations/RING-0042", icon: Search, badge: "Forensics" },
-      { name: "Graph Explorer", href: "/graph", icon: Network },
-      { name: "Transaction Ledger", href: "/transactions", icon: CreditCard },
-      { name: "Model Evaluation", href: "/evaluation", icon: Activity, badge: "Holdout" },
-      { name: "Settings", href: "/settings", icon: Settings },
-    ];
-  };
-
-  const navItems = getNavItems();
+  const systemItems = [
+    { name: "CONFIGURATION", href: "/settings", icon: Sliders },
+  ];
 
   return (
-    <div className="flex flex-col w-64 border-r border-border/40 bg-card/95 backdrop-blur-sm h-full shadow-sm">
+    <div className="flex flex-col w-64 border-r border-border/40 bg-card/95 backdrop-blur-sm h-full select-none shadow-sm">
       {/* Brand Header */}
-      <div className="p-4 sm:p-5 border-b border-border/40">
+      <div className="p-5 border-b border-border/40">
         <Link 
           href="/overview" 
           onClick={onNavigate}
           className="flex items-center gap-3 group"
         >
-          {/* Minimal Connected Ring Logo */}
-          <div className="p-2 rounded-xl bg-rose-500/10 text-rose-500 border border-rose-500/20 group-hover:bg-rose-500 group-hover:text-white transition-all duration-200 shadow-xs">
+          {/* Minimal connected-ring logo */}
+          <div className="p-2 rounded-xl bg-red-600/10 text-red-500 border border-red-600/25 group-hover:bg-red-600 group-hover:text-white transition-all duration-200 shadow-xs">
             <Share2 className="h-5 w-5 shrink-0" />
           </div>
           <div>
-            <h1 className="font-extrabold text-sm sm:text-base tracking-tight text-foreground leading-tight flex items-center gap-1.5 font-mono">
-              <span>PAYPILOT</span>
-              <span className="text-rose-500">AI</span>
+            <h1 className="font-extrabold text-sm sm:text-base tracking-tight text-foreground leading-tight font-mono">
+              ABUSE-RING<br />
+              <span className="text-red-500">SENTINEL</span>
             </h1>
-            <p className="text-[10px] text-muted-foreground font-medium leading-none mt-0.5 tracking-tight">
-              Abuse-Ring Sentinel
+            <p className="text-[9px] text-muted-foreground font-medium uppercase tracking-wider mt-0.5 font-mono">
+              Graph Risk Intelligence
             </p>
           </div>
         </Link>
       </div>
 
-      {/* Active Role Indicator */}
-      <div className="px-4 py-2.5 bg-muted/25 border-b border-border/30 flex items-center justify-between">
-        <span className="text-[10px] font-mono text-muted-foreground font-bold uppercase">
-          Current View:
-        </span>
-        <Badge
-          variant={role === "ANALYST" ? "destructive" : role === "MERCHANT" ? "default" : "secondary"}
-          className="font-mono text-[9px] uppercase font-bold py-0 h-4"
-        >
-          {role === "MERCHANT" ? "🏬 Store Owner" : role === "ADMIN" ? "⚡ Security Admin" : "🛡️ Fraud Analyst"}
-        </Badge>
-      </div>
-
-      {/* Main Navigation */}
+      {/* Main Navigation Items */}
       <div className="flex-1 overflow-y-auto px-3 py-4 space-y-6">
         <div>
-          <span className="text-[10px] font-bold text-muted-foreground/80 tracking-wider uppercase px-3 block mb-2 font-mono">
-            {role === "MERCHANT" ? "Store Navigation" : role === "ADMIN" ? "Admin Controls" : "Investigation Workspaces"}
+          <span className="text-[9px] font-bold text-muted-foreground/70 tracking-widest uppercase px-3 block mb-2 font-mono">
+            MONITOR & INVESTIGATE
           </span>
           <nav className="space-y-1">
             {navItems.map((item) => {
@@ -119,21 +74,21 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
                   href={item.href}
                   onClick={onNavigate}
                   className={cn(
-                    "flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-150",
+                    "flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold font-mono tracking-wider transition-all duration-150",
                     isActive
-                      ? "bg-rose-500/10 text-rose-500 font-bold border border-rose-500/20 shadow-xs"
+                      ? "bg-red-500/10 text-red-500 border border-red-500/25 shadow-xs dark:bg-red-500/15"
                       : "text-muted-foreground hover:bg-muted/60 hover:text-foreground"
                   )}
                 >
-                  <div className="flex items-center gap-3 min-w-0">
-                    <Icon className={cn("h-4 w-4 shrink-0", isActive ? "text-rose-500" : "text-muted-foreground")} />
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <Icon className={cn("h-3.5 w-3.5 shrink-0", isActive ? "text-red-500" : "text-muted-foreground")} />
                     <span className="truncate">{item.name}</span>
                   </div>
                   {item.badge && (
                     <span className={cn(
-                      "text-[10px] font-mono px-1.5 py-0.5 rounded-md font-bold uppercase",
+                      "text-[9px] font-mono px-1.5 py-0.2 rounded font-bold uppercase",
                       isActive
-                        ? "bg-rose-500 text-white"
+                        ? "bg-red-500 text-white"
                         : "bg-muted text-muted-foreground"
                     )}>
                       {item.badge}
@@ -144,21 +99,50 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
             })}
           </nav>
         </div>
+
+        {/* System Section */}
+        <div className="pt-2 border-t border-border/40">
+          <span className="text-[9px] font-bold text-muted-foreground/70 tracking-widest uppercase px-3 block mb-2 font-mono">
+            SYSTEM
+          </span>
+          <nav className="space-y-1">
+            {systemItems.map((item) => {
+              const isActive = pathname === item.href || pathname.startsWith(`${item.href}`);
+              const Icon = item.icon;
+
+              return (
+                <Link
+                  key={item.name + item.href}
+                  href={item.href}
+                  onClick={onNavigate}
+                  className={cn(
+                    "flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold font-mono tracking-wider transition-all duration-150",
+                    isActive
+                      ? "bg-red-500/10 text-red-500 border border-red-500/25 shadow-xs dark:bg-red-500/15"
+                      : "text-muted-foreground hover:bg-muted/60 hover:text-foreground"
+                  )}
+                >
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <Icon className={cn("h-3.5 w-3.5 shrink-0", isActive ? "text-red-500" : "text-muted-foreground")} />
+                    <span className="truncate">{item.name}</span>
+                  </div>
+                </Link>
+              );
+            })}
+          </nav>
+        </div>
       </div>
 
       {/* System Status Footer */}
-      <div className="p-3.5 border-t border-border/40 bg-muted/15 space-y-1.5">
-        <div className="flex items-center justify-between text-[11px] font-mono">
-          <span className="text-muted-foreground">Sentinel Engine:</span>
-          <span className="inline-flex items-center gap-1.5 text-emerald-500 font-bold">
+      <div className="p-4 border-t border-border/40 bg-muted/15 space-y-1 font-mono">
+        <span className="text-[9px] text-muted-foreground uppercase font-bold tracking-wider block">
+          SYSTEM STATUS
+        </span>
+        <div className="flex items-center justify-between text-xs pt-0.5">
+          <span className="text-foreground font-bold">Detection Engine</span>
+          <span className="inline-flex items-center gap-1.5 text-emerald-500 font-bold text-[11px]">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
-            ONLINE
-          </span>
-        </div>
-        <div className="flex items-center justify-between text-[10px] font-mono text-muted-foreground/80">
-          <span>Active Merchant:</span>
-          <span className="font-bold text-foreground truncate max-w-[110px]">
-            {role === "MERCHANT" ? "TechMart India" : "Global Gateway"}
+            Online
           </span>
         </div>
       </div>
