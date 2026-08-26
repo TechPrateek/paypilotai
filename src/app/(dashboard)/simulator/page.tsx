@@ -8,36 +8,25 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { CircularMetricGauge } from "@/components/charts/circular-metric-gauge";
 import { RiskGauge } from "@/components/dashboard/risk-gauge";
 import { RiskBadge } from "@/components/dashboard/risk-badge";
 import { DecisionBadge } from "@/components/dashboard/decision-badge";
 import { ConfidenceGauge } from "@/components/dashboard/confidence-gauge";
 import { StructuredEvidencePanel } from "@/components/transactions/structured-evidence-panel";
 import { DEMO_SCENARIOS, DemoScenario } from "@/constants/demo-scenarios";
-import { COUNTRIES } from "@/constants/countries";
 import {
-  CheckCircle,
-  AlertTriangle,
-  UserX,
   CreditCard,
   Zap,
-  Globe,
-  Sparkles,
   Shield,
   Clock,
-  UserCheck,
   Smartphone,
-  RefreshCw,
   ShieldAlert,
-  Cpu,
-  Layers,
-  Activity,
-  Share2,
   DollarSign,
-  ChevronDown,
-  Edit2,
+  Activity,
+  AlertTriangle,
   CheckCircle2,
+  Lock,
+  Sparkles,
 } from "lucide-react";
 import { formatCurrency } from "@/lib/utils";
 import { toast } from "sonner";
@@ -48,16 +37,16 @@ export default function SimulatorPage() {
   const [activeScenario, setActiveScenario] = useState<string | null>("1. Regular Returning Customer");
 
   const [formData, setFormData] = useState({
-    amount: 2400,
+    amount: 120,
     currency: "USD",
-    paymentMethod: "UPI",
+    paymentMethod: "Credit Card",
     country: "US",
     isNewDevice: false,
     isNewIp: false,
-    accountAgeDays: 380,
-    customerTotalTransactions: 42,
+    accountAgeDays: 180,
+    customerTotalTransactions: 15,
     previousFailedAttempts: 0,
-    transactionsInLast5Min: 0,
+    transactionsInLast5Min: 1,
     paymentInstrumentSwitchCount: 0,
     isProxyIp: false,
     isVpnIp: false,
@@ -121,173 +110,137 @@ export default function SimulatorPage() {
 
   return (
     <div className="space-y-6 p-3 sm:p-5 md:p-8 max-w-[1600px] mx-auto">
-      {/* 🌟 Simulation Benchmark Card (Matching Image 2) */}
-      <Card className="rounded-3xl border border-slate-200/80 dark:border-slate-800/80 shadow-md bg-card overflow-hidden">
-        <CardHeader className="p-5 pb-3 border-b border-border/40 bg-muted/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="flex flex-wrap items-center gap-3">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-background border border-border/60 shadow-xs">
-              <span className="font-bold text-xs sm:text-sm text-foreground">Simulation - 67889</span>
-              <Edit2 className="h-3 w-3 text-muted-foreground" />
-            </div>
-
-            <Button variant="outline" size="sm" className="h-8 text-xs font-semibold gap-1.5 rounded-xl">
-              <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" />
-              <span>View Simulations</span>
-              <ChevronDown className="h-3 w-3 text-muted-foreground" />
-            </Button>
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <div className="flex items-center gap-3">
+            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground">
+              Fraud-Spike Detector
+            </h1>
+            <Badge variant="outline" className="font-mono text-xs text-blue-500 border-blue-500/30">
+              Velocity Guard Active
+            </Badge>
           </div>
-
-          <div className="flex items-center gap-2">
-            <Button
-              size="sm"
-              onClick={() => toast.success("Simulation model applied to live pipeline!")}
-              className="h-8 px-4 text-xs font-bold bg-blue-900 hover:bg-blue-800 text-white rounded-xl shadow-xs"
-            >
-              Apply
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="h-8 text-xs font-semibold text-muted-foreground hover:text-foreground"
-            >
-              Close
-            </Button>
-          </div>
-        </CardHeader>
-
-        <CardContent className="p-6 space-y-6">
-          {/* 5 Circular Metric Donut Gauges Row (Matching Image 2) */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 justify-items-center py-2 border-b border-border/40 pb-6">
-            <CircularMetricGauge
-              percentage={97.31}
-              label="Approvals"
-              trend="10.25%"
-              trendDirection="down"
-              color="#10B981"
-            />
-            <CircularMetricGauge
-              percentage={0.62}
-              label="Rejections"
-              trend="1.01%"
-              trendDirection="down"
-              color="#F43F5E"
-            />
-            <CircularMetricGauge
-              percentage={0.10}
-              label="Claims / Chargebacks"
-              trend="0.08%"
-              trendDirection="down"
-              color="#B91C1C"
-            />
-            <CircularMetricGauge
-              percentage={0.72}
-              label="Issuer declines"
-              trend="8.34%"
-              trendDirection="down"
-              color="#1E293B"
-            />
-            <CircularMetricGauge
-              percentage={1.25}
-              label="Review"
-              trend="0.84%"
-              trendDirection="down"
-              color="#3B82F6"
-            />
-          </div>
-
-          {/* Bottom Financial Volume Impact Stats (Matching Image 2) */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center divide-y sm:divide-y-0 sm:divide-x divide-border/40 pt-1">
-            <div className="space-y-1">
-              <span className="text-xs font-semibold text-muted-foreground block">
-                Total Payment Volume
-              </span>
-              <div className="text-xl sm:text-2xl font-extrabold text-foreground font-mono">
-                $6,223.40
-              </div>
-              <div className="inline-block h-1.5 w-12 rounded-full bg-rose-500/80" />
-            </div>
-
-            <div className="space-y-1 pt-3 sm:pt-0">
-              <span className="text-xs font-semibold text-muted-foreground block">
-                Total Chargeback
-              </span>
-              <div className="text-xl sm:text-2xl font-extrabold text-foreground font-mono">
-                $567.45
-              </div>
-              <div className="inline-block h-1.5 w-12 rounded-full bg-emerald-500/80" />
-            </div>
-
-            <div className="space-y-1 pt-3 sm:pt-0">
-              <span className="text-xs font-semibold text-muted-foreground block">
-                Total Issuer Decline
-              </span>
-              <div className="text-xl sm:text-2xl font-extrabold text-foreground font-mono">
-                $0.01
-              </div>
-              <div className="inline-block h-1.5 w-12 rounded-full bg-emerald-500/80" />
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Simulator Section Header */}
-      <div>
-        <div className="flex items-center gap-3">
-          <h2 className="text-2xl font-bold tracking-tight">Fraud-Spike & Bot Simulator</h2>
-          <Badge variant="secondary" className="font-mono text-xs bg-primary/10 text-primary border-primary/20">
-            Interactive Tester
-          </Badge>
+          <p className="text-xs sm:text-sm text-muted-foreground mt-0.5 font-medium">
+            Monitors rapid card-testing bot attacks, sliding-window velocity bursts, and protects first-time buyers.
+          </p>
         </div>
-        <p className="text-muted-foreground text-xs sm:text-sm mt-0.5">
-          Simulate rapid card testing, velocity spikes, and "New ≠ Fraud" false-positive protection scenarios.
-        </p>
+
+        <div className="flex items-center gap-2">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-blue-500/10 text-blue-500 border border-blue-500/20 text-xs font-bold shadow-xs">
+            <Zap className="h-3.5 w-3.5" />
+            <span>5-Min Velocity Limiter Active</span>
+          </div>
+        </div>
       </div>
 
-      {/* Sample Scenarios Buttons */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-        {DEMO_SCENARIOS.slice(0, 4).map((scenario) => {
-          const isSelected = activeScenario === scenario.name;
-          return (
-            <Card
-              key={scenario.name}
-              className={`cursor-pointer transition-all duration-150 rounded-2xl hover:shadow-md border ${
-                isSelected
-                  ? "border-primary ring-1 ring-primary bg-primary/5 shadow-xs"
-                  : "border-border/60 hover:border-primary/50"
-              }`}
-              onClick={() => loadScenario(scenario)}
-            >
-              <CardContent className="p-4 space-y-1.5">
-                <span className="font-bold text-xs text-foreground block">
-                  {scenario.name}
-                </span>
-                <p className="text-[11px] text-muted-foreground line-clamp-2">
-                  {scenario.description}
-                </p>
-                <div className="flex items-center justify-between pt-1 border-t border-border/40 text-[10px]">
-                  <span className="text-muted-foreground font-medium">Expected:</span>
-                  <Badge
-                    variant={scenario.expectedDecision === "BLOCK" ? "destructive" : scenario.expectedDecision === "REVIEW" ? "secondary" : "outline"}
-                    className="text-[10px] py-0 px-1.5 h-4 font-normal"
-                  >
-                    {scenario.expectedDecision}
-                  </Badge>
-                </div>
-              </CardContent>
-            </Card>
-          );
-        })}
+      {/* 3 Live Velocity Health Indicators */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <Card className="rounded-2xl border border-slate-200/80 dark:border-slate-800/80 shadow-xs bg-card">
+          <CardContent className="p-5 flex flex-col justify-between h-full space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider">
+                CURRENT PAYMENT VELOCITY
+              </span>
+              <div className="p-2 rounded-xl bg-blue-500/10 text-blue-500">
+                <Activity className="h-5 w-5" />
+              </div>
+            </div>
+            <div>
+              <div className="text-3xl font-extrabold text-foreground font-mono">1.2 tx / min</div>
+              <p className="text-xs font-semibold text-emerald-500 mt-1">Normal Safe Range (&lt; 5.0)</p>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="rounded-2xl border border-slate-200/80 dark:border-slate-800/80 shadow-xs bg-card">
+          <CardContent className="p-5 flex flex-col justify-between h-full space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider">
+                CARD-TESTING BOTS BLOCKED
+              </span>
+              <div className="p-2 rounded-xl bg-rose-500/10 text-rose-500">
+                <ShieldAlert className="h-5 w-5" />
+              </div>
+            </div>
+            <div>
+              <div className="text-3xl font-extrabold text-foreground font-mono">14 Attempts</div>
+              <p className="text-xs font-semibold text-rose-500 mt-1">100% Bot Spikes Mitigated</p>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="rounded-2xl border border-slate-200/80 dark:border-slate-800/80 shadow-xs bg-card">
+          <CardContent className="p-5 flex flex-col justify-between h-full space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider">
+                "NEW ≠ FRAUD" PROTECTION
+              </span>
+              <div className="p-2 rounded-xl bg-emerald-500/10 text-emerald-500">
+                <CheckCircle2 className="h-5 w-5" />
+              </div>
+            </div>
+            <div>
+              <div className="text-3xl font-extrabold text-foreground font-mono">100% Safe</div>
+              <p className="text-xs font-semibold text-emerald-500 mt-1">Zero First-Time Buyers Blocked</p>
+            </div>
+          </CardContent>
+        </Card>
       </div>
 
-      {/* Simulator Interactive Grid */}
+      {/* 4 Clickable Scenarios */}
+      <div>
+        <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider block mb-2 px-1">
+          Click any scenario to test how the Fraud-Spike Detector handles it:
+        </span>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          {DEMO_SCENARIOS.slice(0, 4).map((scenario) => {
+            const isSelected = activeScenario === scenario.name;
+            return (
+              <Card
+                key={scenario.name}
+                className={`cursor-pointer transition-all duration-150 rounded-2xl hover:shadow-md border ${
+                  isSelected
+                    ? "border-primary ring-1 ring-primary bg-primary/5 shadow-xs"
+                    : "border-border/60 hover:border-primary/50"
+                }`}
+                onClick={() => loadScenario(scenario)}
+              >
+                <CardContent className="p-4 space-y-1.5">
+                  <span className="font-bold text-xs text-foreground block">
+                    {scenario.name}
+                  </span>
+                  <p className="text-[11px] text-muted-foreground line-clamp-2">
+                    {scenario.description}
+                  </p>
+                  <div className="flex items-center justify-between pt-1 border-t border-border/40 text-[10px]">
+                    <span className="text-muted-foreground font-medium">Expected Result:</span>
+                    <Badge
+                      variant={scenario.expectedDecision === "BLOCK" ? "destructive" : scenario.expectedDecision === "REVIEW" ? "secondary" : "outline"}
+                      className="text-[10px] py-0 px-1.5 h-4 font-bold"
+                    >
+                      {scenario.expectedDecision}
+                    </Badge>
+                  </div>
+                </CardContent>
+              </Card>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Interactive Simulator Grid: Left Form / Right Decision Output */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* Left: Input Form */}
+        {/* Left: Input Form (6 cols) */}
         <div className="lg:col-span-6 space-y-4">
           <Card className="rounded-2xl border border-slate-200/80 dark:border-slate-800/80 shadow-xs">
             <CardHeader className="p-5 pb-3 border-b border-border/40 bg-muted/10">
               <CardTitle className="text-sm font-bold flex items-center gap-2">
-                <CreditCard className="h-4 w-4 text-primary" /> Order Parameters
+                <CreditCard className="h-4 w-4 text-primary" /> Test Order Parameters
               </CardTitle>
+              <CardDescription className="text-xs">
+                Adjust order amount, velocity attempts, and customer history
+              </CardDescription>
             </CardHeader>
             <CardContent className="p-5 space-y-4">
               <div className="grid grid-cols-2 gap-3 text-xs">
@@ -320,13 +273,15 @@ export default function SimulatorPage() {
                 </div>
 
                 <div className="space-y-1">
-                  <Label className="text-xs">Customer Past Orders</Label>
+                  <Label className="text-xs">Customer's Past Orders</Label>
                   <Input
                     type="number"
                     value={formData.customerTotalTransactions}
                     onChange={(e) => setFormData({ ...formData, customerTotalTransactions: Number(e.target.value) })}
                     className="h-8 text-xs font-mono rounded-xl"
+                    placeholder="0 for First-Time Buyer"
                   />
+                  <span className="text-[10px] text-muted-foreground">0 = First-Time Buyer (Protected)</span>
                 </div>
 
                 <div className="space-y-1">
@@ -337,20 +292,28 @@ export default function SimulatorPage() {
                     onChange={(e) => setFormData({ ...formData, transactionsInLast5Min: Number(e.target.value) })}
                     className="h-8 text-xs font-mono rounded-xl"
                   />
+                  <span className="text-[10px] text-muted-foreground">&gt; 10 = Velocity Bot Spike</span>
                 </div>
               </div>
 
               {/* Switches */}
-              <div className="pt-2 border-t border-border/40 space-y-2 text-xs">
+              <div className="pt-2 border-t border-border/40 space-y-2.5 text-xs">
                 <div className="flex items-center justify-between">
-                  <Label className="text-xs font-normal">New Device / Phone</Label>
+                  <div>
+                    <Label className="text-xs font-normal">Customer on a New Phone / Laptop</Label>
+                    <p className="text-[10px] text-muted-foreground">Weak signal: Never blocked on its own</p>
+                  </div>
                   <Switch
                     checked={formData.isNewDevice}
                     onCheckedChange={(val) => setFormData({ ...formData, isNewDevice: val })}
                   />
                 </div>
+
                 <div className="flex items-center justify-between">
-                  <Label className="text-xs font-normal">Tor / Proxy Network</Label>
+                  <div>
+                    <Label className="text-xs font-normal">Hidden Location (Tor / Proxy Network)</Label>
+                    <p className="text-[10px] text-muted-foreground">Masked IP network</p>
+                  </div>
                   <Switch
                     checked={formData.isTorIp || formData.isProxyIp}
                     onCheckedChange={(val) => setFormData({ ...formData, isTorIp: val, isProxyIp: val })}
@@ -363,13 +326,13 @@ export default function SimulatorPage() {
                 disabled={loading}
                 className="w-full h-9 font-bold text-xs rounded-xl shadow-xs mt-2"
               >
-                {loading ? "Evaluating Safety..." : "Run Risk Analysis →"}
+                {loading ? "Checking Order Safety..." : "Test Payment Safety →"}
               </Button>
             </CardContent>
           </Card>
         </div>
 
-        {/* Right: Live Decision Result */}
+        {/* Right: Live Decision Result (6 cols) */}
         <div className="lg:col-span-6 space-y-4">
           <Card className="rounded-2xl border border-slate-200/80 dark:border-slate-800/80 shadow-md">
             <CardHeader className="p-5 pb-3 border-b border-border/40 bg-muted/10">
@@ -377,7 +340,7 @@ export default function SimulatorPage() {
                 <span>AI Decision Engine Output</span>
                 {result && (
                   <Badge variant="outline" className="font-mono text-xs">
-                    {result.processingTimeMs || 12}ms
+                    {result.processingTimeMs || 12}ms analysis
                   </Badge>
                 )}
               </CardTitle>
@@ -393,6 +356,33 @@ export default function SimulatorPage() {
                     </div>
                   </div>
 
+                  {/* Expected Business Loss Reasoning */}
+                  {result.expectedCosts && (
+                    <div className="p-3.5 rounded-xl bg-primary/5 border border-primary/20 space-y-1.5 text-xs">
+                      <div className="flex items-center justify-between">
+                        <span className="font-bold text-foreground flex items-center gap-1">
+                          <DollarSign className="h-3.5 w-3.5 text-primary" /> Cost-Aware Expected Loss
+                        </span>
+                        <span className="text-[10px] font-mono text-muted-foreground">C_FP: $450 | C_FN: $4,500</span>
+                      </div>
+                      <div className="grid grid-cols-2 gap-2 pt-1">
+                        <div className="p-2 rounded-lg bg-background/90 border border-border/40">
+                          <span className="text-[10px] text-muted-foreground block">Loss if Approved</span>
+                          <span className="font-bold text-rose-500 font-mono">
+                            ${result.expectedCosts.approveExpectedLoss.toLocaleString()}
+                          </span>
+                        </div>
+                        <div className="p-2 rounded-lg bg-background/90 border border-border/40">
+                          <span className="text-[10px] text-muted-foreground block">Loss if Blocked</span>
+                          <span className="font-bold text-amber-500 font-mono">
+                            ${result.expectedCosts.blockExpectedLoss.toLocaleString()}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Evidence Breakdown */}
                   {result.evidence && (
                     <StructuredEvidencePanel evidenceList={result.evidence} />
                   )}
@@ -401,6 +391,9 @@ export default function SimulatorPage() {
                 <div className="flex flex-col items-center justify-center h-[260px] text-center text-muted-foreground">
                   <Shield className="h-10 w-10 mb-2 opacity-30 text-primary" />
                   <p className="text-xs font-semibold text-foreground">Ready to test order safety</p>
+                  <p className="text-[11px] text-muted-foreground mt-0.5 max-w-xs">
+                    Choose one of the sample scenarios above or enter order parameters to run the velocity test.
+                  </p>
                 </div>
               )}
             </CardContent>
