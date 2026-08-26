@@ -1,12 +1,13 @@
 """
 Abuse-Ring Sentinel — FastAPI Backend Service
-Provides graph investigation, ring detection, timeline analysis, and empirical evaluation APIs.
+Provides graph investigation, ring detection, timeline analysis, real-time ML inference, and empirical evaluation APIs.
 """
 
 import json
 import os
 import sys
-from fastapi import FastAPI, HTTPException
+import time
+from fastapi import FastAPI, HTTPException, Body
 from fastapi.middleware.cors import CORSMiddleware
 from typing import Dict, Any, List, Optional
 from pydantic import BaseModel
@@ -14,6 +15,8 @@ from pydantic import BaseModel
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from dataset.generator import generate_synthetic_dataset
 from evaluation.heldout_evaluator import run_heldout_evaluation
+from models.hybrid_model import HybridRiskAggregator
+from app.schemas import TransactionPredictionRequest, PredictionResponse
 
 app = FastAPI(
     title="Abuse-Ring Sentinel API",
@@ -31,6 +34,9 @@ app.add_middleware(
 
 DATASET_PATH = os.path.join(os.path.dirname(__file__), "..", "dataset", "synthetic_abuse_dataset.json")
 EVAL_PATH = os.path.join(os.path.dirname(__file__), "..", "dataset", "evaluation_results.json")
+
+# Persistent Hybrid Aggregator instance
+risk_aggregator = HybridRiskAggregator()
 
 def load_data() -> Dict[str, Any]:
     if not os.path.exists(DATASET_PATH):
@@ -50,8 +56,102 @@ def health():
         "status": "healthy",
         "service": "Abuse-Ring Sentinel",
         "detection_engine": "ONLINE",
+        "model_version": "abuse-ring-sentinel-v1.0",
         "environment": "SYNTHETIC_EVALUATION"
     }
+
+# =========================================================================
+# 0. Real ML Inference Endpoint (/api/predict)
+# =========================================================================
+@app.post("/api/predict")
+def predict_transaction(req: TransactionPredictionRequest):
+    """
+    Real-time multi-modal fraud & abuse-ring inference:
+    Tabular + Behavioral + Graph Relational Scoring + Cost-Optimal Decisioning.
+    """
+    try:
+        req_dict = req.dict()
+        eval_result = risk_aggregator.evaluate(req_dict)
+        
+        # Determine risk level
+        score = eval_result["riskScore"]
+        if score >= 80:
+            risk_level = "CRITICAL"
+        elif score >= 60:
+            risk_level = "HIGH"
+        elif score >= 30:
+            risk_level = "MEDIUM"
+        else:
+            risk_level = "LOW"
+            
+        # Map decision format
+        decision = eval_result["decision"]
+        if decision == "APPROVE" and score >= 30:
+            decision_code = "APPROVE_WITH_MONITORING"
+        else:
+            decision_code = decision
+
+        # Extract risk factors with explicit contributions
+        factors = []
+        model_breakdown = eval_result.get("modelBreakdown", {})
+        if model_breakdown.get("gnn", 0) >= 0.5:
+            factors.append({
+                "name": "shared_entity_infrastructure",
+                "category": "GRAPH",
+                "severity": "CRITICAL" if model_breakdown.get("gnn", 0) >= 0.75 else "HIGH",
+                "score_contribution": int(round(model_breakdown.get("gnn", 0) * 35)),
+                "explanation": f"Elevated multi-hop entity sharing score ({model_breakdown.get('gnn', 0):.2f}) across devices/IPs."
+            })
+        if model_breakdown.get("lightgbm", 0) >= 0.5:
+            factors.append({
+                "name": "tabular_fraud_anomaly",
+                "category": "TRANSACTION",
+                "severity": "HIGH",
+                "score_contribution": int(round(model_breakdown.get("lightgbm", 0) * 30)),
+                "explanation": f"Tabular risk classifier estimated fraud probability of {model_breakdown.get('lightgbm', 0):.2f}."
+            })
+        if model_breakdown.get("behavioral", 0) >= 0.5:
+            factors.append({
+                "name": "behavioral_deviation",
+                "category": "BEHAVIOR",
+                "severity": "HIGH" if model_breakdown.get("behavioral", 0) >= 0.75 else "MEDIUM",
+                "score_contribution": int(round(model_breakdown.get("behavioral", 0) * 25)),
+                "explanation": f"Transaction deviates significantly from customer historical baseline."
+            })
+            
+        return {
+            "transaction_id": req.transactionId or f"tx_{int(time.time()*1000)}",
+            "transactionId": req.transactionId or f"tx_{int(time.time()*1000)}",
+            "risk_probability": eval_result["riskProbability"],
+            "riskProbability": eval_result["riskProbability"],
+            "risk_score": eval_result["riskScore"],
+            "riskScore": eval_result["riskScore"],
+            "ring_risk": eval_result.get("ringRisk", 0.0),
+            "ringRisk": eval_result.get("ringRisk", 0.0),
+            "risk_level": risk_level,
+            "riskLevel": risk_level,
+            "decision": decision_code,
+            "confidence": eval_result["confidence"],
+            "model_version": "abuse-ring-sentinel-v1.0",
+            "modelVersion": "abuse-ring-sentinel-v1.0",
+            "anomaly_score": eval_result.get("anomalyScore", 0.0),
+            "anomalyScore": eval_result.get("anomalyScore", 0.0),
+            "risk_factors": factors,
+            "risk_evidence": eval_result.get("evidence", []),
+            "evidence": eval_result.get("evidence", []),
+            "data_availability": eval_result.get("dataAvailability", {}),
+            "dataAvailability": eval_result.get("dataAvailability", {}),
+            "model_breakdown": eval_result.get("modelBreakdown", {}),
+            "modelBreakdown": eval_result.get("modelBreakdown", {}),
+            "expected_costs": eval_result.get("expectedCosts", {}),
+            "expectedCosts": eval_result.get("expectedCosts", {}),
+            "processing_time_ms": eval_result.get("processingTimeMs", 8),
+            "processingTimeMs": eval_result.get("processingTimeMs", 8),
+            "is_fallback": False
+        }
+    except Exception as e:
+        print(f"Error during ML inference: {e}")
+        raise HTTPException(status_code=500, detail=f"Inference execution failed: {str(e)}")
 
 # =========================================================================
 # 1. Rings APIs
@@ -64,7 +164,8 @@ def get_rings():
         "total_rings": len(data["rings"]),
         "active_rings_count": sum(1 for r in data["rings"] if r["status"] == "ACTIVE_THREAT"),
         "critical_rings_count": sum(1 for r in data["rings"] if r["severity"] == "CRITICAL"),
-        "total_exposure": sum(r["exposure"] for r in data["rings"])
+        "total_exposure": sum(r["exposure"] for r in data["rings"]),
+        "total_accounts_affected": sum(r["accounts_count"] for r in data["rings"])
     }
 
 @app.get("/api/rings/{ring_id}")
@@ -74,7 +175,6 @@ def get_ring_detail(ring_id: str):
     if not ring:
         raise HTTPException(status_code=404, detail=f"Ring '{ring_id}' not found")
         
-    # Calculate blast radius from real transactions
     ring_txs = [tx for tx in data["transactions"] if tx.get("cluster_id") == ring["id"]]
     customers = list({tx["customer_id"] for tx in ring_txs})
     devices = list({tx["device_id"] for tx in ring_txs})
@@ -196,7 +296,6 @@ def get_ring_timeline(ring_id: str):
     ring_txs = [tx for tx in data["transactions"] if tx.get("cluster_id") == ring_id.upper()]
     ring_txs.sort(key=lambda x: x["timestamp_unix"])
     
-    # Calculate burst intensity (transactions in short windows)
     first_time = ring_txs[0]["timestamp_unix"] if ring_txs else 0
     last_time = ring_txs[-1]["timestamp_unix"] if ring_txs else 0
     duration_sec = max(last_time - first_time, 1)
@@ -220,20 +319,6 @@ def get_ring_timeline(ring_id: str):
         ]
     }
 
-@app.get("/api/rings/{ring_id}/signals")
-def get_ring_signals(ring_id: str):
-    data = load_data()
-    ring = next((r for r in data["rings"] if r["id"].upper() == ring_id.upper()), None)
-    if not ring:
-        raise HTTPException(status_code=404, detail=f"Ring '{ring_id}' not found")
-    return {"ring_id": ring["id"], "signals": ring["signals"]}
-
-@app.get("/api/rings/{ring_id}/transactions")
-def get_ring_transactions(ring_id: str):
-    data = load_data()
-    ring_txs = [tx for tx in data["transactions"] if tx.get("cluster_id") == ring_id.upper()]
-    return {"ring_id": ring_id, "transactions": ring_txs, "count": len(ring_txs)}
-
 # =========================================================================
 # 2. Entity & Transaction APIs
 # =========================================================================
@@ -252,7 +337,6 @@ def get_entity_profile(entity_id: str):
     
     first_seen = min(tx["timestamp"] for tx in txs)
     last_seen = max(tx["timestamp"] for tx in txs)
-    
     is_suspicious = any(tx["is_fraud"] for tx in txs)
     
     return {
@@ -281,21 +365,23 @@ def get_transactions(limit: int = 100):
     }
 
 # =========================================================================
-# 3. Model Evaluation APIs (Held-Out Test Set)
+# 3. Model Evaluation & Retraining APIs (Held-Out Test Set)
 # =========================================================================
 @app.get("/api/evaluation/metrics")
 def get_evaluation_metrics():
     return load_evaluation()
 
-@app.get("/api/evaluation/thresholds")
-def get_evaluation_thresholds():
-    eval_data = load_evaluation()
+@app.post("/api/evaluation/run")
+@app.post("/api/evaluation/retrain")
+def run_evaluation_pipeline():
+    """
+    Executes real held-out test evaluation against synthetic abuse dataset.
+    """
+    results = run_heldout_evaluation()
     return {
-        "selected_threshold": eval_data["protocol"]["selected_threshold"],
-        "thresholds": eval_data["threshold_analysis"]
+        "success": True,
+        "status": "EVALUATION_COMPLETED",
+        "timestamp": time.time(),
+        "metrics": results["sentinel_metrics"],
+        "protocol": results["protocol"]
     }
-
-@app.get("/api/evaluation/protocol")
-def get_evaluation_protocol():
-    eval_data = load_evaluation()
-    return eval_data["protocol"]
