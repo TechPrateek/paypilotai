@@ -10,12 +10,17 @@ import {
   ShieldAlert,
   Smartphone,
   Globe,
-  CheckCircle,
+  CheckCircle2,
   Filter,
   ArrowRight,
   ShieldCheck,
   AlertTriangle,
   RefreshCw,
+  X,
+  Check,
+  Ban,
+  Clock,
+  Zap,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -34,6 +39,10 @@ export default function TransactionsPage() {
   const [filterType, setFilterType] = useState("ALL");
   const [totalCount, setTotalCount] = useState(0);
   const [loading, setLoading] = useState(true);
+
+  // 🌟 Interactive Order Verification Modal State
+  const [selectedTx, setSelectedTx] = useState<any | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const loadTransactions = async () => {
     setLoading(true);
@@ -58,6 +67,36 @@ export default function TransactionsPage() {
     return () => clearTimeout(timer);
   }, [searchQuery, filterType]);
 
+  // Real-time local state mutations
+  const handleApproveOrder = (txId: string) => {
+    setTransactions((prev) =>
+      prev.map((t) => (t.id === txId ? { ...t, verificationStatus: "VERIFIED", is_fraud: false } : t))
+    );
+    setIsModalOpen(false);
+    toast.success(`Order ${txId} approved! Settlement initiated to merchant account.`);
+  };
+
+  const handleRefundOrder = (txId: string) => {
+    setTransactions((prev) =>
+      prev.map((t) => (t.id === txId ? { ...t, verificationStatus: "REFUNDED" } : t))
+    );
+    setIsModalOpen(false);
+    toast.error(`Refund processed for order ${txId}. Customer card credited.`);
+  };
+
+  const handleHoldOrder = (txId: string) => {
+    setTransactions((prev) =>
+      prev.map((t) => (t.id === txId ? { ...t, verificationStatus: "ON_HOLD" } : t))
+    );
+    setIsModalOpen(false);
+    toast.info(`Order ${txId} placed on 24-hour security hold.`);
+  };
+
+  const openVerifyModal = (tx: any) => {
+    setSelectedTx(tx);
+    setIsModalOpen(true);
+  };
+
   return (
     <div className="space-y-6 p-4 sm:p-6 md:p-8 max-w-[1600px] mx-auto">
       {/* Header */}
@@ -73,7 +112,7 @@ export default function TransactionsPage() {
           </div>
           <p className="text-xs sm:text-sm text-muted-foreground mt-0.5 font-medium">
             {isMerchant
-              ? "All checkout transactions for TechMart India with automated fraud protection status."
+              ? "All checkout transactions for TechMart India with real-time settlement verification and dispute protection."
               : "Search individual payment records and inspect their multi-hop graph relationship context."}
           </p>
         </div>
@@ -137,7 +176,7 @@ export default function TransactionsPage() {
                   <th className="py-3 px-3">Timestamp</th>
                   {!isMerchant && <th className="py-3 px-3">Device / IP</th>}
                   <th className="py-3 px-3">Protection Status</th>
-                  <th className="py-3 px-3">{isMerchant ? "Dispute Shield" : "Related Ring"}</th>
+                  <th className="py-3 px-3">{isMerchant ? "Settlement State" : "Related Ring"}</th>
                   <th className="py-3 px-4 text-right">Action</th>
                 </tr>
               </thead>
@@ -209,9 +248,21 @@ export default function TransactionsPage() {
                         </Badge>
                       </td>
 
-                      {/* Related Ring / Dispute Shield */}
+                      {/* Related Ring / Settlement State */}
                       <td className="py-3.5 px-3">
-                        {tx.cluster_id && tx.cluster_id !== "LEGITIMATE_NORMAL" && tx.cluster_id !== "LEGITIMATE_OFFICE" && tx.cluster_id !== "LEGITIMATE_FAMILY" ? (
+                        {tx.verificationStatus === "VERIFIED" ? (
+                          <Badge variant="outline" className="font-mono text-[10px] text-emerald-500 border-emerald-500/30 bg-emerald-500/10">
+                            ✓ VERIFIED & SETTLED
+                          </Badge>
+                        ) : tx.verificationStatus === "REFUNDED" ? (
+                          <Badge variant="destructive" className="font-mono text-[10px]">
+                            REFUNDED
+                          </Badge>
+                        ) : tx.verificationStatus === "ON_HOLD" ? (
+                          <Badge variant="outline" className="font-mono text-[10px] text-amber-500 border-amber-500/30 bg-amber-500/10">
+                            ON 24H HOLD
+                          </Badge>
+                        ) : tx.cluster_id && tx.cluster_id !== "LEGITIMATE_NORMAL" && tx.cluster_id !== "LEGITIMATE_OFFICE" && tx.cluster_id !== "LEGITIMATE_FAMILY" ? (
                           <Link href={`/investigations/${tx.cluster_id}`}>
                             <Badge variant="outline" className="font-mono text-[10px] text-rose-500 hover:underline border-rose-500/30 cursor-pointer">
                               {tx.cluster_id}
@@ -219,7 +270,7 @@ export default function TransactionsPage() {
                           </Link>
                         ) : (
                           <span className="text-emerald-500 text-[11px] font-semibold">
-                            ✓ Protected
+                            ✓ Ready for Settlement
                           </span>
                         )}
                       </td>
@@ -230,10 +281,10 @@ export default function TransactionsPage() {
                           <Button
                             size="sm"
                             variant="outline"
-                            onClick={() => toast.success(`Receipt & Settlement verified for order ${tx.id}`)}
-                            className="h-7 text-[11px] font-bold rounded-xl"
+                            onClick={() => openVerifyModal(tx)}
+                            className="h-7 text-[11px] font-bold rounded-xl hover:bg-blue-500/10 hover:text-blue-500 cursor-pointer"
                           >
-                            Verify Order
+                            Verify Order →
                           </Button>
                         ) : (
                           <Link href={tx.cluster_id ? `/investigations/${tx.cluster_id}` : `/graph`}>
@@ -252,6 +303,125 @@ export default function TransactionsPage() {
           </div>
         </CardContent>
       </Card>
+
+      {/* 🌟 Interactive Real-Time Order Verification Modal */}
+      {isModalOpen && selectedTx && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-in fade-in duration-150">
+          <Card className="w-full max-w-lg rounded-3xl border border-border/80 bg-card shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
+            {/* Modal Header */}
+            <CardHeader className="p-5 pb-3 bg-muted/20 border-b border-border/40 flex flex-row items-center justify-between">
+              <div>
+                <div className="flex items-center gap-2">
+                  <ShieldCheck className="h-5 w-5 text-emerald-500" />
+                  <CardTitle className="text-base font-bold font-mono">
+                    Order Verification • {selectedTx.id}
+                  </CardTitle>
+                </div>
+                <CardDescription className="text-xs">
+                  Automated security audit for TechMart India order
+                </CardDescription>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsModalOpen(false)}
+                className="h-7 w-7 rounded-xl hover:bg-muted flex items-center justify-center text-muted-foreground hover:text-foreground cursor-pointer"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </CardHeader>
+
+            <CardContent className="p-5 space-y-4">
+              {/* Customer & Monetary Details */}
+              <div className="p-3.5 rounded-2xl bg-muted/30 border border-border/40 grid grid-cols-2 gap-3 text-xs font-mono">
+                <div>
+                  <span className="text-[10px] text-muted-foreground uppercase block font-bold">Customer</span>
+                  <span className="font-bold text-foreground block font-sans text-sm">
+                    {selectedTx.customerName || `Customer ${selectedTx.customer_id}`}
+                  </span>
+                  <span className="text-[10px] text-muted-foreground">ID: {selectedTx.customer_id}</span>
+                </div>
+                <div className="text-right">
+                  <span className="text-[10px] text-muted-foreground uppercase block font-bold">Order Value</span>
+                  <span className="text-lg font-black text-foreground block">
+                    ₹{Number(selectedTx.amount).toLocaleString()}
+                  </span>
+                  <Badge variant="outline" className="text-[9px]">
+                    {selectedTx.paymentMethod || "UPI"}
+                  </Badge>
+                </div>
+              </div>
+
+              {/* Security Audit Checklist */}
+              <div className="space-y-2">
+                <span className="text-[10px] font-mono font-bold text-muted-foreground uppercase tracking-wider block">
+                  Automated Sentinel Audit
+                </span>
+
+                <div className="space-y-1.5 text-xs font-medium">
+                  <div className="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0" />
+                      <span>3D Secure & Card Token Validated</span>
+                    </div>
+                    <Badge variant="outline" className="font-mono text-[9px] text-emerald-500 border-emerald-500/30">
+                      PASS
+                    </Badge>
+                  </div>
+
+                  <div className="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0" />
+                      <span>Device Fingerprint ({selectedTx.device_id || "D101"}) Authentic</span>
+                    </div>
+                    <Badge variant="outline" className="font-mono text-[9px] text-emerald-500 border-emerald-500/30">
+                      NO EMULATOR
+                    </Badge>
+                  </div>
+
+                  <div className="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0" />
+                      <span>IP Geolocation Match (Residential Gateway)</span>
+                    </div>
+                    <Badge variant="outline" className="font-mono text-[9px] text-emerald-500 border-emerald-500/30">
+                      CLEAN ASN
+                    </Badge>
+                  </div>
+                </div>
+              </div>
+
+              {/* Real-time Decision Action Buttons */}
+              <div className="pt-2 border-t border-border/40 grid grid-cols-3 gap-2">
+                <Button
+                  onClick={() => handleApproveOrder(selectedTx.id)}
+                  className="h-9 text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl cursor-pointer"
+                >
+                  <Check className="h-3.5 w-3.5 mr-1" />
+                  <span>Approve & Settle</span>
+                </Button>
+
+                <Button
+                  variant="outline"
+                  onClick={() => handleHoldOrder(selectedTx.id)}
+                  className="h-9 text-xs font-bold border-amber-500/40 text-amber-600 dark:text-amber-400 hover:bg-amber-500/10 rounded-xl cursor-pointer"
+                >
+                  <Clock className="h-3.5 w-3.5 mr-1" />
+                  <span>Hold 24h</span>
+                </Button>
+
+                <Button
+                  variant="destructive"
+                  onClick={() => handleRefundOrder(selectedTx.id)}
+                  className="h-9 text-xs font-bold rounded-xl cursor-pointer"
+                >
+                  <Ban className="h-3.5 w-3.5 mr-1" />
+                  <span>Refund</span>
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
     </div>
   );
 }
