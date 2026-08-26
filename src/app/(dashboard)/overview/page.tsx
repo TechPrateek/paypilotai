@@ -22,8 +22,14 @@ import {
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/providers/session-provider";
 
 export default function OverviewPage() {
+  const { data: session } = useAuth();
+  const user = session?.user;
+  const isMerchant = user?.role === "MERCHANT";
+  const isAdmin = user?.role === "ADMIN";
+
   const [rings, setRings] = useState<any[]>([]);
   const [evalMetrics, setEvalMetrics] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -61,16 +67,23 @@ export default function OverviewPage() {
       {/* 🌟 1. Hero Section */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 rounded-3xl bg-card border border-border/40 shadow-xs relative overflow-hidden">
         <div className="space-y-1.5 z-10">
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-2.5 flex-wrap">
             <h1 className="text-xl sm:text-2xl md:text-3xl font-black tracking-tight text-foreground font-mono">
               PAYPILOT AI <span className="text-rose-500 text-lg sm:text-xl font-normal">| Abuse-Ring Sentinel</span>
             </h1>
             <Badge variant="outline" className="font-mono text-xs text-emerald-500 border-emerald-500/30">
-              ● ENGINE ONLINE
+              ● {isMerchant ? "STORE SHIELD ACTIVE" : "ENGINE ONLINE"}
+            </Badge>
+            <Badge variant="secondary" className="font-mono text-[10px] uppercase font-bold">
+              {user?.role || "ANALYST"} VIEW
             </Badge>
           </div>
           <p className="text-xs sm:text-sm text-muted-foreground max-w-2xl font-medium leading-relaxed">
-            Detect coordinated payment abuse across connected accounts, devices, IPs, and payment instruments before isolated events become systemic losses.
+            {isMerchant
+              ? `Store protection console for ${user?.name || "Merchant"}. Monitoring genuine customer payments and isolating coordinated chargeback syndicates.`
+              : isAdmin
+              ? "System governance, cost-weighted threshold optimization, and empirical held-out benchmark monitoring."
+              : "Detect coordinated payment abuse across connected accounts, devices, IPs, and payment instruments before isolated events become systemic losses."}
           </p>
         </div>
 
