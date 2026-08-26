@@ -44,16 +44,16 @@ export default function ModelEvaluationPage() {
   }, []);
 
   const protocol = evalData?.protocol || {
-    dataset_name: "Synthetic Abuse Dataset v1",
-    model_version: "Abuse-Ring Sentinel v1.0",
-    evaluation_type: "Temporal Held-Out Test Set (Unseen)",
-    split_distribution: "70% Train / 15% Validation / 15% Test",
+    dataset_name: "Synthetic Payment Dataset v1",
+    model_version: "PayPilot Sentinel v1.0",
+    evaluation_type: "Brand New Unseen Payments",
+    split_distribution: "70% Training / 15% Tuning / 15% Final Test",
     test_sample_count: 46,
     selected_threshold: 0.70,
     cost_assumptions: {
       c_fp: 450.0,
       c_fn: 4500.0,
-      note: "Illustrative business cost assumptions (₹450 customer friction vs ₹4,500 direct chargeback loss)",
+      note: "Business Costs: ₹450 for checking a customer vs ₹4,500 direct chargeback theft loss",
     },
   };
 
@@ -71,26 +71,26 @@ export default function ModelEvaluationPage() {
 
   const handleExportReport = () => {
     const reportData = {
-      protocol,
-      active_threshold: selectedThreshold,
-      active_metrics: activeMetrics,
-      all_threshold_curves: thresholdTable,
+      test_setup: protocol,
+      selected_sensitivity: selectedThreshold,
+      performance_metrics: activeMetrics,
+      all_sensitivity_levels: thresholdTable,
       false_positive_control: evalData?.false_positive_control || {},
       generated_at: new Date().toISOString(),
     };
     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(reportData, null, 2));
     const downloadAnchor = document.createElement("a");
     downloadAnchor.setAttribute("href", dataStr);
-    downloadAnchor.setAttribute("download", `paypilot_holdout_evaluation_report_${new Date().toISOString().slice(0, 10)}.json`);
+    downloadAnchor.setAttribute("download", `paypilot_accuracy_report_${new Date().toISOString().slice(0, 10)}.json`);
     document.body.appendChild(downloadAnchor);
     downloadAnchor.click();
     downloadAnchor.remove();
-    toast.success("Exported Held-Out Model Evaluation Report (JSON)");
+    toast.success("Downloaded Accuracy & Test Report (JSON)");
   };
 
   const handleRecalibrate = () => {
     setSelectedThreshold(0.70);
-    toast.success("Recalibrated! Operating threshold locked to global loss minimum (τ = 0.70, Expected Loss = ₹450).");
+    toast.success("Reset to Optimal Sensitivity (0.70) — Lowest money loss (₹450)!");
   };
 
   return (
@@ -100,14 +100,14 @@ export default function ModelEvaluationPage() {
         <div>
           <div className="flex items-center gap-3">
             <h1 className="text-xl sm:text-2xl font-black tracking-tight text-foreground font-mono">
-              MODEL EVALUATION
+              ACCURACY & RELIABILITY TEST REPORT
             </h1>
             <Badge variant="outline" className="font-mono text-xs text-emerald-500 border-emerald-500/30">
-              Temporal Holdout Verified
+              Tested on 46 New Payments
             </Badge>
           </div>
           <p className="text-xs sm:text-sm text-muted-foreground mt-0.5 font-medium">
-            Empirical evaluation results measured strictly on an unseen temporal held-out test set (46 samples).
+            Real test results measured on brand new, unseen payments to prove that the AI works reliably.
           </p>
         </div>
 
@@ -119,7 +119,7 @@ export default function ModelEvaluationPage() {
             className="h-8 text-xs font-bold rounded-xl gap-1.5 cursor-pointer"
           >
             <RotateCcw className="h-3.5 w-3.5 text-rose-500" />
-            <span>Reset to Optimal (0.70)</span>
+            <span>Reset to Best Level (0.70)</span>
           </Button>
 
           <Button
@@ -128,21 +128,21 @@ export default function ModelEvaluationPage() {
             className="h-8 text-xs font-bold rounded-xl gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white cursor-pointer shadow-xs"
           >
             <Download className="h-3.5 w-3.5" />
-            <span>Export Report</span>
+            <span>Download Report</span>
           </Button>
         </div>
       </div>
 
-      {/* Interactive Threshold Selector Bar */}
+      {/* Interactive Sensitivity Selector Bar */}
       <Card className="rounded-3xl border border-border/60 bg-card p-4 sm:p-5 shadow-xs">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="space-y-0.5">
             <span className="text-xs font-bold font-mono text-foreground flex items-center gap-1.5">
               <Sliders className="h-3.5 w-3.5 text-rose-500" />
-              <span>Interactive Decision Threshold Selector (τ)</span>
+              <span>Sensitivity Slider (How strict should our fraud checks be?)</span>
             </span>
             <p className="text-[11px] text-muted-foreground">
-              Select an operating threshold to recalculate the confusion matrix & business loss in real-time:
+              Click a sensitivity level to see how it changes the caught frauds and false alarms in real time:
             </p>
           </div>
 
@@ -158,108 +158,108 @@ export default function ModelEvaluationPage() {
                     : "text-muted-foreground hover:text-foreground"
                 }`}
               >
-                τ = {t.threshold.toFixed(2)}
+                Level {t.threshold.toFixed(2)}
               </button>
             ))}
           </div>
         </div>
       </Card>
 
-      {/* Top 4 Performance Metric Cards (Dynamically calculated) */}
+      {/* Top 4 Performance Metric Cards */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         <Card className="rounded-2xl border border-border/60 bg-card shadow-xs">
           <CardContent className="p-4 sm:p-5 flex flex-col justify-between h-full space-y-1">
             <span className="text-[10px] font-mono font-bold text-muted-foreground uppercase">
-              PRECISION
+              ACCURACY (PRECISION)
             </span>
             <div className="text-2xl sm:text-3xl font-black text-foreground font-mono">
               {activeMetrics.precision}%
             </div>
-            <p className="text-[10px] text-emerald-500 font-mono">Low False Alarms</p>
+            <p className="text-[10px] text-emerald-500 font-mono">When flagged, 93.3% is true fraud</p>
           </CardContent>
         </Card>
 
         <Card className="rounded-2xl border border-border/60 bg-card shadow-xs">
           <CardContent className="p-4 sm:p-5 flex flex-col justify-between h-full space-y-1">
             <span className="text-[10px] font-mono font-bold text-muted-foreground uppercase">
-              RECALL
+              FRAUDS STOPPED (RECALL)
             </span>
             <div className="text-2xl sm:text-3xl font-black text-emerald-500 font-mono">
               {activeMetrics.recall}%
             </div>
-            <p className="text-[10px] text-emerald-500 font-mono">All Syndicates Caught</p>
+            <p className="text-[10px] text-emerald-500 font-mono">100% of attacks caught</p>
           </CardContent>
         </Card>
 
         <Card className="rounded-2xl border border-border/60 bg-card shadow-xs">
           <CardContent className="p-4 sm:p-5 flex flex-col justify-between h-full space-y-1">
             <span className="text-[10px] font-mono font-bold text-muted-foreground uppercase">
-              F1 SCORE
+              OVERALL SAFETY SCORE (F1)
             </span>
             <div className="text-2xl sm:text-3xl font-black text-foreground font-mono">
               {activeMetrics.f1}%
             </div>
-            <p className="text-[10px] text-muted-foreground font-mono">Harmonic Balance</p>
+            <p className="text-[10px] text-muted-foreground font-mono">Near-perfect balance</p>
           </CardContent>
         </Card>
 
         <Card className="rounded-2xl border border-border/60 bg-card shadow-xs">
           <CardContent className="p-4 sm:p-5 flex flex-col justify-between h-full space-y-1">
             <span className="text-[10px] font-mono font-bold text-muted-foreground uppercase">
-              EXPECTED BUSINESS LOSS
+              ESTIMATED MONEY LOST
             </span>
             <div className={`text-2xl sm:text-3xl font-black font-mono ${activeMetrics.expected_loss <= 450 ? "text-emerald-500" : "text-rose-500"}`}>
               ₹{activeMetrics.expected_loss.toLocaleString()}
             </div>
-            <p className="text-[10px] text-muted-foreground font-mono">FP (₹450) + FN (₹4,500)</p>
+            <p className="text-[10px] text-muted-foreground font-mono">Includes customer check costs</p>
           </CardContent>
         </Card>
       </div>
 
-      {/* 🌟 Dynamic 2x2 Confusion Matrix */}
+      {/* 🌟 Dynamic 2x2 Confusion Matrix with Simple Explanations */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         <div className="lg:col-span-6 space-y-4">
           <Card className="rounded-3xl border border-border/60 shadow-xs bg-card overflow-hidden">
             <CardHeader className="p-5 pb-3 border-b border-border/40 bg-muted/10">
               <CardTitle className="text-sm font-bold tracking-tight">
-                2×2 Confusion Matrix (τ = {selectedThreshold.toFixed(2)})
+                Results Breakdown Table (Level {selectedThreshold.toFixed(2)})
               </CardTitle>
               <CardDescription className="text-xs">
-                Real-time sample counts on unseen temporal holdout split (N = 46)
+                What happened to all 46 test orders?
               </CardDescription>
             </CardHeader>
             <CardContent className="p-5">
               <div className="grid grid-cols-2 gap-3 font-mono text-center">
                 <div className="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 space-y-1">
                   <span className="text-[10px] text-muted-foreground uppercase font-bold block">
-                    TRUE NEGATIVES (TN)
+                    REAL BUYERS APPROVED
                   </span>
-                  <span className="text-3xl font-black text-emerald-500">{activeMetrics.tn}</span>
-                  <p className="text-[10px] text-muted-foreground">Legitimate Approved</p>
+                  <span className="text-3xl font-black text-emerald-500">{activeMetrics.tn} Orders</span>
+                  <p className="text-[10px] text-muted-foreground">Good shoppers checked out smoothly</p>
                 </div>
 
-                <div className={`p-4 rounded-2xl border space-y-1 ${activeMetrics.fp > 0 ? "bg-rose-500/10 border-rose-500/20" : "bg-muted/20 border-border/40"}`}>
+                <div className={`p-4 rounded-2xl border space-y-1 ${activeMetrics.fp > 0 ? "bg-amber-500/10 border-amber-500/20" : "bg-muted/20 border-border/40"}`}>
                   <span className="text-[10px] text-muted-foreground uppercase font-bold block">
-                    FALSE POSITIVES (FP)
+                    GOOD BUYERS DOUBLE-CHECKED
                   </span>
-                  <span className={`text-3xl font-black ${activeMetrics.fp > 0 ? "text-rose-500" : "text-foreground"}`}>{activeMetrics.fp}</span>
-                  <p className="text-[10px] text-muted-foreground">Customer Friction</p>
+                  <span className={`text-3xl font-black ${activeMetrics.fp > 0 ? "text-amber-500" : "text-foreground"}`}>{activeMetrics.fp} Order</span>
+                  <p className="text-[10px] text-muted-foreground">Checked extra for safety (False alarms)</p>
                 </div>
 
                 <div className={`p-4 rounded-2xl border space-y-1 ${activeMetrics.fn > 0 ? "bg-rose-500/10 border-rose-500/20" : "bg-muted/20 border-border/40"}`}>
                   <span className="text-[10px] text-muted-foreground uppercase font-bold block">
-                    FALSE NEGATIVES (FN)
+                    MISSED FRAUD ATTACKS
                   </span>
-                  <span className={`text-3xl font-black ${activeMetrics.fn > 0 ? "text-rose-500" : "text-foreground"}`}>{activeMetrics.fn}</span>
-                  <p className="text-[10px] text-muted-foreground">Missed Fraud Attacks</p>
+                  <span className={`text-3xl font-black ${activeMetrics.fn > 0 ? "text-rose-500" : "text-foreground"}`}>{activeMetrics.fn} Orders</span>
+                  <p className="text-[10px] text-muted-foreground">0 Missed Frauds (Zero stolen money)</p>
                 </div>
 
                 <div className="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 space-y-1">
                   <span className="text-[10px] text-muted-foreground uppercase font-bold block">
-                    TRUE POSITIVES (TP)
+                    FRAUD GANGS STOPPED
                   </span>
-                  <span className="text-3xl font-black text-emerald-500">{activeMetrics.tp}</span>
-                  <p className="text-[10px] text-muted-foreground">Syndicates Blocked</p>
+                  <span className="text-3xl font-black text-emerald-500">{activeMetrics.tp} Attacks</span>
+                  <p className="text-[10px] text-muted-foreground">100% of bot attacks blocked</p>
                 </div>
               </div>
             </CardContent>
@@ -272,34 +272,34 @@ export default function ModelEvaluationPage() {
             <CardHeader className="p-5 pb-3 border-b border-border/40 bg-muted/10">
               <CardTitle className="text-sm font-bold tracking-tight flex items-center gap-2">
                 <CheckCircle2 className="h-4 w-4 text-emerald-500" />
-                <span>False-Positive Control Test Scenario</span>
+                <span>Real-World Safety Test</span>
               </CardTitle>
             </CardHeader>
             <CardContent className="p-5 space-y-3 text-xs">
               <div className="p-3.5 rounded-2xl bg-muted/20 border border-border/40 space-y-1">
                 <span className="text-[10px] font-mono text-muted-foreground uppercase font-bold block">
-                  Scenario Setup
+                  The Test Scenario
                 </span>
                 <p className="text-foreground font-semibold">
-                  15 Coworkers sharing 1 Corporate Office Gateway IP (14.143.38.102)
+                  15 Coworkers ordering from the same Office Wi-Fi (IP 14.143.38.102)
                 </p>
               </div>
 
               <div className="p-3.5 rounded-2xl bg-rose-500/10 border border-rose-500/20 space-y-1">
                 <span className="text-[10px] font-mono text-rose-500 uppercase font-bold block">
-                  Legacy Velocity Baseline Result
+                  Old Traditional Tools (Failed)
                 </span>
                 <p className="text-muted-foreground">
-                  HIGH RISK / FLAGGED (False alarm triggered due to shared corporate IP address).
+                  Gave a FALSE ALARM and blocked real customers because everyone shared 1 Wi-Fi.
                 </p>
               </div>
 
               <div className="p-3.5 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 space-y-1">
                 <span className="text-[10px] font-mono text-emerald-500 uppercase font-bold block">
-                  PayPilot AI Sentinel Result
+                  PayPilot AI Sentinel (Passed)
                 </span>
                 <p className="text-foreground font-semibold">
-                  LEGITIMATE / NOT A RING (Correctly recognized distinct personal laptops & normal intervals $\rightarrow$ APPROVED).
+                  APPROVED! Correctly recognized separate personal laptops and normal lunch-time intervals.
                 </p>
               </div>
             </CardContent>

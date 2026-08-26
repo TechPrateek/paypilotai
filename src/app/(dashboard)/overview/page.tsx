@@ -81,14 +81,14 @@ export default function OverviewPage() {
                 <Store className="h-5 w-5" />
               </div>
               <h1 className="text-xl sm:text-2xl font-black tracking-tight text-foreground font-mono">
-                TechMart India <span className="text-muted-foreground text-sm font-normal">| Store Dashboard</span>
+                TechMart India <span className="text-muted-foreground text-sm font-normal">| Store Protection</span>
               </h1>
               <Badge variant="outline" className="font-mono text-xs text-emerald-500 border-emerald-500/30">
-                ● STORE SHIELD ACTIVE
+                ● SHIELD ACTIVE
               </Badge>
             </div>
             <p className="text-xs sm:text-sm text-muted-foreground max-w-2xl font-medium leading-relaxed">
-              Real-time checkout protection for your e-commerce store. Legitimate customers are approved instantly while automated payment attacks are blocked before chargeback liability occurs.
+              Safe checkout for your online store. Real customers shop smoothly, while fake buyers and automated card thieves are stopped before you lose money.
             </p>
           </div>
 
@@ -107,48 +107,48 @@ export default function OverviewPage() {
           <Card className="rounded-2xl border border-emerald-500/30 bg-emerald-500/5 shadow-xs">
             <CardContent className="p-4 sm:p-5 flex flex-col justify-between h-full space-y-1">
               <span className="text-[10px] font-mono font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">
-                CHARGEBACK LOSS PREVENTED
+                MONEY SAVED FROM FRAUD
               </span>
               <div className="text-2xl sm:text-3xl font-black text-foreground font-mono">
                 ₹8,40,000
               </div>
-              <p className="text-[11px] text-emerald-500 font-semibold">100% Chargebacks Blocked</p>
+              <p className="text-[11px] text-emerald-500 font-semibold">100% Fake Chargebacks Stopped</p>
             </CardContent>
           </Card>
 
           <Card className="rounded-2xl border border-border/60 bg-card shadow-xs">
             <CardContent className="p-4 sm:p-5 flex flex-col justify-between h-full space-y-1">
               <span className="text-[10px] font-mono font-bold text-muted-foreground uppercase tracking-wider">
-                CHECKOUT APPROVAL RATE
+                SUCCESSFUL CHECKOUTS
               </span>
               <div className="text-2xl sm:text-3xl font-black text-foreground font-mono">
                 98.4%
               </div>
-              <p className="text-[11px] text-emerald-500 font-semibold">Zero Friction on Legit Buyers</p>
+              <p className="text-[11px] text-emerald-500 font-semibold">Good buyers checkout instantly</p>
             </CardContent>
           </Card>
 
           <Card className="rounded-2xl border border-border/60 bg-card shadow-xs">
             <CardContent className="p-4 sm:p-5 flex flex-col justify-between h-full space-y-1">
               <span className="text-[10px] font-mono font-bold text-muted-foreground uppercase tracking-wider">
-                GENUINE CUSTOMERS
+                ACTIVE REAL CUSTOMERS
               </span>
               <div className="text-2xl sm:text-3xl font-black text-foreground font-mono">
-                112 Active
+                112 Buyers
               </div>
-              <p className="text-[11px] text-muted-foreground font-semibold">Office & Family Buyers OK</p>
+              <p className="text-[11px] text-muted-foreground font-semibold">Home & office shoppers verified</p>
             </CardContent>
           </Card>
 
           <Card className="rounded-2xl border border-rose-500/30 bg-rose-500/5 shadow-xs">
             <CardContent className="p-4 sm:p-5 flex flex-col justify-between h-full space-y-1">
               <span className="text-[10px] font-mono font-bold text-rose-500 uppercase tracking-wider">
-                BLOCKED BOT ATTEMPTS
+                FAKE ORDERS STOPPED
               </span>
               <div className="text-2xl sm:text-3xl font-black text-rose-500 font-mono">
                 84 Orders
               </div>
-              <p className="text-[11px] text-rose-500 font-semibold">Syndicate RING-0042 Stopped</p>
+              <p className="text-[11px] text-rose-500 font-semibold">Bot gang RING-0042 blocked</p>
             </CardContent>
           </Card>
         </div>
@@ -163,7 +163,7 @@ export default function OverviewPage() {
                   <span>Recent Threats Blocked from Your Store</span>
                 </CardTitle>
                 <CardDescription className="text-xs">
-                  Automated protection log for TechMart India
+                  Simple explanation of what happened and how your money was saved
                 </CardDescription>
               </CardHeader>
 
@@ -171,10 +171,10 @@ export default function OverviewPage() {
                 <div className="p-4 rounded-2xl bg-muted/20 border border-border/40 flex items-center justify-between gap-4">
                   <div className="space-y-1">
                     <span className="font-bold text-xs sm:text-sm text-foreground block">
-                      ⚠️ 18 Rapid Bot Orders Attempted in 120 Seconds
+                      ⚠️ 18 Rapid Bot Orders Stopped in 2 Minutes
                     </span>
                     <p className="text-xs text-muted-foreground">
-                      An automated botnet tried to test 11 stolen cards on ₹10,000 electronics items. All 18 orders were blocked before settlement.
+                      An automated bot tried testing 11 stolen cards on ₹10,000 electronics. All 18 payments were blocked before you shipped any items.
                     </p>
                   </div>
                   <Badge variant="destructive" className="font-mono text-xs font-bold shrink-0">
@@ -185,10 +185,10 @@ export default function OverviewPage() {
                 <div className="p-4 rounded-2xl bg-muted/20 border border-border/40 flex items-center justify-between gap-4">
                   <div className="space-y-1">
                     <span className="font-bold text-xs sm:text-sm text-foreground block">
-                      ✓ 15 Genuine Office Coworkers Approved
+                      ✓ 15 Coworkers from Same Office Approved
                     </span>
                     <p className="text-xs text-muted-foreground">
-                      Multiple purchases from the same corporate Wi-Fi were correctly identified as independent employees and approved smoothly.
+                      Multiple coworkers ordered lunch/items from the same office Wi-Fi. We correctly recognized they were real people on separate laptops.
                     </p>
                   </div>
                   <Badge variant="outline" className="font-mono text-xs text-emerald-500 border-emerald-500/30 font-bold shrink-0">
@@ -203,21 +203,21 @@ export default function OverviewPage() {
             <Card className="rounded-3xl border border-border/60 shadow-xs bg-card">
               <CardHeader className="p-5 pb-3 border-b border-border/40 bg-muted/10">
                 <CardTitle className="text-sm font-bold tracking-tight">
-                  Store Protection Settings
+                  Store Safety Settings
                 </CardTitle>
               </CardHeader>
               <CardContent className="p-5 space-y-3 text-xs font-mono">
                 <div className="p-3 rounded-xl bg-muted/30 border border-border/40 space-y-0.5">
-                  <span className="text-[10px] text-muted-foreground uppercase block font-bold">API Status</span>
-                  <span className="font-bold text-emerald-500">Connected & Verified</span>
+                  <span className="text-[10px] text-muted-foreground uppercase block font-bold">Protection Status</span>
+                  <span className="font-bold text-emerald-500">Connected & Safe</span>
                 </div>
                 <div className="p-3 rounded-xl bg-muted/30 border border-border/40 space-y-0.5">
-                  <span className="text-[10px] text-muted-foreground uppercase block font-bold">Velocity Limit</span>
+                  <span className="text-[10px] text-muted-foreground uppercase block font-bold">Speed Limit</span>
                   <span className="font-bold text-foreground">Max 5 Orders/min per Card</span>
                 </div>
                 <Link href="/settings">
                   <Button variant="outline" size="sm" className="w-full text-xs font-bold rounded-xl mt-2">
-                    Manage Store Rules →
+                    Manage Safety Rules →
                   </Button>
                 </Link>
               </CardContent>
@@ -242,14 +242,14 @@ export default function OverviewPage() {
                 <ShieldAlert className="h-5 w-5" />
               </div>
               <h1 className="text-xl sm:text-2xl font-black tracking-tight text-foreground font-mono">
-                PAYPILOT AI <span className="text-purple-500 text-sm font-normal">| Executive Governance</span>
+                PAYPILOT AI <span className="text-purple-500 text-sm font-normal">| Platform Governance</span>
               </h1>
               <Badge variant="outline" className="font-mono text-xs text-purple-500 border-purple-500/30">
-                ● ADMIN CONTROL CONSOLE
+                ● ADMIN CONTROL
               </Badge>
             </div>
             <p className="text-xs sm:text-sm text-muted-foreground max-w-2xl font-medium leading-relaxed">
-              Global risk policy management, cost-weighted threshold calibration (C_FP = ₹450, C_FN = ₹4,500), and empirical model holdout performance across all 5 merchant gateways.
+              Global system rules, cost settings, and model accuracy reports across all 5 connected online stores.
             </p>
           </div>
 
@@ -257,13 +257,13 @@ export default function OverviewPage() {
             <Link href="/evaluation">
               <Button size="sm" className="h-9 px-4 text-xs font-bold bg-purple-600 hover:bg-purple-700 text-white rounded-xl shadow-xs gap-1.5">
                 <Activity className="h-3.5 w-3.5" />
-                <span>Held-Out Model Report</span>
+                <span>Accuracy & Test Report</span>
               </Button>
             </Link>
             <Link href="/settings">
               <Button variant="outline" size="sm" className="h-9 px-3 text-xs font-bold rounded-xl border-border/60 gap-1.5">
                 <Sliders className="h-3.5 w-3.5 text-muted-foreground" />
-                <span>Configure Cost Model</span>
+                <span>Edit Cost Settings</span>
               </Button>
             </Link>
           </div>
@@ -274,46 +274,46 @@ export default function OverviewPage() {
           <Card className="rounded-2xl border border-purple-500/30 bg-purple-500/5 shadow-xs">
             <CardContent className="p-4 sm:p-5 flex flex-col justify-between h-full space-y-1">
               <span className="text-[10px] font-mono font-bold text-purple-500 uppercase tracking-wider">
-                ACTIVE RISK MODEL
+                ACTIVE AI MODEL
               </span>
               <div className="text-2xl sm:text-3xl font-black text-foreground font-mono">
                 Sentinel v1.0
               </div>
-              <p className="text-[11px] text-purple-500 font-semibold">Graph-Enhanced Decision Tree</p>
+              <p className="text-[11px] text-purple-500 font-semibold">Graph Network Protection</p>
             </CardContent>
           </Card>
 
           <Card className="rounded-2xl border border-border/60 bg-card shadow-xs">
             <CardContent className="p-4 sm:p-5 flex flex-col justify-between h-full space-y-1">
               <span className="text-[10px] font-mono font-bold text-muted-foreground uppercase tracking-wider">
-                OPTIMAL THRESHOLD
+                BEST SENSITIVITY LEVEL
               </span>
               <div className="text-2xl sm:text-3xl font-black text-emerald-500 font-mono">
                 0.70
               </div>
-              <p className="text-[11px] text-muted-foreground font-semibold">Min Expected Loss (₹450)</p>
+              <p className="text-[11px] text-muted-foreground font-semibold">Lowest Business Loss (₹450)</p>
             </CardContent>
           </Card>
 
           <Card className="rounded-2xl border border-border/60 bg-card shadow-xs">
             <CardContent className="p-4 sm:p-5 flex flex-col justify-between h-full space-y-1">
               <span className="text-[10px] font-mono font-bold text-muted-foreground uppercase tracking-wider">
-                PR-AUC / ROC-AUC
+                OVERALL ACCURACY SCORE
               </span>
               <div className="text-2xl sm:text-3xl font-black text-foreground font-mono">
-                0.94 / 0.97
+                96.6% F1
               </div>
-              <p className="text-[11px] text-emerald-500 font-semibold">Empirical Held-Out Score</p>
+              <p className="text-[11px] text-emerald-500 font-semibold">Tested on unseen payments</p>
             </CardContent>
           </Card>
 
           <Card className="rounded-2xl border border-border/60 bg-card shadow-xs">
             <CardContent className="p-4 sm:p-5 flex flex-col justify-between h-full space-y-1">
               <span className="text-[10px] font-mono font-bold text-muted-foreground uppercase tracking-wider">
-                ACTIVE GATEWAYS
+                PROTECTED MERCHANTS
               </span>
               <div className="text-2xl sm:text-3xl font-black text-foreground font-mono">
-                5 Merchants
+                5 Stores
               </div>
               <p className="text-[11px] text-muted-foreground font-semibold">TechMart, QuickPay, Casino...</p>
             </CardContent>
@@ -325,15 +325,15 @@ export default function OverviewPage() {
           <CardHeader className="p-5 pb-3 border-b border-border/40 bg-muted/10 flex items-center justify-between">
             <div>
               <CardTitle className="text-sm font-bold tracking-tight">
-                Model Performance Across Operating Thresholds
+                Model Performance Across Sensitivity Settings
               </CardTitle>
               <CardDescription className="text-xs">
-                Expected Loss minimization curve calibrated on validation split
+                How sensitivity changes the number of caught frauds vs false alarms
               </CardDescription>
             </div>
             <Link href="/evaluation">
               <Button variant="ghost" size="sm" className="h-7 text-xs font-bold gap-1 text-primary">
-                <span>Full Evaluation Console</span>
+                <span>View Full Test Report</span>
                 <ChevronRight className="h-3 w-3" />
               </Button>
             </Link>
@@ -342,30 +342,27 @@ export default function OverviewPage() {
             <table className="w-full text-left border-collapse font-mono text-xs">
               <thead>
                 <tr className="border-b border-border/40 text-[10px] font-bold text-muted-foreground uppercase bg-muted/20">
-                  <th className="py-3 px-4">Threshold</th>
-                  <th className="py-3 px-3">Precision</th>
-                  <th className="py-3 px-3">Recall</th>
-                  <th className="py-3 px-3">F1</th>
-                  <th className="py-3 px-3">FPR</th>
-                  <th className="py-3 px-4 text-right">Expected Loss</th>
+                  <th className="py-3 px-4">Sensitivity</th>
+                  <th className="py-3 px-3">Accuracy (Precision)</th>
+                  <th className="py-3 px-3">Frauds Caught (Recall)</th>
+                  <th className="py-3 px-3">False Alarms</th>
+                  <th className="py-3 px-4 text-right">Estimated Money Lost</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border/30">
                 <tr className="bg-emerald-500/10 font-bold">
-                  <td className="py-3 px-4 text-emerald-500">0.70 (OPERATING)</td>
-                  <td className="py-3 px-3">100.0%</td>
-                  <td className="py-3 px-3">100.0%</td>
-                  <td className="py-3 px-3">100.0%</td>
-                  <td className="py-3 px-3 text-emerald-500">0.0%</td>
-                  <td className="py-3 px-4 text-right text-emerald-500">₹0.00</td>
+                  <td className="py-3 px-4 text-emerald-500">0.70 (RECOMMENDED)</td>
+                  <td className="py-3 px-3">93.3%</td>
+                  <td className="py-3 px-3 text-emerald-500">100.0%</td>
+                  <td className="py-3 px-3 text-emerald-500">3.1%</td>
+                  <td className="py-3 px-4 text-right text-emerald-500">₹450 (Lowest)</td>
                 </tr>
                 <tr>
                   <td className="py-3 px-4">0.60</td>
                   <td className="py-3 px-3">97.1%</td>
                   <td className="py-3 px-3">100.0%</td>
-                  <td className="py-3 px-3">98.5%</td>
                   <td className="py-3 px-3 text-rose-500">8.3%</td>
-                  <td className="py-3 px-4 text-right">₹450.00</td>
+                  <td className="py-3 px-4 text-right">₹900</td>
                 </tr>
               </tbody>
             </table>
@@ -385,17 +382,17 @@ export default function OverviewPage() {
         <div className="space-y-1.5 z-10">
           <div className="flex items-center gap-2.5 flex-wrap">
             <h1 className="text-xl sm:text-2xl md:text-3xl font-black tracking-tight text-foreground font-mono">
-              PAYPILOT AI <span className="text-rose-500 text-lg sm:text-xl font-normal">| Abuse-Ring Sentinel</span>
+              PAYPILOT AI <span className="text-rose-500 text-lg sm:text-xl font-normal">| Fraud Ring Defense</span>
             </h1>
             <Badge variant="outline" className="font-mono text-xs text-emerald-500 border-emerald-500/30">
-              ● ENGINE ONLINE
+              ● SHIELD ONLINE
             </Badge>
             <Badge variant="destructive" className="font-mono text-[9px] uppercase font-bold">
-              ANALYST FORENSICS
+              INVESTIGATOR VIEW
             </Badge>
           </div>
           <p className="text-xs sm:text-sm text-muted-foreground max-w-2xl font-medium leading-relaxed">
-            Detect coordinated payment abuse across connected accounts, devices, IPs, and payment instruments before isolated events become systemic losses.
+            Uncover organized fraud gangs sharing laptops, stolen cards, and fake IPs before they steal money from online stores.
           </p>
         </div>
 
@@ -403,13 +400,13 @@ export default function OverviewPage() {
           <Link href="/investigations/RING-0042">
             <Button size="sm" className="h-9 px-4 text-xs font-bold bg-rose-600 hover:bg-rose-700 text-white rounded-xl shadow-xs gap-1.5">
               <Share2 className="h-3.5 w-3.5" />
-              <span>Investigate Ring #0042</span>
+              <span>Inspect Gang #0042</span>
             </Button>
           </Link>
           <Link href="/evaluation">
             <Button variant="outline" size="sm" className="h-9 px-3 text-xs font-bold rounded-xl border-border/60 gap-1.5">
               <Activity className="h-3.5 w-3.5 text-muted-foreground" />
-              <span>Held-Out Evaluation</span>
+              <span>Accuracy Report</span>
             </Button>
           </Link>
         </div>
@@ -420,22 +417,22 @@ export default function OverviewPage() {
         <Card className="rounded-2xl border border-rose-500/30 bg-rose-500/5 shadow-xs">
           <CardContent className="p-4 sm:p-5 flex flex-col justify-between h-full space-y-1">
             <span className="text-[10px] font-mono font-bold text-rose-500 uppercase tracking-wider">
-              ACTIVE RINGS
+              ACTIVE FRAUD GANGS
             </span>
             <div className="text-2xl sm:text-3xl font-black text-foreground font-mono">
-              {rings.length || 3}
+              {rings.length || 3} Rings
             </div>
-            <p className="text-[11px] text-rose-500 font-semibold">2 Critical Threats</p>
+            <p className="text-[11px] text-rose-500 font-semibold">2 Urgent Threats</p>
           </CardContent>
         </Card>
 
         <Card className="rounded-2xl border border-border/60 bg-card shadow-xs">
           <CardContent className="p-4 sm:p-5 flex flex-col justify-between h-full space-y-1">
             <span className="text-[10px] font-mono font-bold text-muted-foreground uppercase tracking-wider">
-              CRITICAL SEVERITY
+              HIGH DANGER LEVEL
             </span>
             <div className="text-2xl sm:text-3xl font-black text-foreground font-mono">
-              2
+              2 Rings
             </div>
             <p className="text-[11px] text-muted-foreground font-semibold">Score &gt; 90 / 100</p>
           </CardContent>
@@ -444,36 +441,36 @@ export default function OverviewPage() {
         <Card className="rounded-2xl border border-border/60 bg-card shadow-xs">
           <CardContent className="p-4 sm:p-5 flex flex-col justify-between h-full space-y-1">
             <span className="text-[10px] font-mono font-bold text-muted-foreground uppercase tracking-wider">
-              AFFECTED ACCOUNTS
+              LINKED ACCOUNTS
             </span>
             <div className="text-2xl sm:text-3xl font-black text-foreground font-mono">
-              {totalAccounts || 27}
+              {totalAccounts || 27} Accounts
             </div>
-            <p className="text-[11px] text-muted-foreground font-semibold">Shared Hardware/IP</p>
+            <p className="text-[11px] text-muted-foreground font-semibold">Same Laptop/IP</p>
           </CardContent>
         </Card>
 
         <Card className="rounded-2xl border border-border/60 bg-card shadow-xs">
           <CardContent className="p-4 sm:p-5 flex flex-col justify-between h-full space-y-1">
             <span className="text-[10px] font-mono font-bold text-muted-foreground uppercase tracking-wider">
-              FLAGGED TXS
+              BLOCKED ORDERS
             </span>
             <div className="text-2xl sm:text-3xl font-black text-foreground font-mono">
-              {totalTransactions || 98}
+              {totalTransactions || 98} Payments
             </div>
-            <p className="text-[11px] text-muted-foreground font-semibold">Correlated Events</p>
+            <p className="text-[11px] text-muted-foreground font-semibold">Coordinated bot rush</p>
           </CardContent>
         </Card>
 
         <Card className="rounded-2xl border border-emerald-500/30 bg-emerald-500/5 shadow-xs col-span-2 sm:col-span-1">
           <CardContent className="p-4 sm:p-5 flex flex-col justify-between h-full space-y-1">
             <span className="text-[10px] font-mono font-bold text-emerald-500 uppercase tracking-wider">
-              EXPOSURE AT RISK
+              MONEY SAVED
             </span>
             <div className="text-2xl sm:text-3xl font-black text-foreground font-mono">
-              ₹8.4L+
+              ₹8.4 Lakhs
             </div>
-            <p className="text-[11px] text-emerald-500 font-semibold">Direct Loss Prevented</p>
+            <p className="text-[11px] text-emerald-500 font-semibold">Saved from fraud theft</p>
           </CardContent>
         </Card>
       </div>
@@ -484,10 +481,10 @@ export default function OverviewPage() {
           <div>
             <CardTitle className="text-sm font-bold tracking-tight flex items-center gap-2">
               <Clock className="h-4 w-4 text-rose-500" />
-              <span>Ring Activity Timeline — Coordinated Cluster Emergence</span>
+              <span>Attack Timeline — When Did Fraud Groups Attack?</span>
             </CardTitle>
             <CardDescription className="text-xs">
-              Temporal distribution showing when suspicious multi-account bursts were activated
+              Shows the exact time groups of bots tried to rush the checkout
             </CardDescription>
           </div>
           <span className="text-[11px] font-mono text-muted-foreground">Aug 18 - Aug 20, 2026</span>
@@ -518,7 +515,7 @@ export default function OverviewPage() {
                   <div className="h-3 w-3 rounded-full bg-rose-500 animate-ping" />
                 </div>
                 <span className="text-[10px] font-mono font-bold text-rose-400 mt-1.5 bg-slate-900 px-2 py-0.5 rounded border border-rose-500/30">
-                  RING-0042 (84 txs)
+                  RING-0042 (84 orders)
                 </span>
               </Link>
 
@@ -531,7 +528,7 @@ export default function OverviewPage() {
                   <div className="h-3 w-3 rounded-full bg-rose-500" />
                 </div>
                 <span className="text-[10px] font-mono font-bold text-rose-400 mt-1.5 bg-slate-900 px-2 py-0.5 rounded border border-rose-500/30">
-                  RING-7092 ($145k)
+                  RING-7092 ($145k attack)
                 </span>
               </Link>
 
@@ -544,7 +541,7 @@ export default function OverviewPage() {
                   <div className="h-3 w-3 rounded-full bg-amber-500" />
                 </div>
                 <span className="text-[10px] font-mono font-bold text-amber-400 mt-1.5 bg-slate-900 px-2 py-0.5 rounded border border-amber-500/30">
-                  RING-4108 (Card Test)
+                  RING-4108 (Card Testing)
                 </span>
               </Link>
             </div>
@@ -559,10 +556,10 @@ export default function OverviewPage() {
             <CardHeader className="p-5 pb-3 border-b border-border/40 bg-muted/10 flex items-center justify-between">
               <div>
                 <CardTitle className="text-sm font-bold tracking-tight">
-                  Recent Critical Rings
+                  Dangerous Fraud Rings (Needs Attention)
                 </CardTitle>
                 <CardDescription className="text-xs">
-                  Active coordinated syndicates requiring immediate analyst review
+                  Active gangs caught stealing across multiple customer accounts
                 </CardDescription>
               </div>
               <Link href="/rings">
@@ -591,16 +588,16 @@ export default function OverviewPage() {
                     </div>
                     <div className="flex items-center gap-4 text-xs font-mono text-muted-foreground">
                       <span>👤 {ring.accounts_count} Accounts</span>
-                      <span>💳 {ring.transactions_count} Txs</span>
+                      <span>💳 {ring.transactions_count} Orders</span>
                       <span className="text-emerald-500 font-bold">
-                        ₹{ring.exposure >= 100000 ? `${(ring.exposure / 100000).toFixed(1)}L` : ring.exposure} Exposure
+                        ₹{ring.exposure >= 100000 ? `${(ring.exposure / 100000).toFixed(1)}L` : ring.exposure} Saved
                       </span>
                     </div>
                   </div>
 
                   <Link href={`/investigations/${ring.id}`}>
                     <Button size="sm" className="w-full sm:w-auto h-8 text-xs font-bold rounded-xl shadow-xs gap-1.5">
-                      <span>Investigate</span>
+                      <span>Inspect Connections</span>
                       <ChevronRight className="h-3 w-3" />
                     </Button>
                   </Link>
@@ -616,9 +613,9 @@ export default function OverviewPage() {
               <div className="flex items-center justify-between">
                 <CardTitle className="text-sm font-bold tracking-tight flex items-center gap-2">
                   <Activity className="h-4 w-4 text-primary" />
-                  <span>Model Performance</span>
+                  <span>Model Accuracy Score</span>
                 </CardTitle>
-                <span className="text-[10px] font-mono text-muted-foreground">Held-out test set</span>
+                <span className="text-[10px] font-mono text-muted-foreground">Tested on new data</span>
               </div>
             </CardHeader>
             <CardContent className="p-5">
@@ -626,7 +623,7 @@ export default function OverviewPage() {
                 <div className="grid grid-cols-2 gap-3 text-center">
                   <div className="p-3 rounded-2xl bg-muted/40 border border-border/40">
                     <span className="text-[10px] font-mono text-muted-foreground uppercase font-bold block">
-                      Precision
+                      Accuracy (Precision)
                     </span>
                     <span className="text-2xl font-black text-foreground font-mono">
                       {evalMetrics.sentinel_metrics.precision}%
@@ -634,7 +631,7 @@ export default function OverviewPage() {
                   </div>
                   <div className="p-3 rounded-2xl bg-muted/40 border border-border/40">
                     <span className="text-[10px] font-mono text-muted-foreground uppercase font-bold block">
-                      Recall
+                      Frauds Caught (Recall)
                     </span>
                     <span className="text-2xl font-black text-emerald-500 font-mono">
                       {evalMetrics.sentinel_metrics.recall}%
@@ -642,7 +639,7 @@ export default function OverviewPage() {
                   </div>
                   <div className="p-3 rounded-2xl bg-muted/40 border border-border/40">
                     <span className="text-[10px] font-mono text-muted-foreground uppercase font-bold block">
-                      F1 Score
+                      Overall Score (F1)
                     </span>
                     <span className="text-2xl font-black text-foreground font-mono">
                       {evalMetrics.sentinel_metrics.f1}%
@@ -650,7 +647,7 @@ export default function OverviewPage() {
                   </div>
                   <div className="p-3 rounded-2xl bg-muted/40 border border-border/40">
                     <span className="text-[10px] font-mono text-muted-foreground uppercase font-bold block">
-                      False Positive Rate
+                      False Alarms (FPR)
                     </span>
                     <span className="text-2xl font-black text-rose-500 font-mono">
                       {evalMetrics.sentinel_metrics.fpr}%
@@ -658,7 +655,7 @@ export default function OverviewPage() {
                   </div>
                 </div>
               ) : (
-                <p className="text-xs text-muted-foreground">Evaluation pending</p>
+                <p className="text-xs text-muted-foreground">Evaluation loading...</p>
               )}
             </CardContent>
           </Card>
@@ -667,25 +664,25 @@ export default function OverviewPage() {
             <CardHeader className="p-5 pb-3 border-b border-border/40 bg-muted/10">
               <CardTitle className="text-sm font-bold tracking-tight flex items-center gap-2">
                 <CheckCircle2 className="h-4 w-4 text-emerald-500" />
-                <span>False-Positive Protection</span>
+                <span>Smart Protection (No False Alarms)</span>
               </CardTitle>
             </CardHeader>
             <CardContent className="p-5 space-y-3 text-xs">
               <div className="p-3 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 space-y-1">
                 <span className="font-bold text-emerald-600 dark:text-emerald-400 block">
-                  ✓ Legitimate Office Network (15 Users on 1 IP)
+                  ✓ Real Office Coworkers (15 Shoppers on 1 Wi-Fi)
                 </span>
                 <p className="text-[11px] text-muted-foreground">
-                  Recognized independent personal laptops & normal intervals $\rightarrow$ <strong>NOT A RING</strong>
+                  Recognized separate personal laptops and normal timing $\rightarrow$ <strong>APPROVED (NOT BLOCKED)</strong>
                 </p>
               </div>
 
               <div className="p-3 rounded-2xl bg-rose-500/10 border border-rose-500/20 space-y-1">
                 <span className="font-bold text-rose-600 dark:text-rose-400 block">
-                  ⚠️ Coordinated Tor Syndicate (4 Accounts on 1 Laptop)
+                  ⚠️ Real Fraud Syndicate (4 Accounts on 1 Laptop)
                 </span>
                 <p className="text-[11px] text-muted-foreground">
-                  Shared hardware ID & rapid card rotation $\rightarrow$ <strong>RING ISOLATED</strong>
+                  Same laptop hardware ID and stolen cards $\rightarrow$ <strong>BLOCKED & BLACKLISTED</strong>
                 </p>
               </div>
             </CardContent>

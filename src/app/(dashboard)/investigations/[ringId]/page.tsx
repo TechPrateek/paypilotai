@@ -47,7 +47,7 @@ export default function InvestigationDetailPage(props: { params: Promise<{ ringI
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [loading, setLoading] = useState(true);
 
-  // 🌟 Real-time Case Notes
+  // Real-time Case Notes
   const [notes, setNotes] = useState<Array<{ id: string; text: string; author: string; timestamp: string }>>([]);
   const [newNote, setNewNote] = useState("");
 
@@ -70,8 +70,8 @@ export default function InvestigationDetailPage(props: { params: Promise<{ ringI
         setNotes([
           {
             id: "note-1",
-            text: "Initial multi-account burst identified on Device D102 across 11 stolen cards. Velocity threshold exceeded 8.4 tx/min.",
-            author: "Priya Sharma (Analyst)",
+            text: "Multiple orders placed from the same laptop D102 using 11 different stolen cards. Speed: 8.4 orders/minute.",
+            author: "Priya Sharma (Investigator)",
             timestamp: "Aug 20, 10:02",
           },
         ]);
@@ -138,9 +138,9 @@ export default function InvestigationDetailPage(props: { params: Promise<{ ringI
     } catch {}
 
     if (nextState) {
-      toast.success(`Ring ${ringId} ISOLATED! All ${ringData?.blast_radius?.affected_customers || 17} accounts and connected hardware IDs blacklisted.`);
+      toast.success(`Ring ${ringId} BLOCKED! All ${ringData?.blast_radius?.affected_customers || 17} fake accounts & laptops blacklisted.`);
     } else {
-      toast.info(`Ring ${ringId} isolation removed.`);
+      toast.info(`Ring ${ringId} block removed.`);
     }
   };
 
@@ -148,28 +148,28 @@ export default function InvestigationDetailPage(props: { params: Promise<{ ringI
     const packet = {
       ring_id: ringId,
       exported_at: new Date().toISOString(),
-      investigator: "Priya Sharma (Fraud Analyst)",
-      ring_metadata: ringData?.ring || {},
-      blast_radius: ringData?.blast_radius || {},
-      signals: ringData?.signals || [],
-      ring_dna: ringData?.dna || {},
-      notes: notes,
+      investigator: "Priya Sharma (Fraud Investigator)",
+      ring_details: ringData?.ring || {},
+      threat_summary: ringData?.blast_radius || {},
+      evidence_signals: ringData?.signals || [],
+      fraud_pattern: ringData?.dna || {},
+      investigator_notes: notes,
       timeline_events: timelineData?.events || [],
     };
     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(packet, null, 2));
     const downloadAnchor = document.createElement("a");
     downloadAnchor.setAttribute("href", dataStr);
-    downloadAnchor.setAttribute("download", `paypilot_forensic_packet_${ringId}.json`);
+    downloadAnchor.setAttribute("download", `paypilot_fraud_evidence_${ringId}.json`);
     document.body.appendChild(downloadAnchor);
     downloadAnchor.click();
     downloadAnchor.remove();
-    toast.success(`Downloaded Forensic Audit Packet for ${ringId}!`);
+    toast.success(`Downloaded Evidence Packet for ${ringId}!`);
   };
 
   const handleCopyDNA = () => {
-    const hash = `RING_DNA_${ringId}_${Math.random().toString(36).substring(2, 10).toUpperCase()}`;
+    const hash = `FRAUD_SIG_${ringId}_${Math.random().toString(36).substring(2, 10).toUpperCase()}`;
     navigator.clipboard.writeText(hash);
-    toast.success(`Copied Ring DNA Fingerprint: ${hash}`);
+    toast.success(`Copied Fraud Signature ID: ${hash}`);
   };
 
   const handleAddNote = (e: React.FormEvent) => {
@@ -179,7 +179,7 @@ export default function InvestigationDetailPage(props: { params: Promise<{ ringI
     const noteObj = {
       id: `note-${Date.now()}`,
       text: newNote.trim(),
-      author: "Priya Sharma (Analyst)",
+      author: "Priya Sharma (Investigator)",
       timestamp: "Just now",
     };
 
@@ -189,7 +189,7 @@ export default function InvestigationDetailPage(props: { params: Promise<{ ringI
     try {
       localStorage.setItem(`paypilot_notes_${ringId}`, JSON.stringify(updated));
     } catch {}
-    toast.success("Case note added to investigation log.");
+    toast.success("Note saved to investigation log.");
   };
 
   const handleDeleteNote = (noteId: string) => {
@@ -204,18 +204,18 @@ export default function InvestigationDetailPage(props: { params: Promise<{ ringI
   if (loading) {
     return (
       <div className="p-8 text-center text-muted-foreground font-mono text-xs">
-        Building relationship graph & forensic features for {ringId}...
+        Loading connection map & evidence for {ringId}...
       </div>
     );
   }
 
   const ring = ringData?.ring || {
     id: ringId,
-    name: "Coordinated Transaction Burst Syndicate",
+    name: "Coordinated Bot Attack Syndicate",
     severity: "CRITICAL",
     risk_score: 91,
     evidence_strength: 87,
-    pattern_type: "COORDINATED_TRANSACTION_BURST",
+    pattern_type: "RAPID_CARD_TESTING",
     exposure: 840000,
   };
 
@@ -229,20 +229,20 @@ export default function InvestigationDetailPage(props: { params: Promise<{ ringI
   };
 
   const signals = ringData?.signals || [
-    { type: "SHARED_DEVICE", description: "7 accounts share Device D102", score_contrib: 21 },
-    { type: "TEMPORAL_COORDINATION", description: "18 transactions occurred within 120 seconds", score_contrib: 24 },
-    { type: "VELOCITY", description: "9 transactions/minute burst intensity", score_contrib: 18 },
-    { type: "PAYMENT_REUSE", description: "4 payment instruments were reused across customer IDs", score_contrib: 15 },
-    { type: "HISTORICAL_SUSPICION", description: "3 connected entities had previous suspicious chargebacks", score_contrib: 13 },
+    { type: "SHARED_DEVICE", description: "7 different customer names logged in from the exact same Laptop (D102)", score_contrib: 21 },
+    { type: "RAPID_ORDERS", description: "18 orders were placed within 2 minutes (Too fast for human fingers)", score_contrib: 24 },
+    { type: "EXTREME_SPEED", description: "9 orders per minute automated burst", score_contrib: 18 },
+    { type: "CARD_REUSE", description: "4 stolen credit cards were shared across multiple accounts", score_contrib: 15 },
+    { type: "PAST_DISPUTES", description: "3 connected accounts previously had bank chargeback claims", score_contrib: 13 },
   ];
 
   const dna = ringData?.dna || {
-    infrastructure_sharing: 85,
-    temporal_coordination: 98,
-    velocity: 92,
-    payment_reuse: 78,
-    account_creation_burst: 90,
-    historical_suspicion: 65,
+    shared_laptops_and_phones: 85,
+    timing_coordination: 98,
+    order_speed: 92,
+    stolen_card_sharing: 78,
+    fake_account_rush: 90,
+    past_fraud_history: 65,
   };
 
   return (
@@ -265,7 +265,7 @@ export default function InvestigationDetailPage(props: { params: Promise<{ ringI
                 isIsolated ? "bg-emerald-600 text-white" : ""
               }`}
             >
-              {isIsolated ? "ISOLATED & BLOCKED ✓" : ring.severity}
+              {isIsolated ? "BLOCKED & CONTAINED ✓" : ring.severity}
             </Badge>
             <Badge variant="outline" className="font-mono text-xs">
               {ring.pattern_type}
@@ -273,13 +273,13 @@ export default function InvestigationDetailPage(props: { params: Promise<{ ringI
           </div>
           <div className="flex items-center gap-4 text-xs font-mono text-muted-foreground flex-wrap">
             <span>
-              Risk Score: <strong className="text-rose-500 font-bold">{ring.risk_score} / 100</strong>
+              Danger Score: <strong className="text-rose-500 font-bold">{ring.risk_score} / 100</strong>
             </span>
             <span>
-              Evidence Strength: <strong className="text-emerald-500 font-bold">{ring.evidence_strength}%</strong>
+              Evidence Certainty: <strong className="text-emerald-500 font-bold">{ring.evidence_strength}%</strong>
             </span>
             <span>
-              Exposure: <strong className="text-foreground font-bold">₹{(blastRadius.total_exposure / 100000).toFixed(1)}L</strong>
+              Money at Risk: <strong className="text-foreground font-bold">₹{(blastRadius.total_exposure / 100000).toFixed(1)}L</strong>
             </span>
           </div>
         </div>
@@ -295,12 +295,12 @@ export default function InvestigationDetailPage(props: { params: Promise<{ ringI
             {isIsolated ? (
               <>
                 <ShieldCheck className="h-4 w-4" />
-                <span>Ring Contained (Click to Unblock)</span>
+                <span>Gang Blocked (Click to Unblock)</span>
               </>
             ) : (
               <>
                 <Ban className="h-4 w-4" />
-                <span>Isolate Syndicate</span>
+                <span>Block Entire Gang</span>
               </>
             )}
           </Button>
@@ -312,58 +312,58 @@ export default function InvestigationDetailPage(props: { params: Promise<{ ringI
             className="h-9 px-3 text-xs font-bold rounded-xl gap-1.5 border-border/60 cursor-pointer"
           >
             <Download className="h-3.5 w-3.5 text-emerald-500" />
-            <span className="hidden sm:inline">Export Audit Packet</span>
+            <span className="hidden sm:inline">Export Evidence File</span>
           </Button>
         </div>
       </div>
 
-      {/* 🌟 2. Blast Radius Stats Grid */}
+      {/* 🌟 2. Threat Scale Summary */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
         <Card className="rounded-2xl border border-border/60 bg-card shadow-xs">
           <CardContent className="p-4 flex flex-col justify-between h-full space-y-1">
             <span className="text-[10px] font-mono font-bold text-muted-foreground uppercase">
-              AFFECTED ACCOUNTS
+              FAKE ACCOUNTS
             </span>
             <div className="text-2xl font-black text-foreground font-mono">
               {blastRadius.affected_customers}
             </div>
-            <p className="text-[10px] text-muted-foreground font-mono">Shared Hardware/IP</p>
+            <p className="text-[10px] text-muted-foreground font-mono">Connected to 1 device</p>
           </CardContent>
         </Card>
 
         <Card className="rounded-2xl border border-border/60 bg-card shadow-xs">
           <CardContent className="p-4 flex flex-col justify-between h-full space-y-1">
             <span className="text-[10px] font-mono font-bold text-muted-foreground uppercase">
-              FLAGGED TXS
+              BLOCKED ORDERS
             </span>
             <div className="text-2xl font-black text-foreground font-mono">
               {blastRadius.affected_transactions}
             </div>
-            <p className="text-[10px] text-rose-500 font-mono">18 in 120s burst</p>
+            <p className="text-[10px] text-rose-500 font-mono">18 orders in 2 mins</p>
           </CardContent>
         </Card>
 
         <Card className="rounded-2xl border border-border/60 bg-card shadow-xs">
           <CardContent className="p-4 flex flex-col justify-between h-full space-y-1">
             <span className="text-[10px] font-mono font-bold text-muted-foreground uppercase">
-              HARDWARE DEVICES
+              DEVICES USED
             </span>
             <div className="text-2xl font-black text-foreground font-mono">
               {blastRadius.affected_devices}
             </div>
-            <p className="text-[10px] text-rose-500 font-mono">D102 (High Hub)</p>
+            <p className="text-[10px] text-rose-500 font-mono">Laptop D102 (Main Hub)</p>
           </CardContent>
         </Card>
 
         <Card className="rounded-2xl border border-border/60 bg-card shadow-xs">
           <CardContent className="p-4 flex flex-col justify-between h-full space-y-1">
             <span className="text-[10px] font-mono font-bold text-muted-foreground uppercase">
-              GATEWAY IPS
+              FAKE / PROXY IPS
             </span>
             <div className="text-2xl font-black text-foreground font-mono">
               {blastRadius.affected_ips}
             </div>
-            <p className="text-[10px] text-muted-foreground font-mono">Tor & VPN detected</p>
+            <p className="text-[10px] text-muted-foreground font-mono">Darknet Tor proxies</p>
           </CardContent>
         </Card>
 
@@ -375,38 +375,38 @@ export default function InvestigationDetailPage(props: { params: Promise<{ ringI
             <div className="text-2xl font-black text-foreground font-mono">
               {blastRadius.affected_payments}
             </div>
-            <p className="text-[10px] text-muted-foreground font-mono">Cross-account reuse</p>
+            <p className="text-[10px] text-muted-foreground font-mono">Reused across buyers</p>
           </CardContent>
         </Card>
 
         <Card className="rounded-2xl border border-emerald-500/30 bg-emerald-500/5 shadow-xs">
           <CardContent className="p-4 flex flex-col justify-between h-full space-y-1">
             <span className="text-[10px] font-mono font-bold text-emerald-500 uppercase">
-              PREVENTED LOSS
+              MONEY SAVED
             </span>
             <div className="text-2xl font-black text-foreground font-mono">
               ₹{(blastRadius.total_exposure / 100000).toFixed(1)}L
             </div>
-            <p className="text-[10px] text-emerald-500 font-mono">Direct Chargeback Saved</p>
+            <p className="text-[10px] text-emerald-500 font-mono">Saved from chargeback</p>
           </CardContent>
         </Card>
       </div>
 
-      {/* 🌟 3. Interactive Multi-Hop Graph Canvas */}
+      {/* 🌟 3. Interactive Connection Map */}
       <Card className="rounded-3xl border border-border/60 shadow-md bg-card overflow-hidden">
         <CardHeader className="p-5 pb-3 border-b border-border/40 bg-muted/10 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
             <CardTitle className="text-sm font-bold tracking-tight flex items-center gap-2">
               <Share2 className="h-4 w-4 text-rose-500" />
-              <span>Multi-Hop Relationship Graph</span>
+              <span>Visual Connection Map (Who is connected to whom?)</span>
             </CardTitle>
             <CardDescription className="text-xs">
-              Interactive SVG canvas — Mouse scroll to zoom, click & drag to pan, glowing nodes represent high-risk hub devices.
+              Scroll mouse to zoom in/out, click & drag to move. Glowing red dots are the main fraud laptops/devices.
             </CardDescription>
           </div>
           <Link href="/graph">
             <Button variant="outline" size="sm" className="h-7 text-xs font-bold gap-1 rounded-xl">
-              <span>Full Graph Explorer</span>
+              <span>Full Screen Map</span>
               <ExternalLink className="h-3 w-3" />
             </Button>
           </Link>
@@ -427,7 +427,7 @@ export default function InvestigationDetailPage(props: { params: Promise<{ ringI
               <Card className="rounded-2xl border border-border/60 bg-muted/20 p-4 space-y-4">
                 <div className="flex items-center justify-between border-b border-border/40 pb-3">
                   <span className="text-xs font-bold font-mono text-muted-foreground uppercase">
-                    Entity Inspector
+                    Selected Item Details
                   </span>
                   <Badge variant="outline" className="font-mono text-[10px]">
                     {selectedEntity?.type || "DEVICE"}
@@ -436,19 +436,19 @@ export default function InvestigationDetailPage(props: { params: Promise<{ ringI
 
                 <div className="space-y-3 font-mono text-xs">
                   <div>
-                    <span className="text-[10px] text-muted-foreground block">Entity ID</span>
+                    <span className="text-[10px] text-muted-foreground block font-bold">Item ID</span>
                     <span className="font-bold text-foreground text-sm">{selectedEntity?.id || "D102"}</span>
                   </div>
 
                   <div>
-                    <span className="text-[10px] text-muted-foreground block">Label / Descriptor</span>
-                    <span className="font-bold text-foreground">{selectedEntity?.label || "Hardware Laptop (Windows 11)"}</span>
+                    <span className="text-[10px] text-muted-foreground block font-bold">What is this?</span>
+                    <span className="font-bold text-foreground">{selectedEntity?.label || "Laptop Fingerprint (Windows 11)"}</span>
                   </div>
 
                   <div>
-                    <span className="text-[10px] text-muted-foreground block">Risk Status</span>
+                    <span className="text-[10px] text-muted-foreground block font-bold">Risk Level</span>
                     <Badge variant="destructive" className="font-mono text-[10px] uppercase font-bold mt-1">
-                      HIGH RISK HUB
+                      HIGH DANGER (BOT HUB)
                     </Badge>
                   </div>
                 </div>
@@ -457,10 +457,10 @@ export default function InvestigationDetailPage(props: { params: Promise<{ ringI
                   <Button
                     size="sm"
                     variant="outline"
-                    onClick={() => toast.success(`Entity ${selectedEntity?.id || "D102"} added to platform hardware blacklist.`)}
+                    onClick={() => toast.success(`Device ${selectedEntity?.id || "D102"} added to global blacklist.`)}
                     className="w-full text-xs font-bold rounded-xl border-rose-500/30 text-rose-500 hover:bg-rose-500/10 cursor-pointer"
                   >
-                    Blacklist Entity Hardware ID
+                    Blacklist This Device / IP
                   </Button>
                 </div>
               </Card>
@@ -469,17 +469,17 @@ export default function InvestigationDetailPage(props: { params: Promise<{ ringI
         </CardContent>
       </Card>
 
-      {/* 🌟 4. Why Detected & Ring DNA Grid */}
+      {/* 🌟 4. Why Detected & Pattern Breakdown */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* Left: Why Detected Evidence Cards (7 cols) */}
+        {/* Left: Clear Evidence Cards (7 cols) */}
         <div className="lg:col-span-7 space-y-4">
           <Card className="rounded-3xl border border-border/60 shadow-xs bg-card">
             <CardHeader className="p-5 pb-3 border-b border-border/40 bg-muted/10">
               <CardTitle className="text-sm font-bold tracking-tight">
-                Why Was This Ring Detected?
+                Why Was This Gang Flagged? (Clear Evidence)
               </CardTitle>
               <CardDescription className="text-xs">
-                Empirical feature contributions generated by the Graph-Enhanced Sentinel
+                Plain English breakdown of the suspicious behavior caught by our AI
               </CardDescription>
             </CardHeader>
             <CardContent className="p-5 space-y-2.5">
@@ -508,16 +508,16 @@ export default function InvestigationDetailPage(props: { params: Promise<{ ringI
           </Card>
         </div>
 
-        {/* Right: Ring DNA Feature Bars (5 cols) */}
+        {/* Right: Fraud Pattern Breakdown (5 cols) */}
         <div className="lg:col-span-5 space-y-4">
           <Card className="rounded-3xl border border-border/60 shadow-xs bg-card">
             <CardHeader className="p-5 pb-3 border-b border-border/40 bg-muted/10 flex items-center justify-between">
               <div>
                 <CardTitle className="text-sm font-bold tracking-tight">
-                  Ring DNA Fingerprint
+                  Fraud Pattern Breakdown
                 </CardTitle>
                 <CardDescription className="text-xs">
-                  Normalized structural dimensions (0 - 100)
+                  Scores showing how heavily each trick was used (0 - 100)
                 </CardDescription>
               </div>
               <Button
@@ -527,7 +527,7 @@ export default function InvestigationDetailPage(props: { params: Promise<{ ringI
                 className="h-7 text-xs font-bold gap-1 rounded-xl cursor-pointer"
               >
                 <Copy className="h-3 w-3" />
-                <span>Copy DNA</span>
+                <span>Copy ID</span>
               </Button>
             </CardHeader>
             <CardContent className="p-5 space-y-3.5 text-xs">
@@ -552,7 +552,7 @@ export default function InvestigationDetailPage(props: { params: Promise<{ ringI
         </div>
       </div>
 
-      {/* 🌟 5. Timeline Replay & Real-Time Case Notes */}
+      {/* 🌟 5. Step-by-Step Timeline & Case Notes */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Timeline (7 cols) */}
         <div className="lg:col-span-7">
@@ -561,10 +561,10 @@ export default function InvestigationDetailPage(props: { params: Promise<{ ringI
               <div>
                 <CardTitle className="text-sm font-bold tracking-tight flex items-center gap-2">
                   <Clock className="h-4 w-4 text-primary" />
-                  <span>Formation Replay ({replayIndex + 1} / {timelineData?.events?.length || 18})</span>
+                  <span>Step-by-Step Attack Timeline ({replayIndex + 1} / {timelineData?.events?.length || 18})</span>
                 </CardTitle>
                 <CardDescription className="text-xs">
-                  Chronological event replay showing sub-minute burst activation
+                  Watch how the bot gang placed 18 orders in under 2 minutes
                 </CardDescription>
               </div>
 
@@ -577,7 +577,7 @@ export default function InvestigationDetailPage(props: { params: Promise<{ ringI
                   className="h-8 text-xs font-bold rounded-xl gap-1.5 border-border/60 cursor-pointer"
                 >
                   {isPlaying ? <Pause className="h-3.5 w-3.5" /> : <Play className="h-3.5 w-3.5 text-emerald-500" />}
-                  <span>{isPlaying ? "Pause Replay" : "Play Formation Replay"}</span>
+                  <span>{isPlaying ? "Pause" : "Play Timeline Animation"}</span>
                 </Button>
                 <Button
                   size="sm"
@@ -603,15 +603,15 @@ export default function InvestigationDetailPage(props: { params: Promise<{ ringI
                     }`}
                   >
                     <div className="flex items-center gap-3">
-                      <span className="text-[10px] font-bold text-rose-500">#{i + 1}</span>
+                      <span className="text-[10px] font-bold text-rose-500">Order #{i + 1}</span>
                       <span className="font-bold text-foreground">{ev.timestamp.slice(11, 19)}</span>
-                      <span>{ev.customer_id}</span>
-                      <span className="text-muted-foreground">via {ev.device_id}</span>
+                      <span>Customer: {ev.customer_id}</span>
+                      <span className="text-muted-foreground">via Laptop: {ev.device_id}</span>
                     </div>
                     <div className="flex items-center gap-3">
                       <span className="font-bold text-emerald-500">₹{ev.amount}</span>
                       <Badge variant="destructive" className="text-[9px] py-0 px-1.5 h-4">
-                        FLAGGED
+                        BLOCKED
                       </Badge>
                     </div>
                   </div>
@@ -627,17 +627,17 @@ export default function InvestigationDetailPage(props: { params: Promise<{ ringI
             <CardHeader className="p-5 pb-3 border-b border-border/40 bg-muted/10">
               <CardTitle className="text-sm font-bold tracking-tight flex items-center gap-2">
                 <MessageSquare className="h-4 w-4 text-primary" />
-                <span>Investigator Case Notes</span>
+                <span>Investigator Notes & Comments</span>
               </CardTitle>
               <CardDescription className="text-xs">
-                Real-time commentary saved with forensic record
+                Write notes about this case (Saved permanently)
               </CardDescription>
             </CardHeader>
 
             <CardContent className="p-5 space-y-3">
               <form onSubmit={handleAddNote} className="flex gap-2">
                 <Input
-                  placeholder="Type investigation note..."
+                  placeholder="Type an investigation note..."
                   value={newNote}
                   onChange={(e) => setNewNote(e.target.value)}
                   className="h-9 text-xs rounded-xl font-mono"
