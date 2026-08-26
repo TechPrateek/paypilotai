@@ -41,12 +41,58 @@ class HeterogeneousGraphBuilder:
         
         return tx_id
 
+    def compute_ring_risk(self, transaction_id: str, tx_dict: Dict[str, Any] = None) -> float:
+        """
+        Calculates normalized abuse-ring risk score [0.0, 1.0] from relational connectivity.
+        Detects coordinated syndicate patterns (e.g. 1 device or IP shared across multiple accounts).
+        """
+        tx_dict = tx_dict or {}
+        dev_id = str(tx_dict.get("deviceId") or tx_dict.get("deviceFingerprint") or "")
+        net_id = str(tx_dict.get("networkId") or tx_dict.get("ip") or "")
+        
+        # Base connectivity signals
+        dev_degree = self.graph.degree(dev_id) if dev_id and dev_id in self.graph else 1
+        net_degree = self.graph.degree(net_id) if net_id and net_id in self.graph else 1
+
+        is_tor = bool(tx_dict.get("isTorIp"))
+        is_proxy = bool(tx_dict.get("isProxyIp") or tx_dict.get("isVpnIp") or tx_dict.get("isSuspiciousIp"))
+        switches = int(tx_dict.get("paymentInstrumentSwitchCount", 0) or 0)
+        velocity = int(tx_dict.get("transactionsInLast5Min", 0) or 0)
+
+        # Ring risk components
+        ring_risk = 0.05
+
+        # 1. Suspicious Network Infrastructure
+        if is_tor:
+            ring_risk += 0.45
+        elif is_proxy:
+            ring_risk += 0.20
+
+        # 2. Multi-Account Sharing on Device/Network
+        if dev_degree > 3:
+            ring_risk += 0.30
+        elif dev_degree > 1 and (is_proxy or is_tor):
+            ring_risk += 0.20
+
+        if net_degree > 4:
+            ring_risk += 0.20
+
+        # 3. Coordinated Card Testing / Multi-Card Velocity
+        if switches >= 3:
+            ring_risk += 0.25
+        elif switches >= 1 and velocity >= 5:
+            ring_risk += 0.20
+
+        if velocity >= 10:
+            ring_risk += 0.30
+
+        return float(min(max(ring_risk, 0.0), 0.98))
+
     def extract_ego_network(self, transaction_id: str, depth: int = 2) -> Dict[str, Any]:
         """
         Extracts multi-hop relational subgraph around a transaction for analyst inspection.
         """
         if transaction_id not in self.graph:
-            # Create synthetic local graph around this transaction if standalone
             self.add_transaction_subgraph({"transactionId": transaction_id})
 
         # 2-hop neighborhood

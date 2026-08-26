@@ -49,6 +49,7 @@ class TransactionPredictionRequest(BaseModel):
 class PredictionResponse(BaseModel):
     riskProbability: float = Field(..., description="Calibrated probability of fraud (0.0 - 1.0)")
     riskScore: int = Field(..., description="Risk score from 0 to 100")
+    ringRisk: float = Field(0.0, description="Abuse-ring risk score from relational graph analysis (0.0 - 1.0)")
     confidence: float = Field(..., description="Information and context confidence (0.0 - 1.0)")
     decision: Literal["APPROVE", "REVIEW", "BLOCK"]
     modelVersion: str = "hybrid-v1"
@@ -56,6 +57,7 @@ class PredictionResponse(BaseModel):
     dataAvailability: DataAvailability
     evidence: List[StructuredEvidenceItem]
     modelBreakdown: Dict[str, float]
+    expectedCosts: Optional[Dict[str, float]] = None
     processingTimeMs: int
 
 class GraphNode(BaseModel):

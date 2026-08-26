@@ -33,12 +33,18 @@ export function analyzeTransaction(input: TransactionInput): RiskAssessmentResul
 
   const { anomalyScore } = detectAnomaly(input);
   if (anomalyScore >= 75) {
-    riskScore += 10; // Bump score slightly if highly anomalous
+    riskScore += 10;
   }
 
   riskScore = Math.min(Math.max(riskScore, 0), 100);
 
-  const { decision, riskLevel } = makeDecision(riskScore);
+  const hasStrongFraudEvidence = Boolean(
+    input.isSuspiciousIp ||
+    (input.transactionsInLast5Min >= 10) ||
+    (input.previousFailedAttempts >= 5)
+  );
+
+  const { decision, riskLevel } = makeDecision(riskScore, hasStrongFraudEvidence);
   const attackPattern = detectAttackPattern(input, factors);
 
   const processingTimeMs = Date.now() - startTime;

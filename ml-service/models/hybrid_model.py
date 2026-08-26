@@ -6,15 +6,25 @@ from graph.builder import HeterogeneousGraphBuilder
 from graph.model import HeterogeneousGNN
 from models.lightgbm_model import LightGBMTabularModel
 from models.confidence import ConfidenceScorer
+from config import (
+    COST_FALSE_POSITIVE,
+    COST_FALSE_NEGATIVE,
+    COST_MANUAL_REVIEW,
+    WEIGHT_TABULAR,
+    WEIGHT_BEHAVIORAL,
+    WEIGHT_GRAPH_RING,
+    WEIGHT_COLD_TABULAR,
+    WEIGHT_COLD_GRAPH_RING,
+)
 
 class HybridRiskAggregator:
     """
-    Unified Hybrid Risk Engine combining:
-    1. Transaction Tabular LightGBM
-    2. Historical Behavioral ML
-    3. Heterogeneous GNN Representation
-    4. Information Confidence Scorer
-    5. Calibrated Multi-Signal Decision Engine
+    Cost-Aware, False-Positive-Resistant Hybrid Decision Engine:
+    1. Feature Pipelines (Tabular + Behavioral)
+    2. Abuse-Ring Relational Graph Scoring (ring_risk ∈ [0, 1])
+    3. Multi-Modal Risk Aggregation
+    4. Evidence-Based False-Positive Guard
+    5. Expected Business Loss Optimization (C_fp vs C_fn)
     """
     def __init__(self):
         self.lightgbm = LightGBMTabularModel()
@@ -28,28 +38,28 @@ class HybridRiskAggregator:
         tx_features = extract_transaction_features(tx_dict)
         beh_features, history_available, beh_meta = extract_behavioral_features(tx_dict)
         
-        # 2. Graph Pipeline
+        # 2. Graph Pipeline & Abuse-Ring Risk
         tx_id = self.graph_builder.add_transaction_subgraph(tx_dict)
         graph_context = self.graph_builder.extract_ego_network(tx_id, depth=2)
+        ring_risk = self.graph_builder.compute_ring_risk(tx_id, tx_dict)
         
         # 3. Model Inferences
         p_tabular = self.lightgbm.predict_proba(tx_features)
-        p_gnn = self.gnn.forward(tx_features, graph_context)
         
-        # Behavioral score calculation (only if history exists)
+        # Behavioral deviation score
         if history_available:
             z_score = beh_meta.get("zScore", 0.0)
             velocity = beh_meta.get("velocity5Min", 0)
             p_beh = min(max(0.1 + (max(z_score - 1.5, 0.0) * 0.25) + (velocity * 0.08), 0.05), 0.95)
         else:
-            p_beh = p_tabular # Fallback to tabular prior
+            p_beh = p_tabular
 
-        # 4. Multi-modal Weighted Aggregation
+        # 4. Multi-Modal Risk Aggregation
         if history_available:
-            risk_prob = (0.40 * p_tabular) + (0.30 * p_beh) + (0.30 * p_gnn)
+            risk_prob = (WEIGHT_TABULAR * p_tabular) + (WEIGHT_BEHAVIORAL * p_beh) + (WEIGHT_GRAPH_RING * ring_risk)
         else:
-            # Cold-start re-weighting (rely more on transaction + graph context)
-            risk_prob = (0.55 * p_tabular) + (0.45 * p_gnn)
+            # Cold-start re-weighting (no behavioral history penalty)
+            risk_prob = (WEIGHT_COLD_TABULAR * p_tabular) + (WEIGHT_COLD_GRAPH_RING * ring_risk)
             
         risk_score = int(round(risk_prob * 100))
         risk_score = max(min(risk_score, 100), 1)
@@ -66,26 +76,57 @@ class HybridRiskAggregator:
             device_observed=device_observed
         )
 
-        # 6. Calibrated Decision Engine (Risk + Confidence Matrix)
-        if risk_score < 30:
-            decision = "APPROVE"
-        elif risk_score >= 80 and confidence >= 0.75:
-            # High Risk + High Confidence = BLOCK
-            decision = "BLOCK"
-        elif risk_score >= 60 or (risk_score >= 80 and confidence < 0.75):
-            # High Risk + Low Confidence = REVIEW (Never blindly block unconfirmed cold starts)
-            decision = "REVIEW"
-        else:
-            decision = "APPROVE"
+        # 6. Expected Business Loss Calculation (Cost-Aware Decisioning)
+        # Expected Loss if Approved: P(Fraud) * C_fn
+        loss_approve = risk_prob * COST_FALSE_NEGATIVE
+        # Expected Loss if Blocked: P(Legit) * C_fp
+        loss_block = (1.0 - risk_prob) * COST_FALSE_POSITIVE
+        # Expected Loss if Reviewed: Review labor + residual risk
+        loss_review = COST_MANUAL_REVIEW + (risk_prob * 0.10 * COST_FALSE_NEGATIVE)
 
-        # 7. Structured Evidence Generation
+        # 7. False-Positive Protection Guard (Evidence-Based)
+        # Identify strong fraud indicators vs weak contextual anomalies
+        is_tor = bool(tx_dict.get("isTorIp"))
+        is_suspicious_net = bool(tx_dict.get("isSuspiciousIp"))
+        extreme_velocity = int(tx_dict.get("transactionsInLast5Min", 0) or 0) >= 10
+        high_switches = int(tx_dict.get("paymentInstrumentSwitchCount", 0) or 0) >= 3
+
+        has_strong_fraud_evidence = (
+            ring_risk >= 0.60 or
+            is_tor or
+            (is_suspicious_net and risk_prob >= 0.70) or
+            extreme_velocity or
+            high_switches or
+            (risk_prob >= 0.85 and confidence >= 0.70)
+        )
+
+        # Weak contextual signals (New device, New IP, First order, Unusual amount)
+        is_weak_anomaly_only = not has_strong_fraud_evidence
+
+        # Cost-aware action selection
+        if is_weak_anomaly_only:
+            # False Positive Guard: Weak signals CANNOT trigger a hard BLOCK
+            if loss_approve <= loss_review or risk_score < 60:
+                decision = "APPROVE"
+            else:
+                decision = "REVIEW"
+        else:
+            # Strong evidence present: choose action with lowest expected business loss
+            min_loss = min(loss_approve, loss_review, loss_block)
+            if min_loss == loss_block and risk_prob >= 0.75:
+                decision = "BLOCK"
+            elif min_loss == loss_review or risk_score >= 55:
+                decision = "REVIEW"
+            else:
+                decision = "APPROVE"
+
+        # 8. Structured Evidence Generation
         evidence: List[Dict[str, Any]] = []
 
-        # Data Availability Evidence
         if not history_available:
             evidence.append({
                 "category": "DATA_AVAILABILITY",
-                "description": "First-time customer with zero historical merchant transactions. Behavioral confidence is LOW.",
+                "description": "First-time customer with zero historical merchant transactions. False positive guard active.",
                 "severity": "LOW",
                 "source": "BEHAVIORAL_ENGINE",
                 "evidenceData": {"historyAvailable": False}
@@ -94,55 +135,53 @@ class HybridRiskAggregator:
             if beh_meta.get("zScore", 0) > 2.0:
                 evidence.append({
                     "category": "BEHAVIOR",
-                    "description": f"Transaction amount is {beh_meta.get('amountDeviationRatio')}x higher than customer 90-day baseline (Z-Score: +{beh_meta.get('zScore')}).",
+                    "description": f"Transaction amount is {beh_meta.get('amountDeviationRatio')}x higher than customer baseline (Z-Score: +{beh_meta.get('zScore')}).",
                     "severity": "MEDIUM" if beh_meta.get("zScore") < 3.5 else "HIGH",
                     "source": "BEHAVIORAL_ENGINE",
                     "evidenceData": beh_meta
                 })
 
-        # Context Evidence (New device / IP is contextual, NOT fraud)
         if tx_dict.get("isNewDevice"):
             evidence.append({
                 "category": "CONTEXT",
-                "description": "New device observed. This contextual signal alone is insufficient to classify the transaction as fraudulent.",
+                "description": "New device observed. Contextual signal protected by False-Positive Guard.",
                 "severity": "LOW",
                 "source": "HEURISTIC",
                 "evidenceData": {"isNewDevice": True}
             })
 
-        if tx_dict.get("isProxyIp") or tx_dict.get("isVpnIp") or tx_dict.get("isTorIp"):
-            net_type = "Tor exit node" if tx_dict.get("isTorIp") else "VPN / Anonymizing Proxy"
+        if is_tor or tx_dict.get("isProxyIp") or tx_dict.get("isVpnIp"):
+            net_type = "Tor exit node" if is_tor else "VPN / Proxy"
             evidence.append({
                 "category": "CONTEXT",
-                "description": f"Network originating from {net_type}. Verified against threat intelligence.",
-                "severity": "HIGH" if tx_dict.get("isTorIp") else "MEDIUM",
+                "description": f"Network originating from {net_type}.",
+                "severity": "HIGH" if is_tor else "MEDIUM",
                 "source": "NETWORK_INTEL",
                 "evidenceData": {"network": net_type}
             })
 
-        # Graph Evidence
-        shared_count = graph_context.get("sharedEntityCount", 0)
-        if shared_count >= 2:
+        # Abuse-Ring Evidence
+        if ring_risk >= 0.50:
             evidence.append({
                 "category": "GRAPH",
-                "description": f"Heterogeneous GNN detected {shared_count} shared entity links with multiple transaction clusters.",
-                "severity": "HIGH" if shared_count >= 3 else "MEDIUM",
+                "description": f"Abuse-Ring Sentinel flagged elevated ring risk ({ring_risk:.2f}) across shared entity infrastructure.",
+                "severity": "HIGH" if ring_risk >= 0.70 else "MEDIUM",
                 "source": "GNN",
-                "evidenceData": {"sharedEntities": shared_count}
+                "evidenceData": {"ringRisk": round(ring_risk, 3), "sharedEntities": graph_context.get("sharedEntityCount", 0)}
             })
         else:
             evidence.append({
                 "category": "GRAPH",
-                "description": "Entity graph confirms clean isolation with no anomalous cluster overlap.",
+                "description": f"Abuse-Ring Sentinel confirmed clean isolation with low ring risk ({ring_risk:.2f}).",
                 "severity": "LOW",
                 "source": "GNN",
-                "evidenceData": {"graphDensity": graph_context.get("graphDensity")}
+                "evidenceData": {"ringRisk": round(ring_risk, 3)}
             })
 
-        # Transaction Model Evidence
+        # Tabular ML Evidence
         evidence.append({
             "category": "TRANSACTION",
-            "description": f"Tabular LightGBM model computed base transaction risk probability of {p_tabular:.2f}.",
+            "description": f"LightGBM tabular model predicted fraud probability of {p_tabular:.2f}.",
             "severity": "HIGH" if p_tabular >= 0.70 else "MEDIUM" if p_tabular >= 0.40 else "LOW",
             "source": "LIGHTGBM",
             "evidenceData": {"p_tabular": round(p_tabular, 3)}
@@ -153,10 +192,11 @@ class HybridRiskAggregator:
         return {
             "riskProbability": round(risk_prob, 3),
             "riskScore": risk_score,
+            "ringRisk": round(ring_risk, 3),
             "confidence": confidence,
             "decision": decision,
             "modelVersion": "hybrid-v1",
-            "anomalyScore": round(float(p_gnn * 100), 1),
+            "anomalyScore": round(float(ring_risk * 100), 1),
             "dataAvailability": {
                 "historyAvailable": history_available,
                 "identityAvailable": True,
@@ -167,7 +207,12 @@ class HybridRiskAggregator:
             "modelBreakdown": {
                 "lightgbm": round(p_tabular, 3),
                 "behavioral": round(p_beh, 3),
-                "gnn": round(p_gnn, 3)
+                "gnn": round(ring_risk, 3)
+            },
+            "expectedCosts": {
+                "approveExpectedLoss": round(loss_approve, 1),
+                "blockExpectedLoss": round(loss_block, 1),
+                "reviewExpectedLoss": round(loss_review, 1)
             },
             "processingTimeMs": max(processing_time_ms, 5)
         }

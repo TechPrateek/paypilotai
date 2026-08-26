@@ -33,7 +33,10 @@ import {
   Layers,
   Activity,
   Share2,
+  TrendingDown,
+  DollarSign,
 } from "lucide-react";
+import { formatCurrency } from "@/lib/utils";
 
 const SCENARIO_ICONS: Record<string, any> = {
   CheckCircle,
@@ -135,7 +138,7 @@ export default function SimulatorPage() {
           </Badge>
         </div>
         <p className="text-muted-foreground text-xs sm:text-sm mt-1">
-          Test how PayPilot AI evaluates real customer orders. Click any sample order scenario below or enter custom details.
+          Test how PayPilot AI evaluates real customer orders with False-Positive Protection, Cost-Aware Decisioning, and Abuse-Ring Scoring.
         </p>
       </div>
 
@@ -275,7 +278,7 @@ export default function SimulatorPage() {
                     className="h-8 text-xs font-mono"
                     placeholder="0 for First-Time Buyer"
                   />
-                  <span className="text-[10px] text-muted-foreground">0 = First-Time Buyer</span>
+                  <span className="text-[10px] text-muted-foreground">0 = First-Time Buyer (False Positive Guard Active)</span>
                 </div>
 
                 <div className="space-y-1.5">
@@ -314,7 +317,7 @@ export default function SimulatorPage() {
                 <div className="flex items-center justify-between">
                   <div>
                     <Label className="text-xs font-normal">Customer on a New Phone / Computer</Label>
-                    <p className="text-[11px] text-muted-foreground">Normal for buyers who upgrade devices</p>
+                    <p className="text-[11px] text-muted-foreground">Weak signal: Never blocked alone</p>
                   </div>
                   <Switch
                     checked={formData.isNewDevice}
@@ -362,7 +365,7 @@ export default function SimulatorPage() {
             <CardHeader className="p-4 sm:p-5 pb-3 bg-muted/20 border-b border-border/40">
               <CardTitle className="text-sm font-semibold flex items-center justify-between">
                 <span className="flex items-center gap-2">
-                  <Shield className="h-4 w-4 text-primary" /> AI Risk Score & Recommendation
+                  <Shield className="h-4 w-4 text-primary" /> Cost-Aware AI Decision
                 </span>
                 {result && (
                   <Badge variant="outline" className="font-mono text-xs">
@@ -391,11 +394,37 @@ export default function SimulatorPage() {
                     />
                   </div>
 
-                  {/* Multi-Modal Breakdown in plain words */}
+                  {/* Cost-Aware Expected Loss Reasoning */}
+                  {result.expectedCosts && (
+                    <div className="p-3.5 rounded-lg bg-primary/5 border border-primary/20 space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-semibold text-foreground flex items-center gap-1.5">
+                          <DollarSign className="h-3.5 w-3.5 text-primary" /> Expected Business Loss Analysis
+                        </span>
+                        <span className="text-[10px] text-muted-foreground font-mono">C_FP: ₹450 | C_FN: ₹4,500</span>
+                      </div>
+                      <div className="grid grid-cols-2 gap-2 text-xs">
+                        <div className="p-2 rounded bg-background/90 border border-border/40">
+                          <span className="text-[10px] text-muted-foreground block">Loss if Approved</span>
+                          <span className="font-bold text-rose-400 font-mono">
+                            {formatCurrency(result.expectedCosts.approveExpectedLoss, "INR")}
+                          </span>
+                        </div>
+                        <div className="p-2 rounded bg-background/90 border border-border/40">
+                          <span className="text-[10px] text-muted-foreground block">Loss if Blocked</span>
+                          <span className="font-bold text-amber-400 font-mono">
+                            {formatCurrency(result.expectedCosts.blockExpectedLoss, "INR")}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Multi-Modal Breakdown including Abuse-Ring Risk */}
                   {result.modelBreakdown && (
                     <div className="p-3.5 rounded-lg bg-muted/30 border border-border/40 space-y-2">
                       <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider block">
-                        What the AI Checked
+                        Multi-Modal Signal Breakdown
                       </span>
                       <div className="grid grid-cols-3 gap-2 text-center text-xs">
                         <div className="p-2 rounded bg-background/80 border border-border/40">
@@ -411,9 +440,9 @@ export default function SimulatorPage() {
                           </span>
                         </div>
                         <div className="p-2 rounded bg-background/80 border border-border/40">
-                          <span className="text-[10px] text-muted-foreground block">Connected Devices</span>
+                          <span className="text-[10px] text-muted-foreground block">Abuse-Ring Risk</span>
                           <span className="font-bold text-purple-400 font-mono">
-                            {Math.round(result.modelBreakdown.gnn * 100)}%
+                            {Math.round((result.ringRisk || result.modelBreakdown.gnn) * 100)}%
                           </span>
                         </div>
                       </div>
