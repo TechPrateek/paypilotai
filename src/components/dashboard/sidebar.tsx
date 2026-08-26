@@ -7,7 +7,6 @@ import { cn } from "@/lib/utils";
 import {
   LayoutDashboard,
   Share2,
-  FileCheck2,
   Zap,
   Activity,
   ShieldCheck,
@@ -20,9 +19,8 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
 
   const navigation = [
     { name: t("overview"), href: "/overview", icon: LayoutDashboard },
-    { name: t("transactions"), href: "/transactions", icon: Share2 },
-    { name: t("simulator"), href: "/simulator", icon: Zap },
-    { name: t("cases"), href: "/risk-cases", icon: FileCheck2 },
+    { name: t("fraudSpikeDetector"), href: "/simulator", icon: Zap },
+    { name: t("abuseRingSentinel"), href: "/transactions", icon: Share2 },
     { name: t("metrics"), href: "/settings", icon: Activity },
   ];
 
@@ -63,21 +61,24 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
         })}
       </nav>
 
-      <div className="p-4 border-t border-border/40 text-xs text-muted-foreground space-y-1.5">
+      {/* 2 Core Defense Pillars Indicator */}
+      <div className="p-4 border-t border-border/40 text-xs text-muted-foreground space-y-2">
         <div className="text-[11px] font-semibold text-foreground uppercase tracking-wider">
-          {language === "hi" ? "सक्रिय सुरक्षा इंजन" : "Active Defense Modules"}
+          {language === "hi" ? "2 सक्रिय सुरक्षा इंजन" : "2 Active Defense Pillars"}
         </div>
-        <div className="flex items-center gap-1.5 text-emerald-400 text-[11px]">
-          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-          <span>{t("abuseRingSentinel")}</span>
+        <div className="flex items-center justify-between text-blue-400 text-[11px] bg-blue-500/10 p-2 rounded border border-blue-500/20">
+          <div className="flex items-center gap-1.5">
+            <span className="h-2 w-2 rounded-full bg-blue-500 animate-pulse" />
+            <span className="font-semibold">{t("fraudSpikeDetector")}</span>
+          </div>
+          <span className="font-mono text-[10px] uppercase font-bold text-blue-400">{t("active")}</span>
         </div>
-        <div className="flex items-center gap-1.5 text-blue-400 text-[11px]">
-          <span className="h-1.5 w-1.5 rounded-full bg-blue-500" />
-          <span>{t("fraudSpikeDetector")}</span>
-        </div>
-        <div className="flex items-center gap-1.5 text-purple-400 text-[11px]">
-          <span className="h-1.5 w-1.5 rounded-full bg-purple-500" />
-          <span>{t("chargebackEvidence")}</span>
+        <div className="flex items-center justify-between text-emerald-400 text-[11px] bg-emerald-500/10 p-2 rounded border border-emerald-500/20">
+          <div className="flex items-center gap-1.5">
+            <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="font-semibold">{t("abuseRingSentinel")}</span>
+          </div>
+          <span className="font-mono text-[10px] uppercase font-bold text-emerald-400">{t("active")}</span>
         </div>
       </div>
     </div>

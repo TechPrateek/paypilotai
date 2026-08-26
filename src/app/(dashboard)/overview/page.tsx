@@ -92,7 +92,7 @@ export default function OverviewPage() {
           </div>
           <p className="text-muted-foreground text-xs sm:text-sm mt-1">
             {language === "hi"
-              ? "दुकान की बिक्री, फ्रॉड से बचाया गया पैसा, और हालिया साइबर अटैक का लाइव हिसाब।"
+              ? "दुकान की बिक्री, फ्रॉड से बचाया गया पैसा, और 2 मुख्य सुरक्षा स्तंभों का लाइव हिसाब।"
               : "Real-time payment fraud prevention, loss savings, and threat intelligence for your store."}
           </p>
         </div>
@@ -101,7 +101,7 @@ export default function OverviewPage() {
         </div>
       </div>
 
-      {/* 🔴 Active Attack & Threat Alert Banner (Live Evidence) */}
+      {/* 🔴 Active Attack & Threat Alert Banner */}
       <div className="p-4 sm:p-5 rounded-xl border border-destructive/40 bg-destructive/10 text-destructive-foreground relative overflow-hidden shadow-sm">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative z-10">
           <div className="flex items-start gap-3.5">
@@ -121,7 +121,7 @@ export default function OverviewPage() {
               </div>
               <p className="text-xs sm:text-sm text-foreground/80 leading-relaxed max-w-3xl">
                 {language === "hi"
-                  ? "अज्ञात विदेशी IP नेटवर्क और मल्टीपल फर्जी कार्ड्स का उपयोग करके ₹1,45,000 का अटैक किया गया था। PayPilot के Abuse-Ring Sentinel ने इसे 12 मिलीसेकंड में ब्लॉक करके पूरा नुकसान बचा लिया।"
+                  ? "अज्ञात विदेशी IP नेटवर्क और मल्टीपल फर्जी कार्ड्स का उपयोग करके ₹1,45,000 का अटैक किया गया था। PayPilot के Fraud-Spike Detector aur Abuse-Ring Sentinel ne ise 12ms me block kar diya."
                   : "An anonymous Tor exit node attempted 14 rapid micro-transactions totaling ₹1,45,000 using 4 rotated stolen cards. PayPilot isolated the attack ring in 12ms."}
               </p>
             </div>
@@ -140,57 +140,54 @@ export default function OverviewPage() {
         </div>
       </div>
 
-      {/* 3 Active Defense Modules Highlight */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-        <div className="p-3.5 rounded-lg border border-border/60 bg-card flex items-center justify-between shadow-sm">
-          <div className="space-y-0.5">
-            <span className="text-xs font-semibold text-foreground flex items-center gap-1.5">
-              <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-              {t("abuseRingSentinel")}
-            </span>
-            <p className="text-[11px] text-muted-foreground">
-              {language === "hi" ? "फोन व IP का फ्रॉड जाल खोजना" : "Multi-hop shared entity graph"}
-            </p>
+      {/* 2 Core Defense Pillars Highlight */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="p-4 rounded-xl border border-blue-500/30 bg-blue-500/5 flex items-center justify-between shadow-sm">
+          <div className="flex items-start gap-3">
+            <div className="p-2 rounded-lg bg-blue-500/20 text-blue-400 shrink-0">
+              <Zap className="h-5 w-5" />
+            </div>
+            <div className="space-y-0.5">
+              <span className="text-sm font-bold text-foreground flex items-center gap-1.5">
+                {t("fraudSpikeDetector")}
+              </span>
+              <p className="text-xs text-muted-foreground">
+                {t("fraudSpikeDesc")}
+              </p>
+            </div>
           </div>
-          <span className="text-xs font-mono font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded">
-            {t("active")}
-          </span>
+          <Link href="/simulator">
+            <Button size="sm" variant="outline" className="text-xs font-semibold h-8 border-blue-500/30 text-blue-400 hover:bg-blue-500/10">
+              {language === "hi" ? "खोलें →" : "Open →"}
+            </Button>
+          </Link>
         </div>
 
-        <div className="p-3.5 rounded-lg border border-border/60 bg-card flex items-center justify-between shadow-sm">
-          <div className="space-y-0.5">
-            <span className="text-xs font-semibold text-foreground flex items-center gap-1.5">
-              <span className="h-2 w-2 rounded-full bg-blue-500 animate-pulse" />
-              {t("fraudSpikeDetector")}
-            </span>
-            <p className="text-[11px] text-muted-foreground">
-              {language === "hi" ? "लगातार तेज फर्जी पेमेंट रोकना" : "Velocity limiter & spike monitor"}
-            </p>
+        <div className="p-4 rounded-xl border border-emerald-500/30 bg-emerald-500/5 flex items-center justify-between shadow-sm">
+          <div className="flex items-start gap-3">
+            <div className="p-2 rounded-lg bg-emerald-500/20 text-emerald-400 shrink-0">
+              <Share2 className="h-5 w-5" />
+            </div>
+            <div className="space-y-0.5">
+              <span className="text-sm font-bold text-foreground flex items-center gap-1.5">
+                {t("abuseRingSentinel")}
+              </span>
+              <p className="text-xs text-muted-foreground">
+                {t("abuseRingDesc")}
+              </p>
+            </div>
           </div>
-          <span className="text-xs font-mono font-bold text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded">
-            {t("active")}
-          </span>
-        </div>
-
-        <div className="p-3.5 rounded-lg border border-border/60 bg-card flex items-center justify-between shadow-sm">
-          <div className="space-y-0.5">
-            <span className="text-xs font-semibold text-foreground flex items-center gap-1.5">
-              <span className="h-2 w-2 rounded-full bg-purple-500 animate-pulse" />
-              {t("chargebackEvidence")}
-            </span>
-            <p className="text-[11px] text-muted-foreground">
-              {language === "hi" ? "बैंक के लिए पक्के सबूत तैयार करना" : "Bank-ready dispute evidence packet"}
-            </p>
-          </div>
-          <span className="text-xs font-mono font-bold text-purple-400 bg-purple-500/10 px-2 py-0.5 rounded">
-            {t("active")}
-          </span>
+          <Link href="/transactions">
+            <Button size="sm" variant="outline" className="text-xs font-semibold h-8 border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/10">
+              {language === "hi" ? "खोलें →" : "Open →"}
+            </Button>
+          </Link>
         </div>
       </div>
 
-      {/* 💰 Primary Money & Loss Breakdown Cards (Clear for every beginner) */}
+      {/* 💰 Primary Money & Loss Breakdown Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {/* Card 1: Money Saved (Loss Prevented) */}
+        {/* Card 1: Money Saved */}
         <Card className="border-emerald-500/30 bg-emerald-500/5 shadow-sm">
           <CardHeader className="p-4 pb-1 flex flex-row items-center justify-between">
             <span className="text-xs font-semibold text-emerald-400">
