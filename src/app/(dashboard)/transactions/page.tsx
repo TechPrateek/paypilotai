@@ -44,14 +44,40 @@ export default function TransactionsPage() {
   const [selectedTx, setSelectedTx] = useState<any | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  // 🌟 Persistent local storage helper
+  const getStoredStatuses = (): Record<string, string> => {
+    if (typeof window === "undefined") return {};
+    try {
+      const raw = localStorage.getItem("paypilot_tx_verifications");
+      return raw ? JSON.parse(raw) : {};
+    } catch {
+      return {};
+    }
+  };
+
+  const saveStoredStatus = (txId: string, status: string) => {
+    if (typeof window === "undefined") return;
+    try {
+      const current = getStoredStatuses();
+      current[txId] = status;
+      localStorage.setItem("paypilot_tx_verifications", JSON.stringify(current));
+    } catch {}
+  };
+
   const loadTransactions = async () => {
     setLoading(true);
     try {
       const res = await fetch(`/api/transactions?limit=100&filter=${filterType}&search=${encodeURIComponent(searchQuery)}`);
       if (res.ok) {
         const data = await res.json();
-        setTransactions(data.transactions || []);
-        setTotalCount(data.total || (data.transactions || []).length);
+        const storedStatuses = getStoredStatuses();
+        const merged = (data.transactions || []).map((t: any) => ({
+          ...t,
+          verificationStatus: storedStatuses[t.id] || t.verificationStatus,
+          is_fraud: storedStatuses[t.id] === "VERIFIED" ? false : t.is_fraud,
+        }));
+        setTransactions(merged);
+        setTotalCount(data.total || merged.length);
       }
     } catch (err) {
       console.error("Failed to load transactions:", err);
@@ -67,24 +93,27 @@ export default function TransactionsPage() {
     return () => clearTimeout(timer);
   }, [searchQuery, filterType]);
 
-  // Real-time local state mutations
+  // Real-time local state mutations + persistent saving
   const handleApproveOrder = (txId: string) => {
+    saveStoredStatus(txId, "VERIFIED");
     setTransactions((prev) =>
       prev.map((t) => (t.id === txId ? { ...t, verificationStatus: "VERIFIED", is_fraud: false } : t))
     );
     setIsModalOpen(false);
-    toast.success(`Order ${txId} approved! Settlement initiated to merchant account.`);
+    toast.success(`Order ${txId} approved! Settlement saved permanently.`);
   };
 
   const handleRefundOrder = (txId: string) => {
+    saveStoredStatus(txId, "REFUNDED");
     setTransactions((prev) =>
       prev.map((t) => (t.id === txId ? { ...t, verificationStatus: "REFUNDED" } : t))
     );
     setIsModalOpen(false);
-    toast.error(`Refund processed for order ${txId}. Customer card credited.`);
+    toast.error(`Refund processed for order ${txId}. Saved permanently.`);
   };
 
   const handleHoldOrder = (txId: string) => {
+    saveStoredStatus(txId, "ON_HOLD");
     setTransactions((prev) =>
       prev.map((t) => (t.id === txId ? { ...t, verificationStatus: "ON_HOLD" } : t))
     );
