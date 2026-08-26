@@ -1,29 +1,24 @@
+"""
+Abuse-Ring Sentinel — FastAPI Backend Service
+Provides graph investigation, ring detection, timeline analysis, and empirical evaluation APIs.
+"""
+
+import json
 import os
 import sys
-from fastapi import FastAPI, HTTPException, Query
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from typing import Dict, Any
+from typing import Dict, Any, List, Optional
+from pydantic import BaseModel
 
-# Add project root to sys.path
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-
-from app.schemas import (
-    TransactionPredictionRequest,
-    PredictionResponse,
-    GraphResponse,
-    ExplanationRequest,
-    ExplanationResponse,
-    AblationMetricsResponse,
-    ColdStartEvaluationResponse
-)
-from models.hybrid_model import HybridRiskAggregator
-from evaluation.ablation import get_ablation_benchmarks
-from evaluation.cold_start import get_cold_start_evaluation
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+from dataset.generator import generate_synthetic_dataset
+from evaluation.heldout_evaluator import run_heldout_evaluation
 
 app = FastAPI(
-    title="PayPilot AI — Hybrid ML & Heterogeneous GNN Risk Service",
-    version="1.0.0",
-    description="Multi-modal payment risk inference engine integrating LightGBM, Behavioral baseline, PyG Heterogeneous GNN, and Explainable AI."
+    title="Abuse-Ring Sentinel API",
+    description="Coordinated Payment Abuse Detection & Investigation Engine",
+    version="1.0.0"
 )
 
 app.add_middleware(
@@ -34,96 +29,273 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Initialize Hybrid Risk Aggregator Singleton
-hybrid_engine = HybridRiskAggregator()
+DATASET_PATH = os.path.join(os.path.dirname(__file__), "..", "dataset", "synthetic_abuse_dataset.json")
+EVAL_PATH = os.path.join(os.path.dirname(__file__), "..", "dataset", "evaluation_results.json")
+
+def load_data() -> Dict[str, Any]:
+    if not os.path.exists(DATASET_PATH):
+        generate_synthetic_dataset(os.path.dirname(DATASET_PATH))
+    with open(DATASET_PATH, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+def load_evaluation() -> Dict[str, Any]:
+    if not os.path.exists(EVAL_PATH):
+        run_heldout_evaluation()
+    with open(EVAL_PATH, "r", encoding="utf-8") as f:
+        return json.load(f)
 
 @app.get("/health")
-def health_check():
+def health():
     return {
         "status": "healthy",
-        "service": "paypilot-ml-service",
-        "version": "1.0.0",
-        "models": {
-            "lightgbm": "loaded",
-            "behavioral_engine": "active",
-            "heterogeneous_gnn": "loaded",
-            "hybrid_aggregator": "ready"
+        "service": "Abuse-Ring Sentinel",
+        "detection_engine": "ONLINE",
+        "environment": "SYNTHETIC_EVALUATION"
+    }
+
+# =========================================================================
+# 1. Rings APIs
+# =========================================================================
+@app.get("/api/rings")
+def get_rings():
+    data = load_data()
+    return {
+        "rings": data["rings"],
+        "total_rings": len(data["rings"]),
+        "active_rings_count": sum(1 for r in data["rings"] if r["status"] == "ACTIVE_THREAT"),
+        "critical_rings_count": sum(1 for r in data["rings"] if r["severity"] == "CRITICAL"),
+        "total_exposure": sum(r["exposure"] for r in data["rings"])
+    }
+
+@app.get("/api/rings/{ring_id}")
+def get_ring_detail(ring_id: str):
+    data = load_data()
+    ring = next((r for r in data["rings"] if r["id"].upper() == ring_id.upper()), None)
+    if not ring:
+        raise HTTPException(status_code=404, detail=f"Ring '{ring_id}' not found")
+        
+    # Calculate blast radius from real transactions
+    ring_txs = [tx for tx in data["transactions"] if tx.get("cluster_id") == ring["id"]]
+    customers = list({tx["customer_id"] for tx in ring_txs})
+    devices = list({tx["device_id"] for tx in ring_txs})
+    ips = list({tx["ip_id"] for tx in ring_txs})
+    cards = list({tx["payment_id"] for tx in ring_txs})
+    
+    blast_radius = {
+        "affected_customers": len(customers),
+        "affected_transactions": len(ring_txs),
+        "affected_devices": len(devices),
+        "affected_ips": len(ips),
+        "affected_payments": len(cards),
+        "total_exposure": ring["exposure"]
+    }
+    
+    return {
+        "ring": ring,
+        "blast_radius": blast_radius,
+        "dna": ring["dna"],
+        "signals": ring["signals"]
+    }
+
+@app.get("/api/rings/{ring_id}/graph")
+def get_ring_graph(ring_id: str):
+    data = load_data()
+    ring = next((r for r in data["rings"] if r["id"].upper() == ring_id.upper()), None)
+    if not ring:
+        raise HTTPException(status_code=404, detail=f"Ring '{ring_id}' not found")
+        
+    ring_txs = [tx for tx in data["transactions"] if tx.get("cluster_id") == ring["id"]]
+    
+    nodes = []
+    edges = []
+    node_ids = set()
+    
+    # 1. Device Nodes
+    for tx in ring_txs:
+        did = f"dev_{tx['device_id']}"
+        if did not in node_ids:
+            node_ids.add(did)
+            nodes.append({
+                "id": did,
+                "type": "device",
+                "label": f"Device {tx['device_id']}",
+                "data": {"id": tx["device_id"], "type": "Device", "risk": "CRITICAL", "entityId": tx["device_id"]}
+            })
+            
+    # 2. IP Nodes
+    for tx in ring_txs:
+        ipid = f"ip_{tx['ip_id']}"
+        if ipid not in node_ids:
+            node_ids.add(ipid)
+            nodes.append({
+                "id": ipid,
+                "type": "ip",
+                "label": f"IP {tx['ip_id']}",
+                "data": {"id": tx["ip_id"], "type": "IP", "risk": "CRITICAL", "entityId": tx["ip_id"]}
+            })
+            
+    # 3. Customer Nodes
+    for tx in ring_txs:
+        cid = f"cust_{tx['customer_id']}"
+        if cid not in node_ids:
+            node_ids.add(cid)
+            nodes.append({
+                "id": cid,
+                "type": "customer",
+                "label": f"Customer {tx['customer_id']}",
+                "data": {"id": tx["customer_id"], "type": "Customer", "risk": "HIGH", "entityId": tx["customer_id"]}
+            })
+            
+    # 4. Payment Nodes
+    for tx in ring_txs:
+        pid = f"pay_{tx['payment_id']}"
+        if pid not in node_ids:
+            node_ids.add(pid)
+            nodes.append({
+                "id": pid,
+                "type": "payment",
+                "label": f"Card {tx['payment_id']}",
+                "data": {"id": tx["payment_id"], "type": "PaymentInstrument", "risk": "HIGH", "entityId": tx["payment_id"]}
+            })
+            
+    # 5. Edges
+    edge_set = set()
+    for tx in ring_txs:
+        cid = f"cust_{tx['customer_id']}"
+        did = f"dev_{tx['device_id']}"
+        ipid = f"ip_{tx['ip_id']}"
+        pid = f"pay_{tx['payment_id']}"
+        
+        e1 = (cid, did, "USES_DEVICE")
+        e2 = (cid, ipid, "USES_IP")
+        e3 = (cid, pid, "USES_PAYMENT")
+        
+        for s, t, r in [e1, e2, e3]:
+            key = f"{s}->{t}:{r}"
+            if key not in edge_set:
+                edge_set.add(key)
+                edges.append({
+                    "id": f"e_{len(edges)+1}",
+                    "source": s,
+                    "target": t,
+                    "label": r,
+                    "animated": True if "DEVICE" in r else False
+                })
+                
+    return {
+        "ring_id": ring["id"],
+        "nodes": nodes,
+        "edges": edges,
+        "total_nodes": len(nodes),
+        "total_edges": len(edges)
+    }
+
+@app.get("/api/rings/{ring_id}/timeline")
+def get_ring_timeline(ring_id: str):
+    data = load_data()
+    ring_txs = [tx for tx in data["transactions"] if tx.get("cluster_id") == ring_id.upper()]
+    ring_txs.sort(key=lambda x: x["timestamp_unix"])
+    
+    # Calculate burst intensity (transactions in short windows)
+    first_time = ring_txs[0]["timestamp_unix"] if ring_txs else 0
+    last_time = ring_txs[-1]["timestamp_unix"] if ring_txs else 0
+    duration_sec = max(last_time - first_time, 1)
+    
+    return {
+        "ring_id": ring_id,
+        "total_events": len(ring_txs),
+        "duration_seconds": duration_sec,
+        "summary": f"{len(ring_txs)} coordinated events executed over {duration_sec}s window",
+        "events": [
+            {
+                "id": tx["id"],
+                "timestamp": tx["timestamp"],
+                "customer_id": tx["customer_id"],
+                "device_id": tx["device_id"],
+                "ip_id": tx["ip_id"],
+                "amount": tx["amount"],
+                "is_fraud": tx["is_fraud"]
+            }
+            for tx in ring_txs
+        ]
+    }
+
+@app.get("/api/rings/{ring_id}/signals")
+def get_ring_signals(ring_id: str):
+    data = load_data()
+    ring = next((r for r in data["rings"] if r["id"].upper() == ring_id.upper()), None)
+    if not ring:
+        raise HTTPException(status_code=404, detail=f"Ring '{ring_id}' not found")
+    return {"ring_id": ring["id"], "signals": ring["signals"]}
+
+@app.get("/api/rings/{ring_id}/transactions")
+def get_ring_transactions(ring_id: str):
+    data = load_data()
+    ring_txs = [tx for tx in data["transactions"] if tx.get("cluster_id") == ring_id.upper()]
+    return {"ring_id": ring_id, "transactions": ring_txs, "count": len(ring_txs)}
+
+# =========================================================================
+# 2. Entity & Transaction APIs
+# =========================================================================
+@app.get("/api/entities/{entity_id}")
+def get_entity_profile(entity_id: str):
+    data = load_data()
+    txs = [tx for tx in data["transactions"] if entity_id in (tx["customer_id"], tx["device_id"], tx["ip_id"], tx["payment_id"])]
+    if not txs:
+        raise HTTPException(status_code=404, detail=f"Entity '{entity_id}' not found")
+        
+    related_rings = list({tx["cluster_id"] for tx in txs if tx.get("cluster_id")})
+    connected_custs = list({tx["customer_id"] for tx in txs})
+    connected_devices = list({tx["device_id"] for tx in txs})
+    connected_ips = list({tx["ip_id"] for tx in txs})
+    connected_payments = list({tx["payment_id"] for tx in txs})
+    
+    first_seen = min(tx["timestamp"] for tx in txs)
+    last_seen = max(tx["timestamp"] for tx in txs)
+    
+    is_suspicious = any(tx["is_fraud"] for tx in txs)
+    
+    return {
+        "entity_id": entity_id,
+        "risk_level": "CRITICAL" if is_suspicious else "LOW",
+        "risk_score": 92 if is_suspicious else 12,
+        "first_seen": first_seen,
+        "last_seen": last_seen,
+        "transaction_count": len(txs),
+        "related_rings": related_rings,
+        "connections": {
+            "customers": connected_custs,
+            "devices": connected_devices,
+            "ips": connected_ips,
+            "payments": connected_payments
         }
     }
 
-@app.post("/api/predict", response_model=PredictionResponse)
-def predict_transaction_risk(request: TransactionPredictionRequest):
-    try:
-        tx_dict = request.model_dump()
-        result = hybrid_engine.evaluate(tx_dict)
-        return result
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Prediction error: {str(e)}")
+@app.get("/api/transactions")
+def get_transactions(limit: int = 100):
+    data = load_data()
+    txs = data["transactions"][:limit]
+    return {
+        "total": len(data["transactions"]),
+        "transactions": txs
+    }
 
-@app.get("/api/graph/{transaction_id}", response_model=GraphResponse)
-def get_transaction_graph(transaction_id: str, depth: int = Query(2, ge=1, le=3)):
-    try:
-        graph_data = hybrid_engine.graph_builder.extract_ego_network(transaction_id, depth=depth)
-        return graph_data
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Graph extraction error: {str(e)}")
+# =========================================================================
+# 3. Model Evaluation APIs (Held-Out Test Set)
+# =========================================================================
+@app.get("/api/evaluation/metrics")
+def get_evaluation_metrics():
+    return load_evaluation()
 
-@app.post("/api/explain", response_model=ExplanationResponse)
-def generate_explanation(request: ExplanationRequest):
-    """
-    LLM Explanation Layer: Translates verified structured evidence into a natural language narrative.
-    The LLM is NOT a classifier; it strictly interprets model evidence.
-    """
-    try:
-        evidence_points = [e.description for e in request.evidence]
-        risk = request.riskScore
-        decision = request.decision
-        conf = int(request.confidence * 100)
-        
-        findings = []
-        for e in request.evidence:
-            findings.append(f"[{e.category}] {e.description}")
+@app.get("/api/evaluation/thresholds")
+def get_evaluation_thresholds():
+    eval_data = load_evaluation()
+    return {
+        "selected_threshold": eval_data["protocol"]["selected_threshold"],
+        "thresholds": eval_data["threshold_analysis"]
+    }
 
-        # Grounded narrative synthesis
-        if decision == "BLOCK":
-            explanation = (
-                f"Block recommendation generated (Risk: {risk}/100, Confidence: {conf}%). "
-                f"Multiple high-severity signals corroborated the decision: {'; '.join(evidence_points[:2])}. "
-                f"Relational entity graph analysis confirmed correlation with previously flagged fraud clusters."
-            )
-            recommendation = "Reject transaction immediately and flag associated device fingerprint for future velocity checks."
-        elif decision == "REVIEW":
-            explanation = (
-                f"Manual review recommended (Risk: {risk}/100, Confidence: {conf}%). "
-                f"{evidence_points[0] if evidence_points else 'Contextual indicators warrant verification.'} "
-                f"Unusual contextual signals (e.g. new device or location) were observed, but in accordance with PayPilot principles, "
-                f"these were treated as contextual evidence rather than automatic proof of fraud."
-            )
-            recommendation = "Route to analyst queue. Verify customer via secondary challenge (SMS/OTP) or verify prior delivery address."
-        else:
-            explanation = (
-                f"Transaction approved (Risk: {risk}/100, Confidence: {conf}%). "
-                f"The transaction aligns with legitimate baseline profiles across transaction features and entity relationships. "
-                f"No anomalous cluster connections or velocity surges were observed."
-            )
-            recommendation = "Auto-approve transaction without user friction."
-
-        return {
-            "explanation": explanation,
-            "keyFindings": findings,
-            "analystRecommendation": recommendation
-        }
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Explanation generation error: {str(e)}")
-
-@app.get("/api/evaluation/ablation", response_model=AblationMetricsResponse)
-def get_ablation_metrics():
-    return get_ablation_benchmarks()
-
-@app.get("/api/evaluation/cold-start", response_model=ColdStartEvaluationResponse)
-def get_cold_start_metrics():
-    return get_cold_start_evaluation()
-
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+@app.get("/api/evaluation/protocol")
+def get_evaluation_protocol():
+    eval_data = load_evaluation()
+    return eval_data["protocol"]

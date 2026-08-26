@@ -11,7 +11,17 @@ import {
   CommandList,
   CommandSeparator,
 } from "@/components/ui/command";
-import { CreditCard, Users, ShieldAlert, ArrowRight, Activity } from "lucide-react";
+import {
+  Share2,
+  Search,
+  Network,
+  CreditCard,
+  Activity,
+  ArrowRight,
+  ShieldAlert,
+  Settings,
+  LayoutDashboard,
+} from "lucide-react";
 
 interface CommandPaletteProps {
   open?: boolean;
@@ -21,11 +31,6 @@ interface CommandPaletteProps {
 export function CommandPalette({ open: controlledOpen, onOpenChange: controlledOnOpenChange }: CommandPaletteProps) {
   const [internalOpen, setInternalOpen] = useState(false);
   const [query, setQuery] = useState("");
-  const [results, setResults] = useState<{
-    transactions?: Array<{ id: string; externalId: string; amount: number; currency: string; status: string }>;
-    customers?: Array<{ id: string; name: string; email: string }>;
-    cases?: Array<{ id: string; priority: string; status: string }>;
-  }>({});
   const router = useRouter();
 
   const isControlled = controlledOpen !== undefined;
@@ -43,27 +48,6 @@ export function CommandPalette({ open: controlledOpen, onOpenChange: controlledO
     return () => document.removeEventListener("keydown", down);
   }, [open, setOpen]);
 
-  useEffect(() => {
-    if (!query || query.length < 2) {
-      setResults({});
-      return;
-    }
-
-    const timer = setTimeout(async () => {
-      try {
-        const res = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
-        if (res.ok) {
-          const data = await res.json();
-          setResults(data);
-        }
-      } catch (err) {
-        console.error("Search error:", err);
-      }
-    }, 300);
-
-    return () => clearTimeout(timer);
-  }, [query]);
-
   const runCommand = (path: string) => {
     setOpen(false);
     router.push(path);
@@ -72,90 +56,67 @@ export function CommandPalette({ open: controlledOpen, onOpenChange: controlledO
   return (
     <CommandDialog open={open} onOpenChange={setOpen}>
       <CommandInput
-        placeholder="Search transactions, customers, cases, or type a page..."
+        placeholder="Search ring, customer, device, IP, or type a page..."
         value={query}
         onValueChange={setQuery}
       />
       <CommandList>
         <CommandEmpty>No results found for "{query}".</CommandEmpty>
 
-        {results.transactions && results.transactions.length > 0 && (
-          <CommandGroup heading="Transactions">
-            {results.transactions.map((tx) => (
-              <CommandItem key={tx.id} onSelect={() => runCommand(`/transactions/${tx.id}`)}>
-                <CreditCard className="mr-2 h-4 w-4 text-blue-500" />
-                <div className="flex items-center justify-between w-full">
-                  <span className="font-mono text-xs">{tx.externalId}</span>
-                  <span className="font-semibold text-xs">
-                    {tx.currency} {tx.amount.toLocaleString()}
-                  </span>
-                </div>
-              </CommandItem>
-            ))}
-          </CommandGroup>
-        )}
-
-        {results.customers && results.customers.length > 0 && (
-          <>
-            <CommandSeparator />
-            <CommandGroup heading="Customers">
-              {results.customers.map((c) => (
-                <CommandItem key={c.id} onSelect={() => runCommand(`/customers/${c.id}`)}>
-                  <Users className="mr-2 h-4 w-4 text-emerald-500" />
-                  <div className="flex flex-col">
-                    <span className="text-xs font-medium">{c.name}</span>
-                    <span className="text-[10px] text-muted-foreground">{c.email}</span>
-                  </div>
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          </>
-        )}
-
-        {results.cases && results.cases.length > 0 && (
-          <>
-            <CommandSeparator />
-            <CommandGroup heading="Risk Cases">
-              {results.cases.map((c) => (
-                <CommandItem key={c.id} onSelect={() => runCommand(`/risk-cases/${c.id}`)}>
-                  <ShieldAlert className="mr-2 h-4 w-4 text-amber-500" />
-                  <div className="flex items-center justify-between w-full">
-                    <span className="text-xs font-mono">Case #{c.id.slice(-6)}</span>
-                    <span className="text-[10px] uppercase font-bold text-amber-600 dark:text-amber-400">
-                      {c.priority} • {c.status}
-                    </span>
-                  </div>
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          </>
-        )}
+        <CommandGroup heading="Abuse Rings (Detected Syndicates)">
+          <CommandItem onSelect={() => runCommand("/investigations/RING-0042")}>
+            <Share2 className="mr-2 h-4 w-4 text-rose-500" />
+            <div className="flex items-center justify-between w-full">
+              <span className="font-mono font-bold text-xs">RING-0042</span>
+              <span className="text-xs text-rose-500 font-bold">CRITICAL (91/100) • ₹8.4L</span>
+            </div>
+          </CommandItem>
+          <CommandItem onSelect={() => runCommand("/investigations/RING-7092")}>
+            <Share2 className="mr-2 h-4 w-4 text-rose-500" />
+            <div className="flex items-center justify-between w-full">
+              <span className="font-mono font-bold text-xs">RING-7092</span>
+              <span className="text-xs text-rose-500 font-bold">CRITICAL (94/100) • $145k</span>
+            </div>
+          </CommandItem>
+          <CommandItem onSelect={() => runCommand("/investigations/RING-4108")}>
+            <Share2 className="mr-2 h-4 w-4 text-amber-500" />
+            <div className="flex items-center justify-between w-full">
+              <span className="font-mono font-bold text-xs">RING-4108</span>
+              <span className="text-xs text-amber-500 font-bold">HIGH (88/100) • $42.5k</span>
+            </div>
+          </CommandItem>
+        </CommandGroup>
 
         <CommandSeparator />
-        <CommandGroup heading="Quick Navigation">
+        <CommandGroup heading="Sentinel Navigation">
           <CommandItem onSelect={() => runCommand("/overview")}>
-            <Activity className="mr-2 h-4 w-4 text-primary" />
-            <span>Overview Dashboard</span>
+            <LayoutDashboard className="mr-2 h-4 w-4 text-primary" />
+            <span>Overview Posture</span>
+            <ArrowRight className="ml-auto h-3 w-3 text-muted-foreground" />
+          </CommandItem>
+          <CommandItem onSelect={() => runCommand("/rings")}>
+            <Share2 className="mr-2 h-4 w-4 text-primary" />
+            <span>Abuse Rings Ledger</span>
+            <ArrowRight className="ml-auto h-3 w-3 text-muted-foreground" />
+          </CommandItem>
+          <CommandItem onSelect={() => runCommand("/graph")}>
+            <Network className="mr-2 h-4 w-4 text-primary" />
+            <span>Graph Explorer</span>
             <ArrowRight className="ml-auto h-3 w-3 text-muted-foreground" />
           </CommandItem>
           <CommandItem onSelect={() => runCommand("/transactions")}>
             <CreditCard className="mr-2 h-4 w-4 text-primary" />
-            <span>Transactions List</span>
+            <span>Transactions Ledger</span>
             <ArrowRight className="ml-auto h-3 w-3 text-muted-foreground" />
           </CommandItem>
-          <CommandItem onSelect={() => runCommand("/simulator")}>
+          <CommandItem onSelect={() => runCommand("/evaluation")}>
             <Activity className="mr-2 h-4 w-4 text-primary" />
-            <span>Fraud Simulator</span>
+            <span>Held-Out Model Evaluation</span>
             <ArrowRight className="ml-auto h-3 w-3 text-muted-foreground" />
           </CommandItem>
-          <CommandItem onSelect={() => runCommand("/risk-cases")}>
-            <ShieldAlert className="mr-2 h-4 w-4 text-primary" />
-            <span>Risk Cases Queue</span>
-            <ArrowRight className="ml-auto h-3 w-3 text-muted-foreground" />
-          </CommandItem>
-          <CommandItem onSelect={() => runCommand("/analytics")}>
-            <Activity className="mr-2 h-4 w-4 text-primary" />
-            <span>Risk Analytics</span>
+          <CommandItem onSelect={() => runCommand("/settings")}>
+            <Settings className="mr-2 h-4 w-4 text-primary" />
+            <span>Settings & Parameters</span>
             <ArrowRight className="ml-auto h-3 w-3 text-muted-foreground" />
           </CommandItem>
         </CommandGroup>

@@ -1,0 +1,135 @@
+{
+  "protocol": {
+    "dataset_name": "Synthetic Abuse Dataset v1",
+    "model_version": "Abuse-Ring Sentinel v1.0",
+    "evaluation_type": "Temporal Held-Out Test Set (Unseen)",
+    "split_distribution": "70% Train / 15% Validation / 15% Test",
+    "test_sample_count": 46,
+    "selected_threshold": 0.7,
+    "cost_assumptions": {
+      "c_fp": 450.0,
+      "c_fn": 4500.0,
+      "note": "Illustrative business cost assumptions (\u20b9450 false-positive customer friction vs \u20b94,500 direct chargeback loss)"
+    }
+  },
+  "sentinel_metrics": {
+    "precision": 93.3,
+    "recall": 100.0,
+    "f1": 96.6,
+    "fpr": 3.1,
+    "fnr": 0.0,
+    "pr_auc": 0.942,
+    "roc_auc": 0.968,
+    "expected_loss": 450.0,
+    "confusion_matrix": {
+      "tn": 31,
+      "fp": 1,
+      "fn": 0,
+      "tp": 14
+    }
+  },
+  "baseline_comparison": {
+    "baseline_model": {
+      "name": "Tabular Velocity Baseline",
+      "precision": 100.0,
+      "recall": 100.0,
+      "f1": 100.0,
+      "fpr": 0.0,
+      "expected_loss": 0.0,
+      "confusion_matrix": {
+        "tn": 32,
+        "fp": 0,
+        "fn": 0,
+        "tp": 14
+      }
+    },
+    "sentinel_model": {
+      "name": "Graph-Enhanced Sentinel",
+      "precision": 93.3,
+      "recall": 100.0,
+      "f1": 96.6,
+      "fpr": 3.1,
+      "expected_loss": 450.0
+    }
+  },
+  "threshold_analysis": [
+    {
+      "threshold": 0.5,
+      "precision": 97.1,
+      "recall": 100.0,
+      "f1": 98.5,
+      "fpr": 8.3,
+      "expected_loss": 450.0,
+      "tp": 33,
+      "fp": 1,
+      "fn": 0,
+      "tn": 11
+    },
+    {
+      "threshold": 0.6,
+      "precision": 97.1,
+      "recall": 100.0,
+      "f1": 98.5,
+      "fpr": 8.3,
+      "expected_loss": 450.0,
+      "tp": 33,
+      "fp": 1,
+      "fn": 0,
+      "tn": 11
+    },
+    {
+      "threshold": 0.7,
+      "precision": 100.0,
+      "recall": 100.0,
+      "f1": 100.0,
+      "fpr": 0.0,
+      "expected_loss": 0.0,
+      "tp": 33,
+      "fp": 0,
+      "fn": 0,
+      "tn": 12
+    },
+    {
+      "threshold": 0.73,
+      "precision": 100.0,
+      "recall": 100.0,
+      "f1": 100.0,
+      "fpr": 0.0,
+      "expected_loss": 0.0,
+      "tp": 33,
+      "fp": 0,
+      "fn": 0,
+      "tn": 12
+    },
+    {
+      "threshold": 0.8,
+      "precision": 100.0,
+      "recall": 100.0,
+      "f1": 100.0,
+      "fpr": 0.0,
+      "expected_loss": 0.0,
+      "tp": 33,
+      "fp": 0,
+      "fn": 0,
+      "tn": 12
+    },
+    {
+      "threshold": 0.9,
+      "precision": 100.0,
+      "recall": 100.0,
+      "f1": 100.0,
+      "fpr": 0.0,
+      "expected_loss": 0.0,
+      "tp": 33,
+      "fp": 0,
+      "fn": 0,
+      "tn": 12
+    }
+  ],
+  "false_positive_control": {
+    "test_scenario": "15 Coworkers sharing 1 Corporate Office Gateway IP (14.143.38.102)",
+    "baseline_result": "HIGH RISK / FLAGGED (Triggered false positive on shared IP velocity)",
+    "sentinel_result": "LEGITIMATE / NOT A RING (Correctly recognized independent laptops & normal intervals)",
+    "passed": true
+  }
+}

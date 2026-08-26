@@ -1,0 +1,7065 @@
+{
+  "metadata": {
+    "dataset_name": "Synthetic Abuse Dataset v1",
+    "version": "1.0.0",
+    "random_seed": 42,
+    "generated_at": "2026-08-26T06:18:02.319857",
+    "total_transactions": 301,
+    "total_customers": 120,
+    "total_devices": 101,
+    "total_ips": 86,
+    "total_payment_instruments": 114,
+    "total_merchants": 5,
+    "total_rings": 2,
+    "splits": {
+      "train_count": 210,
+      "validation_count": 45,
+      "held_out_test_count": 46,
+      "split_ratio": "70 / 15 / 15 (Temporal Split)"
+    }
+  },
+  "merchants": [
+    {
+      "id": "m-01",
+      "name": "TechMart India",
+      "category": "High-End Electronics"
+    },
+    {
+      "id": "m-02",
+      "name": "QuickPay Digital",
+      "category": "Digital Services"
+    },
+    {
+      "id": "m-03",
+      "name": "GlobalVoucher Exchange",
+      "category": "Cryptocurrency & Vouchers"
+    },
+    {
+      "id": "m-04",
+      "name": "Casino Royal",
+      "category": "Gaming & Entertainment"
+    },
+    {
+      "id": "m-05",
+      "name": "FreshCart Grocery",
+      "category": "Supermarket"
+    }
+  ],
+  "customers": [
+    {
+      "id": "C0001",
+      "name": "Customer C0001",
+      "email": "c0001@gmail.com"
+    },
+    {
+      "id": "C0002",
+      "name": "Customer C0002",
+      "email": "c0002@gmail.com"
+    },
+    {
+      "id": "C0003",
+      "name": "Customer C0003",
+      "email": "c0003@gmail.com"
+    },
+    {
+      "id": "C0004",
+      "name": "Customer C0004",
+      "email": "c0004@gmail.com"
+    },
+    {
+      "id": "C0005",
+      "name": "Customer C0005",
+      "email": "c0005@gmail.com"
+    },
+    {
+      "id": "C0006",
+      "name": "Customer C0006",
+      "email": "c0006@gmail.com"
+    },
+    {
+      "id": "C0007",
+      "name": "Customer C0007",
+      "email": "c0007@gmail.com"
+    },
+    {
+      "id": "C0008",
+      "name": "Customer C0008",
+      "email": "c0008@gmail.com"
+    },
+    {
+      "id": "C0009",
+      "name": "Customer C0009",
+      "email": "c0009@gmail.com"
+    },
+    {
+      "id": "C0010",
+      "name": "Customer C0010",
+      "email": "c0010@gmail.com"
+    },
+    {
+      "id": "C0011",
+      "name": "Customer C0011",
+      "email": "c0011@gmail.com"
+    },
+    {
+      "id": "C0012",
+      "name": "Customer C0012",
+      "email": "c0012@gmail.com"
+    },
+    {
+      "id": "C0013",
+      "name": "Customer C0013",
+      "email": "c0013@gmail.com"
+    },
+    {
+      "id": "C0014",
+      "name": "Customer C0014",
+      "email": "c0014@gmail.com"
+    },
+    {
+      "id": "C0015",
+      "name": "Customer C0015",
+      "email": "c0015@gmail.com"
+    },
+    {
+      "id": "C0016",
+      "name": "Customer C0016",
+      "email": "c0016@gmail.com"
+    },
+    {
+      "id": "C0017",
+      "name": "Customer C0017",
+      "email": "c0017@gmail.com"
+    },
+    {
+      "id": "C0018",
+      "name": "Customer C0018",
+      "email": "c0018@gmail.com"
+    },
+    {
+      "id": "C0019",
+      "name": "Customer C0019",
+      "email": "c0019@gmail.com"
+    },
+    {
+      "id": "C0020",
+      "name": "Customer C0020",
+      "email": "c0020@gmail.com"
+    },
+    {
+      "id": "C0021",
+      "name": "Customer C0021",
+      "email": "c0021@gmail.com"
+    },
+    {
+      "id": "C0022",
+      "name": "Customer C0022",
+      "email": "c0022@gmail.com"
+    },
+    {
+      "id": "C0023",
+      "name": "Customer C0023",
+      "email": "c0023@gmail.com"
+    },
+    {
+      "id": "C0024",
+      "name": "Customer C0024",
+      "email": "c0024@gmail.com"
+    },
+    {
+      "id": "C0025",
+      "name": "Customer C0025",
+      "email": "c0025@gmail.com"
+    },
+    {
+      "id": "C0026",
+      "name": "Customer C0026",
+      "email": "c0026@gmail.com"
+    },
+    {
+      "id": "C0027",
+      "name": "Customer C0027",
+      "email": "c0027@gmail.com"
+    },
+    {
+      "id": "C0028",
+      "name": "Customer C0028",
+      "email": "c0028@gmail.com"
+    },
+    {
+      "id": "C0029",
+      "name": "Customer C0029",
+      "email": "c0029@gmail.com"
+    },
+    {
+      "id": "C0030",
+      "name": "Customer C0030",
+      "email": "c0030@gmail.com"
+    },
+    {
+      "id": "C0031",
+      "name": "Customer C0031",
+      "email": "c0031@gmail.com"
+    },
+    {
+      "id": "C0032",
+      "name": "Customer C0032",
+      "email": "c0032@gmail.com"
+    },
+    {
+      "id": "C0033",
+      "name": "Customer C0033",
+      "email": "c0033@gmail.com"
+    },
+    {
+      "id": "C0034",
+      "name": "Customer C0034",
+      "email": "c0034@gmail.com"
+    },
+    {
+      "id": "C0035",
+      "name": "Customer C0035",
+      "email": "c0035@gmail.com"
+    },
+    {
+      "id": "C0036",
+      "name": "Customer C0036",
+      "email": "c0036@gmail.com"
+    },
+    {
+      "id": "C0037",
+      "name": "Customer C0037",
+      "email": "c0037@gmail.com"
+    },
+    {
+      "id": "C0038",
+      "name": "Customer C0038",
+      "email": "c0038@gmail.com"
+    },
+    {
+      "id": "C0039",
+      "name": "Customer C0039",
+      "email": "c0039@gmail.com"
+    },
+    {
+      "id": "C0040",
+      "name": "Customer C0040",
+      "email": "c0040@gmail.com"
+    },
+    {
+      "id": "C0041",
+      "name": "Customer C0041",
+      "email": "c0041@gmail.com"
+    },
+    {
+      "id": "C0042",
+      "name": "Customer C0042",
+      "email": "c0042@gmail.com"
+    },
+    {
+      "id": "C0043",
+      "name": "Customer C0043",
+      "email": "c0043@gmail.com"
+    },
+    {
+      "id": "C0044",
+      "name": "Customer C0044",
+      "email": "c0044@gmail.com"
+    },
+    {
+      "id": "C0045",
+      "name": "Customer C0045",
+      "email": "c0045@gmail.com"
+    },
+    {
+      "id": "C0046",
+      "name": "Customer C0046",
+      "email": "c0046@gmail.com"
+    },
+    {
+      "id": "C0047",
+      "name": "Customer C0047",
+      "email": "c0047@gmail.com"
+    },
+    {
+      "id": "C0048",
+      "name": "Customer C0048",
+      "email": "c0048@gmail.com"
+    },
+    {
+      "id": "C0049",
+      "name": "Customer C0049",
+      "email": "c0049@gmail.com"
+    },
+    {
+      "id": "C0050",
+      "name": "Customer C0050",
+      "email": "c0050@gmail.com"
+    },
+    {
+      "id": "C0051",
+      "name": "Customer C0051",
+      "email": "c0051@gmail.com"
+    },
+    {
+      "id": "C0052",
+      "name": "Customer C0052",
+      "email": "c0052@gmail.com"
+    },
+    {
+      "id": "C0053",
+      "name": "Customer C0053",
+      "email": "c0053@gmail.com"
+    },
+    {
+      "id": "C0054",
+      "name": "Customer C0054",
+      "email": "c0054@gmail.com"
+    },
+    {
+      "id": "C0055",
+      "name": "Customer C0055",
+      "email": "c0055@gmail.com"
+    },
+    {
+      "id": "C0056",
+      "name": "Customer C0056",
+      "email": "c0056@gmail.com"
+    },
+    {
+      "id": "C0057",
+      "name": "Customer C0057",
+      "email": "c0057@gmail.com"
+    },
+    {
+      "id": "C0058",
+      "name": "Customer C0058",
+      "email": "c0058@gmail.com"
+    },
+    {
+      "id": "C0059",
+      "name": "Customer C0059",
+      "email": "c0059@gmail.com"
+    },
+    {
+      "id": "C0060",
+      "name": "Customer C0060",
+      "email": "c0060@gmail.com"
+    },
+    {
+      "id": "C0061",
+      "name": "Customer C0061",
+      "email": "c0061@gmail.com"
+    },
+    {
+      "id": "C0062",
+      "name": "Customer C0062",
+      "email": "c0062@gmail.com"
+    },
+    {
+      "id": "C0063",
+      "name": "Customer C0063",
+      "email": "c0063@gmail.com"
+    },
+    {
+      "id": "C0064",
+      "name": "Customer C0064",
+      "email": "c0064@gmail.com"
+    },
+    {
+      "id": "C0065",
+      "name": "Customer C0065",
+      "email": "c0065@gmail.com"
+    },
+    {
+      "id": "C0066",
+      "name": "Customer C0066",
+      "email": "c0066@gmail.com"
+    },
+    {
+      "id": "C0067",
+      "name": "Customer C0067",
+      "email": "c0067@gmail.com"
+    },
+    {
+      "id": "C0068",
+      "name": "Customer C0068",
+      "email": "c0068@gmail.com"
+    },
+    {
+      "id": "C0069",
+      "name": "Customer C0069",
+      "email": "c0069@gmail.com"
+    },
+    {
+      "id": "C0070",
+      "name": "Customer C0070",
+      "email": "c0070@gmail.com"
+    },
+    {
+      "id": "C0071",
+      "name": "Customer C0071",
+      "email": "c0071@gmail.com"
+    },
+    {
+      "id": "C0072",
+      "name": "Customer C0072",
+      "email": "c0072@gmail.com"
+    },
+    {
+      "id": "C0073",
+      "name": "Customer C0073",
+      "email": "c0073@gmail.com"
+    },
+    {
+      "id": "C0074",
+      "name": "Customer C0074",
+      "email": "c0074@gmail.com"
+    },
+    {
+      "id": "C0075",
+      "name": "Customer C0075",
+      "email": "c0075@gmail.com"
+    },
+    {
+      "id": "C0076",
+      "name": "Customer C0076",
+      "email": "c0076@gmail.com"
+    },
+    {
+      "id": "C0077",
+      "name": "Customer C0077",
+      "email": "c0077@gmail.com"
+    },
+    {
+      "id": "C0078",
+      "name": "Customer C0078",
+      "email": "c0078@gmail.com"
+    },
+    {
+      "id": "C0079",
+      "name": "Customer C0079",
+      "email": "c0079@gmail.com"
+    },
+    {
+      "id": "C0080",
+      "name": "Customer C0080",
+      "email": "c0080@gmail.com"
+    },
+    {
+      "id": "C0081",
+      "name": "Aarav Sharma",
+      "email": "c0081@sharmafamily.in"
+    },
+    {
+      "id": "C0082",
+      "name": "Pooja Sharma",
+      "email": "c0082@sharmafamily.in"
+    },
+    {
+      "id": "C0083",
+      "name": "Neha Sharma",
+      "email": "c0083@sharmafamily.in"
+    },
+    {
+      "id": "C0084",
+      "name": "Rohan Sharma",
+      "email": "c0084@sharmafamily.in"
+    },
+    {
+      "id": "C0085",
+      "name": "Office Worker 1",
+      "email": "worker1@techcorp.com"
+    },
+    {
+      "id": "C0086",
+      "name": "Office Worker 2",
+      "email": "worker2@techcorp.com"
+    },
+    {
+      "id": "C0087",
+      "name": "Office Worker 3",
+      "email": "worker3@techcorp.com"
+    },
+    {
+      "id": "C0088",
+      "name": "Office Worker 4",
+      "email": "worker4@techcorp.com"
+    },
+    {
+      "id": "C0089",
+      "name": "Office Worker 5",
+      "email": "worker5@techcorp.com"
+    },
+    {
+      "id": "C0090",
+      "name": "Office Worker 6",
+      "email": "worker6@techcorp.com"
+    },
+    {
+      "id": "C0091",
+      "name": "Office Worker 7",
+      "email": "worker7@techcorp.com"
+    },
+    {
+      "id": "C0092",
+      "name": "Office Worker 8",
+      "email": "worker8@techcorp.com"
+    },
+    {
+      "id": "C0093",
+      "name": "Office Worker 9",
+      "email": "worker9@techcorp.com"
+    },
+    {
+      "id": "C0094",
+      "name": "Office Worker 10",
+      "email": "worker10@techcorp.com"
+    },
+    {
+      "id": "C0095",
+      "name": "Office Worker 11",
+      "email": "worker11@techcorp.com"
+    },
+    {
+      "id": "C0096",
+      "name": "Office Worker 12",
+      "email": "worker12@techcorp.com"
+    },
+    {
+      "id": "C0097",
+      "name": "Office Worker 13",
+      "email": "worker13@techcorp.com"
+    },
+    {
+      "id": "C0098",
+      "name": "Office Worker 14",
+      "email": "worker14@techcorp.com"
+    },
+    {
+      "id": "C0099",
+      "name": "Office Worker 15",
+      "email": "worker15@techcorp.com"
+    },
+    {
+      "id": "C0100",
+      "name": "Syndicate User 1",
+      "email": "syndicate1@burnermail.xyz"
+    },
+    {
+      "id": "C0101",
+      "name": "Syndicate User 2",
+      "email": "syndicate2@burnermail.xyz"
+    },
+    {
+      "id": "C0102",
+      "name": "Syndicate User 3",
+      "email": "syndicate3@burnermail.xyz"
+    },
+    {
+      "id": "C0103",
+      "name": "Syndicate User 4",
+      "email": "syndicate4@burnermail.xyz"
+    },
+    {
+      "id": "C0104",
+      "name": "Syndicate User 5",
+      "email": "syndicate5@burnermail.xyz"
+    },
+    {
+      "id": "C0105",
+      "name": "Syndicate User 6",
+      "email": "syndicate6@burnermail.xyz"
+    },
+    {
+      "id": "C0106",
+      "name": "Syndicate User 7",
+      "email": "syndicate7@burnermail.xyz"
+    },
+    {
+      "id": "C0107",
+      "name": "Syndicate User 8",
+      "email": "syndicate8@burnermail.xyz"
+    },
+    {
+      "id": "C0108",
+      "name": "Syndicate User 9",
+      "email": "syndicate9@burnermail.xyz"
+    },
+    {
+      "id": "C0109",
+      "name": "Syndicate User 10",
+      "email": "syndicate10@burnermail.xyz"
+    },
+    {
+      "id": "C0110",
+      "name": "Syndicate User 11",
+      "email": "syndicate11@burnermail.xyz"
+    },
+    {
+      "id": "C0111",
+      "name": "Syndicate User 12",
+      "email": "syndicate12@burnermail.xyz"
+    },
+    {
+      "id": "C0112",
+      "name": "Syndicate User 13",
+      "email": "syndicate13@burnermail.xyz"
+    },
+    {
+      "id": "C0113",
+      "name": "Syndicate User 14",
+      "email": "syndicate14@burnermail.xyz"
+    },
+    {
+      "id": "C0114",
+      "name": "Syndicate User 15",
+      "email": "syndicate15@burnermail.xyz"
+    },
+    {
+      "id": "C0115",
+      "name": "Syndicate User 16",
+      "email": "syndicate16@burnermail.xyz"
+    },
+    {
+      "id": "C0116",
+      "name": "Syndicate User 17",
+      "email": "syndicate17@burnermail.xyz"
+    },
+    {
+      "id": "C0117",
+      "name": "Michael Chen",
+      "email": "mchen@tornet.org"
+    },
+    {
+      "id": "C0118",
+      "name": "Viktor Orlov",
+      "email": "vorlov@tornet.org"
+    },
+    {
+      "id": "C0119",
+      "name": "Alex Rivera",
+      "email": "arivera@tornet.org"
+    },
+    {
+      "id": "C0120",
+      "name": "David Kumar",
+      "email": "dkumar@tornet.org"
+    }
+  ],
+  "devices": [
+    {
+      "id": "D0001",
+      "fingerprint": "fp_d0001",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0002",
+      "fingerprint": "fp_d0002",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0003",
+      "fingerprint": "fp_d0003",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0004",
+      "fingerprint": "fp_d0004",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0005",
+      "fingerprint": "fp_d0005",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0006",
+      "fingerprint": "fp_d0006",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0007",
+      "fingerprint": "fp_d0007",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0008",
+      "fingerprint": "fp_d0008",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0009",
+      "fingerprint": "fp_d0009",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0010",
+      "fingerprint": "fp_d0010",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0011",
+      "fingerprint": "fp_d0011",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0012",
+      "fingerprint": "fp_d0012",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0013",
+      "fingerprint": "fp_d0013",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0014",
+      "fingerprint": "fp_d0014",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0015",
+      "fingerprint": "fp_d0015",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0016",
+      "fingerprint": "fp_d0016",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0017",
+      "fingerprint": "fp_d0017",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0018",
+      "fingerprint": "fp_d0018",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0019",
+      "fingerprint": "fp_d0019",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0020",
+      "fingerprint": "fp_d0020",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0021",
+      "fingerprint": "fp_d0021",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0022",
+      "fingerprint": "fp_d0022",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0023",
+      "fingerprint": "fp_d0023",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0024",
+      "fingerprint": "fp_d0024",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0025",
+      "fingerprint": "fp_d0025",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0026",
+      "fingerprint": "fp_d0026",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0027",
+      "fingerprint": "fp_d0027",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0028",
+      "fingerprint": "fp_d0028",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0029",
+      "fingerprint": "fp_d0029",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0030",
+      "fingerprint": "fp_d0030",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0031",
+      "fingerprint": "fp_d0031",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0032",
+      "fingerprint": "fp_d0032",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0033",
+      "fingerprint": "fp_d0033",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0034",
+      "fingerprint": "fp_d0034",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0035",
+      "fingerprint": "fp_d0035",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0036",
+      "fingerprint": "fp_d0036",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0037",
+      "fingerprint": "fp_d0037",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0038",
+      "fingerprint": "fp_d0038",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0039",
+      "fingerprint": "fp_d0039",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0040",
+      "fingerprint": "fp_d0040",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0041",
+      "fingerprint": "fp_d0041",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0042",
+      "fingerprint": "fp_d0042",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0043",
+      "fingerprint": "fp_d0043",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0044",
+      "fingerprint": "fp_d0044",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0045",
+      "fingerprint": "fp_d0045",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0046",
+      "fingerprint": "fp_d0046",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0047",
+      "fingerprint": "fp_d0047",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0048",
+      "fingerprint": "fp_d0048",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0049",
+      "fingerprint": "fp_d0049",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0050",
+      "fingerprint": "fp_d0050",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0051",
+      "fingerprint": "fp_d0051",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0052",
+      "fingerprint": "fp_d0052",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0053",
+      "fingerprint": "fp_d0053",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0054",
+      "fingerprint": "fp_d0054",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0055",
+      "fingerprint": "fp_d0055",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0056",
+      "fingerprint": "fp_d0056",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0057",
+      "fingerprint": "fp_d0057",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0058",
+      "fingerprint": "fp_d0058",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0059",
+      "fingerprint": "fp_d0059",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0060",
+      "fingerprint": "fp_d0060",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0061",
+      "fingerprint": "fp_d0061",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0062",
+      "fingerprint": "fp_d0062",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0063",
+      "fingerprint": "fp_d0063",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0064",
+      "fingerprint": "fp_d0064",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0065",
+      "fingerprint": "fp_d0065",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0066",
+      "fingerprint": "fp_d0066",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0067",
+      "fingerprint": "fp_d0067",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0068",
+      "fingerprint": "fp_d0068",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0069",
+      "fingerprint": "fp_d0069",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0070",
+      "fingerprint": "fp_d0070",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0071",
+      "fingerprint": "fp_d0071",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0072",
+      "fingerprint": "fp_d0072",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0073",
+      "fingerprint": "fp_d0073",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0074",
+      "fingerprint": "fp_d0074",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0075",
+      "fingerprint": "fp_d0075",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0076",
+      "fingerprint": "fp_d0076",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0077",
+      "fingerprint": "fp_d0077",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0078",
+      "fingerprint": "fp_d0078",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0079",
+      "fingerprint": "fp_d0079",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0080",
+      "fingerprint": "fp_d0080",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0081",
+      "fingerprint": "fp_family_ipad_pro",
+      "type": "TABLET"
+    },
+    {
+      "id": "D0082",
+      "fingerprint": "fp_corp_mac_d0082",
+      "type": "DESKTOP"
+    },
+    {
+      "id": "D0083",
+      "fingerprint": "fp_corp_mac_d0083",
+      "type": "DESKTOP"
+    },
+    {
+      "id": "D0084",
+      "fingerprint": "fp_corp_mac_d0084",
+      "type": "DESKTOP"
+    },
+    {
+      "id": "D0085",
+      "fingerprint": "fp_corp_mac_d0085",
+      "type": "DESKTOP"
+    },
+    {
+      "id": "D0086",
+      "fingerprint": "fp_corp_mac_d0086",
+      "type": "DESKTOP"
+    },
+    {
+      "id": "D0087",
+      "fingerprint": "fp_corp_mac_d0087",
+      "type": "DESKTOP"
+    },
+    {
+      "id": "D0088",
+      "fingerprint": "fp_corp_mac_d0088",
+      "type": "DESKTOP"
+    },
+    {
+      "id": "D0089",
+      "fingerprint": "fp_corp_mac_d0089",
+      "type": "DESKTOP"
+    },
+    {
+      "id": "D0090",
+      "fingerprint": "fp_corp_mac_d0090",
+      "type": "DESKTOP"
+    },
+    {
+      "id": "D0091",
+      "fingerprint": "fp_corp_mac_d0091",
+      "type": "DESKTOP"
+    },
+    {
+      "id": "D0092",
+      "fingerprint": "fp_corp_mac_d0092",
+      "type": "DESKTOP"
+    },
+    {
+      "id": "D0093",
+      "fingerprint": "fp_corp_mac_d0093",
+      "type": "DESKTOP"
+    },
+    {
+      "id": "D0094",
+      "fingerprint": "fp_corp_mac_d0094",
+      "type": "DESKTOP"
+    },
+    {
+      "id": "D0095",
+      "fingerprint": "fp_corp_mac_d0095",
+      "type": "DESKTOP"
+    },
+    {
+      "id": "D0096",
+      "fingerprint": "fp_corp_mac_d0096",
+      "type": "DESKTOP"
+    },
+    {
+      "id": "D0097",
+      "fingerprint": "fp_farm_dev_alpha",
+      "type": "DESKTOP"
+    },
+    {
+      "id": "D0098",
+      "fingerprint": "fp_farm_dev_beta",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0099",
+      "fingerprint": "fp_farm_dev_gamma",
+      "type": "DESKTOP"
+    },
+    {
+      "id": "D0100",
+      "fingerprint": "fp_farm_dev_delta",
+      "type": "MOBILE"
+    },
+    {
+      "id": "D0101",
+      "fingerprint": "a1b2c3d4e5f6g7",
+      "type": "DESKTOP"
+    }
+  ],
+  "ips": [
+    {
+      "id": "IP0001",
+      "ip": "49.207.164.29",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0002",
+      "ip": "49.207.8.24",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0003",
+      "ip": "49.207.51.184",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0004",
+      "ip": "49.207.179.109",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0005",
+      "ip": "49.207.92.217",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0006",
+      "ip": "49.207.227.221",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0007",
+      "ip": "49.207.72.117",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0008",
+      "ip": "49.207.180.240",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0009",
+      "ip": "49.207.59.211",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0010",
+      "ip": "49.207.102.227",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0011",
+      "ip": "49.207.138.68",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0012",
+      "ip": "49.207.203.175",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0013",
+      "ip": "49.207.175.227",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0014",
+      "ip": "49.207.249.129",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0015",
+      "ip": "49.207.245.200",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0016",
+      "ip": "49.207.238.93",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0017",
+      "ip": "49.207.243.21",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0018",
+      "ip": "49.207.109.247",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0019",
+      "ip": "49.207.17.87",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0020",
+      "ip": "49.207.221.85",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0021",
+      "ip": "49.207.207.105",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0022",
+      "ip": "49.207.109.106",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0023",
+      "ip": "49.207.138.115",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0024",
+      "ip": "49.207.26.13",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0025",
+      "ip": "49.207.43.105",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0026",
+      "ip": "49.207.68.238",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0027",
+      "ip": "49.207.56.248",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0028",
+      "ip": "49.207.21.218",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0029",
+      "ip": "49.207.104.31",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0030",
+      "ip": "49.207.34.172",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0031",
+      "ip": "49.207.26.19",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0032",
+      "ip": "49.207.226.18",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0033",
+      "ip": "49.207.3.171",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0034",
+      "ip": "49.207.54.184",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0035",
+      "ip": "49.207.232.233",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0036",
+      "ip": "49.207.1.86",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0037",
+      "ip": "49.207.140.10",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0038",
+      "ip": "49.207.171.27",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0039",
+      "ip": "49.207.201.239",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0040",
+      "ip": "49.207.90.79",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0041",
+      "ip": "49.207.85.72",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0042",
+      "ip": "49.207.225.249",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0043",
+      "ip": "49.207.112.89",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0044",
+      "ip": "49.207.1.134",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0045",
+      "ip": "49.207.84.104",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0046",
+      "ip": "49.207.78.74",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0047",
+      "ip": "49.207.169.22",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0048",
+      "ip": "49.207.122.157",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0049",
+      "ip": "49.207.127.103",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0050",
+      "ip": "49.207.200.109",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0051",
+      "ip": "49.207.235.218",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0052",
+      "ip": "49.207.157.209",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0053",
+      "ip": "49.207.216.164",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0054",
+      "ip": "49.207.229.139",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0055",
+      "ip": "49.207.181.55",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0056",
+      "ip": "49.207.100.232",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0057",
+      "ip": "49.207.112.125",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0058",
+      "ip": "49.207.160.137",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0059",
+      "ip": "49.207.13.67",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0060",
+      "ip": "49.207.65.214",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0061",
+      "ip": "49.207.200.246",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0062",
+      "ip": "49.207.160.40",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0063",
+      "ip": "49.207.243.56",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0064",
+      "ip": "49.207.238.80",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0065",
+      "ip": "49.207.218.176",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0066",
+      "ip": "49.207.28.111",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0067",
+      "ip": "49.207.69.83",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0068",
+      "ip": "49.207.193.119",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0069",
+      "ip": "49.207.205.67",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0070",
+      "ip": "49.207.126.143",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0071",
+      "ip": "49.207.79.170",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0072",
+      "ip": "49.207.70.79",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0073",
+      "ip": "49.207.31.191",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0074",
+      "ip": "49.207.76.59",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0075",
+      "ip": "49.207.33.71",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0076",
+      "ip": "49.207.164.223",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0077",
+      "ip": "49.207.123.113",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0078",
+      "ip": "49.207.30.211",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0079",
+      "ip": "49.207.243.78",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0080",
+      "ip": "49.207.156.153",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0081",
+      "ip": "122.161.44.12",
+      "type": "RESIDENTIAL",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0082",
+      "ip": "14.143.38.102",
+      "type": "CORPORATE_OFFICE",
+      "is_tor": false,
+      "is_vpn": false
+    },
+    {
+      "id": "IP0083",
+      "ip": "185.220.101.44",
+      "type": "TOR_EXIT",
+      "is_tor": true,
+      "is_vpn": true
+    },
+    {
+      "id": "IP0084",
+      "ip": "185.220.101.45",
+      "type": "TOR_EXIT",
+      "is_tor": true,
+      "is_vpn": true
+    },
+    {
+      "id": "IP0085",
+      "ip": "104.244.76.13",
+      "type": "DATACENTER_PROXY",
+      "is_tor": false,
+      "is_vpn": true
+    },
+    {
+      "id": "IP0086",
+      "ip": "185.220.101.5",
+      "type": "TOR_EXIT",
+      "is_tor": true,
+      "is_vpn": true
+    }
+  ],
+  "payment_instruments": [
+    {
+      "id": "P0001",
+      "token": "tok_p0001",
+      "card_bin": "411122",
+      "last4": "1409"
+    },
+    {
+      "id": "P0002",
+      "token": "tok_p0002",
+      "card_bin": "411122",
+      "last4": "4582"
+    },
+    {
+      "id": "P0003",
+      "token": "tok_p0003",
+      "card_bin": "411122",
+      "last4": "9928"
+    },
+    {
+      "id": "P0004",
+      "token": "tok_p0004",
+      "card_bin": "411122",
+      "last4": "6574"
+    },
+    {
+      "id": "P0005",
+      "token": "tok_p0005",
+      "card_bin": "411122",
+      "last4": "6635"
+    },
+    {
+      "id": "P0006",
+      "token": "tok_p0006",
+      "card_bin": "411122",
+      "last4": "6925"
+    },
+    {
+      "id": "P0007",
+      "token": "tok_p0007",
+      "card_bin": "411122",
+      "last4": "6977"
+    },
+    {
+      "id": "P0008",
+      "token": "tok_p0008",
+      "card_bin": "411122",
+      "last4": "2169"
+    },
+    {
+      "id": "P0009",
+      "token": "tok_p0009",
+      "card_bin": "411122",
+      "last4": "1525"
+    },
+    {
+      "id": "P0010",
+      "token": "tok_p0010",
+      "card_bin": "411122",
+      "last4": "8517"
+    },
+    {
+      "id": "P0011",
+      "token": "tok_p0011",
+      "card_bin": "411122",
+      "last4": "8019"
+    },
+    {
+      "id": "P0012",
+      "token": "tok_p0012",
+      "card_bin": "411122",
+      "last4": "7916"
+    },
+    {
+      "id": "P0013",
+      "token": "tok_p0013",
+      "card_bin": "411122",
+      "last4": "9797"
+    },
+    {
+      "id": "P0014",
+      "token": "tok_p0014",
+      "card_bin": "411122",
+      "last4": "3927"
+    },
+    {
+      "id": "P0015",
+      "token": "tok_p0015",
+      "card_bin": "411122",
+      "last4": "9689"
+    },
+    {
+      "id": "P0016",
+      "token": "tok_p0016",
+      "card_bin": "411122",
+      "last4": "6038"
+    },
+    {
+      "id": "P0017",
+      "token": "tok_p0017",
+      "card_bin": "411122",
+      "last4": "2403"
+    },
+    {
+      "id": "P0018",
+      "token": "tok_p0018",
+      "card_bin": "411122",
+      "last4": "4470"
+    },
+    {
+      "id": "P0019",
+      "token": "tok_p0019",
+      "card_bin": "411122",
+      "last4": "1344"
+    },
+    {
+      "id": "P0020",
+      "token": "tok_p0020",
+      "card_bin": "411122",
+      "last4": "2160"
+    },
+    {
+      "id": "P0021",
+      "token": "tok_p0021",
+      "card_bin": "411122",
+      "last4": "4119"
+    },
+    {
+      "id": "P0022",
+      "token": "tok_p0022",
+      "card_bin": "411122",
+      "last4": "8651"
+    },
+    {
+      "id": "P0023",
+      "token": "tok_p0023",
+      "card_bin": "411122",
+      "last4": "3296"
+    },
+    {
+      "id": "P0024",
+      "token": "tok_p0024",
+      "card_bin": "411122",
+      "last4": "9856"
+    },
+    {
+      "id": "P0025",
+      "token": "tok_p0025",
+      "card_bin": "411122",
+      "last4": "8956"
+    },
+    {
+      "id": "P0026",
+      "token": "tok_p0026",
+      "card_bin": "411122",
+      "last4": "8454"
+    },
+    {
+      "id": "P0027",
+      "token": "tok_p0027",
+      "card_bin": "411122",
+      "last4": "1958"
+    },
+    {
+      "id": "P0028",
+      "token": "tok_p0028",
+      "card_bin": "411122",
+      "last4": "4044"
+    },
+    {
+      "id": "P0029",
+      "token": "tok_p0029",
+      "card_bin": "411122",
+      "last4": "5033"
+    },
+    {
+      "id": "P0030",
+      "token": "tok_p0030",
+      "card_bin": "411122",
+      "last4": "5915"
+    },
+    {
+      "id": "P0031",
+      "token": "tok_p0031",
+      "card_bin": "411122",
+      "last4": "9808"
+    },
+    {
+      "id": "P0032",
+      "token": "tok_p0032",
+      "card_bin": "411122",
+      "last4": "5002"
+    },
+    {
+      "id": "P0033",
+      "token": "tok_p0033",
+      "card_bin": "411122",
+      "last4": "5905"
+    },
+    {
+      "id": "P0034",
+      "token": "tok_p0034",
+      "card_bin": "411122",
+      "last4": "6617"
+    },
+    {
+      "id": "P0035",
+      "token": "tok_p0035",
+      "card_bin": "411122",
+      "last4": "1832"
+    },
+    {
+      "id": "P0036",
+      "token": "tok_p0036",
+      "card_bin": "411122",
+      "last4": "3143"
+    },
+    {
+      "id": "P0037",
+      "token": "tok_p0037",
+      "card_bin": "411122",
+      "last4": "7049"
+    },
+    {
+      "id": "P0038",
+      "token": "tok_p0038",
+      "card_bin": "411122",
+      "last4": "6794"
+    },
+    {
+      "id": "P0039",
+      "token": "tok_p0039",
+      "card_bin": "411122",
+      "last4": "7745"
+    },
+    {
+      "id": "P0040",
+      "token": "tok_p0040",
+      "card_bin": "411122",
+      "last4": "4728"
+    },
+    {
+      "id": "P0041",
+      "token": "tok_p0041",
+      "card_bin": "411122",
+      "last4": "2137"
+    },
+    {
+      "id": "P0042",
+      "token": "tok_p0042",
+      "card_bin": "411122",
+      "last4": "5279"
+    },
+    {
+      "id": "P0043",
+      "token": "tok_p0043",
+      "card_bin": "411122",
+      "last4": "6139"
+    },
+    {
+      "id": "P0044",
+      "token": "tok_p0044",
+      "card_bin": "411122",
+      "last4": "9821"
+    },
+    {
+      "id": "P0045",
+      "token": "tok_p0045",
+      "card_bin": "411122",
+      "last4": "5844"
+    },
+    {
+      "id": "P0046",
+      "token": "tok_p0046",
+      "card_bin": "411122",
+      "last4": "4443"
+    },
+    {
+      "id": "P0047",
+      "token": "tok_p0047",
+      "card_bin": "411122",
+      "last4": "5649"
+    },
+    {
+      "id": "P0048",
+      "token": "tok_p0048",
+      "card_bin": "411122",
+      "last4": "2193"
+    },
+    {
+      "id": "P0049",
+      "token": "tok_p0049",
+      "card_bin": "411122",
+      "last4": "4997"
+    },
+    {
+      "id": "P0050",
+      "token": "tok_p0050",
+      "card_bin": "411122",
+      "last4": "4585"
+    },
+    {
+      "id": "P0051",
+      "token": "tok_p0051",
+      "card_bin": "411122",
+      "last4": "2988"
+    },
+    {
+      "id": "P0052",
+      "token": "tok_p0052",
+      "card_bin": "411122",
+      "last4": "9270"
+    },
+    {
+      "id": "P0053",
+      "token": "tok_p0053",
+      "card_bin": "411122",
+      "last4": "5543"
+    },
+    {
+      "id": "P0054",
+      "token": "tok_p0054",
+      "card_bin": "411122",
+      "last4": "2320"
+    },
+    {
+      "id": "P0055",
+      "token": "tok_p0055",
+      "card_bin": "411122",
+      "last4": "2052"
+    },
+    {
+      "id": "P0056",
+      "token": "tok_p0056",
+      "card_bin": "411122",
+      "last4": "1320"
+    },
+    {
+      "id": "P0057",
+      "token": "tok_p0057",
+      "card_bin": "411122",
+      "last4": "1475"
+    },
+    {
+      "id": "P0058",
+      "token": "tok_p0058",
+      "card_bin": "411122",
+      "last4": "1441"
+    },
+    {
+      "id": "P0059",
+      "token": "tok_p0059",
+      "card_bin": "411122",
+      "last4": "7211"
+    },
+    {
+      "id": "P0060",
+      "token": "tok_p0060",
+      "card_bin": "411122",
+      "last4": "2341"
+    },
+    {
+      "id": "P0061",
+      "token": "tok_p0061",
+      "card_bin": "411122",
+      "last4": "1659"
+    },
+    {
+      "id": "P0062",
+      "token": "tok_p0062",
+      "card_bin": "411122",
+      "last4": "4908"
+    },
+    {
+      "id": "P0063",
+      "token": "tok_p0063",
+      "card_bin": "411122",
+      "last4": "8619"
+    },
+    {
+      "id": "P0064",
+      "token": "tok_p0064",
+      "card_bin": "411122",
+      "last4": "7149"
+    },
+    {
+      "id": "P0065",
+      "token": "tok_p0065",
+      "card_bin": "411122",
+      "last4": "2983"
+    },
+    {
+      "id": "P0066",
+      "token": "tok_p0066",
+      "card_bin": "411122",
+      "last4": "6934"
+    },
+    {
+      "id": "P0067",
+      "token": "tok_p0067",
+      "card_bin": "411122",
+      "last4": "5022"
+    },
+    {
+      "id": "P0068",
+      "token": "tok_p0068",
+      "card_bin": "411122",
+      "last4": "7209"
+    },
+    {
+      "id": "P0069",
+      "token": "tok_p0069",
+      "card_bin": "411122",
+      "last4": "6576"
+    },
+    {
+      "id": "P0070",
+      "token": "tok_p0070",
+      "card_bin": "411122",
+      "last4": "4937"
+    },
+    {
+      "id": "P0071",
+      "token": "tok_p0071",
+      "card_bin": "411122",
+      "last4": "7046"
+    },
+    {
+      "id": "P0072",
+      "token": "tok_p0072",
+      "card_bin": "411122",
+      "last4": "5118"
+    },
+    {
+      "id": "P0073",
+      "token": "tok_p0073",
+      "card_bin": "411122",
+      "last4": "9779"
+    },
+    {
+      "id": "P0074",
+      "token": "tok_p0074",
+      "card_bin": "411122",
+      "last4": "6912"
+    },
+    {
+      "id": "P0075",
+      "token": "tok_p0075",
+      "card_bin": "411122",
+      "last4": "1745"
+    },
+    {
+      "id": "P0076",
+      "token": "tok_p0076",
+      "card_bin": "411122",
+      "last4": "9042"
+    },
+    {
+      "id": "P0077",
+      "token": "tok_p0077",
+      "card_bin": "411122",
+      "last4": "6582"
+    },
+    {
+      "id": "P0078",
+      "token": "tok_p0078",
+      "card_bin": "411122",
+      "last4": "2070"
+    },
+    {
+      "id": "P0079",
+      "token": "tok_p0079",
+      "card_bin": "411122",
+      "last4": "2395"
+    },
+    {
+      "id": "P0080",
+      "token": "tok_p0080",
+      "card_bin": "411122",
+      "last4": "4697"
+    },
+    {
+      "id": "P0081",
+      "token": "tok_p0081",
+      "card_bin": "524188",
+      "last4": "2625"
+    },
+    {
+      "id": "P0082",
+      "token": "tok_p0082",
+      "card_bin": "524188",
+      "last4": "2330"
+    },
+    {
+      "id": "P0083",
+      "token": "tok_p0083",
+      "card_bin": "524188",
+      "last4": "1043"
+    },
+    {
+      "id": "P0084",
+      "token": "tok_p0084",
+      "card_bin": "524188",
+      "last4": "1534"
+    },
+    {
+      "id": "P0085",
+      "token": "tok_p0085",
+      "card_bin": "438628",
+      "last4": "8438"
+    },
+    {
+      "id": "P0086",
+      "token": "tok_p0086",
+      "card_bin": "438628",
+      "last4": "4241"
+    },
+    {
+      "id": "P0087",
+      "token": "tok_p0087",
+      "card_bin": "438628",
+      "last4": "5352"
+    },
+    {
+      "id": "P0088",
+      "token": "tok_p0088",
+      "card_bin": "438628",
+      "last4": "6039"
+    },
+    {
+      "id": "P0089",
+      "token": "tok_p0089",
+      "card_bin": "438628",
+      "last4": "8195"
+    },
+    {
+      "id": "P0090",
+      "token": "tok_p0090",
+      "card_bin": "438628",
+      "last4": "5460"
+    },
+    {
+      "id": "P0091",
+      "token": "tok_p0091",
+      "card_bin": "438628",
+      "last4": "1653"
+    },
+    {
+      "id": "P0092",
+      "token": "tok_p0092",
+      "card_bin": "438628",
+      "last4": "1423"
+    },
+    {
+      "id": "P0093",
+      "token": "tok_p0093",
+      "card_bin": "438628",
+      "last4": "1339"
+    },
+    {
+      "id": "P0094",
+      "token": "tok_p0094",
+      "card_bin": "438628",
+      "last4": "3870"
+    },
+    {
+      "id": "P0095",
+      "token": "tok_p0095",
+      "card_bin": "438628",
+      "last4": "3973"
+    },
+    {
+      "id": "P0096",
+      "token": "tok_p0096",
+      "card_bin": "438628",
+      "last4": "2494"
+    },
+    {
+      "id": "P0097",
+      "token": "tok_p0097",
+      "card_bin": "438628",
+      "last4": "2713"
+    },
+    {
+      "id": "P0098",
+      "token": "tok_p0098",
+      "card_bin": "438628",
+      "last4": "5722"
+    },
+    {
+      "id": "P0099",
+      "token": "tok_p0099",
+      "card_bin": "438628",
+      "last4": "1601"
+    },
+    {
+      "id": "P0100",
+      "token": "tok_stolen_p0100",
+      "card_bin": "411122",
+      "last4": "8000"
+    },
+    {
+      "id": "P0101",
+      "token": "tok_stolen_p0101",
+      "card_bin": "552144",
+      "last4": "8001"
+    },
+    {
+      "id": "P0102",
+      "token": "tok_stolen_p0102",
+      "card_bin": "411122",
+      "last4": "8002"
+    },
+    {
+      "id": "P0103",
+      "token": "tok_stolen_p0103",
+      "card_bin": "552144",
+      "last4": "8003"
+    },
+    {
+      "id": "P0104",
+      "token": "tok_stolen_p0104",
+      "card_bin": "411122",
+      "last4": "8004"
+    },
+    {
+      "id": "P0105",
+      "token": "tok_stolen_p0105",
+      "card_bin": "552144",
+      "last4": "8005"
+    },
+    {
+      "id": "P0106",
+      "token": "tok_stolen_p0106",
+      "card_bin": "411122",
+      "last4": "8006"
+    },
+    {
+      "id": "P0107",
+      "token": "tok_stolen_p0107",
+      "card_bin": "552144",
+      "last4": "8007"
+    },
+    {
+      "id": "P0108",
+      "token": "tok_stolen_p0108",
+      "card_bin": "411122",
+      "last4": "8008"
+    },
+    {
+      "id": "P0109",
+      "token": "tok_stolen_p0109",
+      "card_bin": "552144",
+      "last4": "8009"
+    },
+    {
+      "id": "P0110",
+      "token": "tok_stolen_p0110",
+      "card_bin": "411122",
+      "last4": "8010"
+    },
+    {
+      "id": "P0111",
+      "token": "tok_stolen_4111",
+      "card_bin": "411122",
+      "last4": "4111"
+    },
+    {
+      "id": "P0112",
+      "token": "tok_stolen_5521",
+      "card_bin": "552100",
+      "last4": "5521"
+    },
+    {
+      "id": "P0113",
+      "token": "tok_stolen_8890",
+      "card_bin": "607188",
+      "last4": "8890"
+    },
+    {
+      "id": "P0114",
+      "token": "tok_stolen_1092",
+      "card_bin": "491290",
+      "last4": "1092"
+    }
+  ],
+  "transactions": [
+    {
+      "id": "TX-000106",
+      "amount": 4043.8,
+      "timestamp": "2026-08-01T06:27:36",
+      "timestamp_unix": 1785545856,
+      "customer_id": "C0049",
+      "device_id": "D0049",
+      "ip_id": "IP0049",
+      "payment_id": "P0049",
+      "merchant_id": "m-01",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000006",
+      "amount": 3474.93,
+      "timestamp": "2026-08-01T07:34:17",
+      "timestamp_unix": 1785549857,
+      "customer_id": "C0003",
+      "device_id": "D0003",
+      "ip_id": "IP0003",
+      "payment_id": "P0003",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000066",
+      "amount": 2197.71,
+      "timestamp": "2026-08-01T10:51:11",
+      "timestamp_unix": 1785561671,
+      "customer_id": "C0030",
+      "device_id": "D0030",
+      "ip_id": "IP0030",
+      "payment_id": "P0030",
+      "merchant_id": "m-05",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000027",
+      "amount": 3141.2,
+      "timestamp": "2026-08-01T13:22:34",
+      "timestamp_unix": 1785570754,
+      "customer_id": "C0012",
+      "device_id": "D0012",
+      "ip_id": "IP0012",
+      "payment_id": "P0012",
+      "merchant_id": "m-01",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000158",
+      "amount": 2689.77,
+      "timestamp": "2026-08-01T14:17:24",
+      "timestamp_unix": 1785574044,
+      "customer_id": "C0076",
+      "device_id": "D0076",
+      "ip_id": "IP0076",
+      "payment_id": "P0076",
+      "merchant_id": "m-04",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000138",
+      "amount": 3860.7,
+      "timestamp": "2026-08-01T14:44:26",
+      "timestamp_unix": 1785575666,
+      "customer_id": "C0065",
+      "device_id": "D0065",
+      "ip_id": "IP0065",
+      "payment_id": "P0065",
+      "merchant_id": "m-04",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000127",
+      "amount": 3433.35,
+      "timestamp": "2026-08-01T22:34:59",
+      "timestamp_unix": 1785603899,
+      "customer_id": "C0060",
+      "device_id": "D0060",
+      "ip_id": "IP0060",
+      "payment_id": "P0060",
+      "merchant_id": "m-01",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000087",
+      "amount": 3055.14,
+      "timestamp": "2026-08-02T03:34:15",
+      "timestamp_unix": 1785621855,
+      "customer_id": "C0040",
+      "device_id": "D0040",
+      "ip_id": "IP0040",
+      "payment_id": "P0040",
+      "merchant_id": "m-04",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000123",
+      "amount": 606.78,
+      "timestamp": "2026-08-02T07:34:34",
+      "timestamp_unix": 1785636274,
+      "customer_id": "C0058",
+      "device_id": "D0058",
+      "ip_id": "IP0058",
+      "payment_id": "P0058",
+      "merchant_id": "m-04",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000143",
+      "amount": 2350.8,
+      "timestamp": "2026-08-02T09:26:16",
+      "timestamp_unix": 1785642976,
+      "customer_id": "C0068",
+      "device_id": "D0068",
+      "ip_id": "IP0068",
+      "payment_id": "P0068",
+      "merchant_id": "m-03",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000062",
+      "amount": 2882.37,
+      "timestamp": "2026-08-02T22:18:08",
+      "timestamp_unix": 1785689288,
+      "customer_id": "C0029",
+      "device_id": "D0029",
+      "ip_id": "IP0029",
+      "payment_id": "P0029",
+      "merchant_id": "m-04",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000136",
+      "amount": 1725.62,
+      "timestamp": "2026-08-02T23:50:56",
+      "timestamp_unix": 1785694856,
+      "customer_id": "C0065",
+      "device_id": "D0065",
+      "ip_id": "IP0065",
+      "payment_id": "P0065",
+      "merchant_id": "m-04",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000059",
+      "amount": 2732.75,
+      "timestamp": "2026-08-03T10:25:12",
+      "timestamp_unix": 1785732912,
+      "customer_id": "C0027",
+      "device_id": "D0027",
+      "ip_id": "IP0027",
+      "payment_id": "P0027",
+      "merchant_id": "m-05",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000159",
+      "amount": 1323.03,
+      "timestamp": "2026-08-03T11:51:29",
+      "timestamp_unix": 1785738089,
+      "customer_id": "C0077",
+      "device_id": "D0077",
+      "ip_id": "IP0077",
+      "payment_id": "P0077",
+      "merchant_id": "m-04",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000048",
+      "amount": 3111.8,
+      "timestamp": "2026-08-03T15:06:50",
+      "timestamp_unix": 1785749810,
+      "customer_id": "C0022",
+      "device_id": "D0022",
+      "ip_id": "IP0022",
+      "payment_id": "P0022",
+      "merchant_id": "m-01",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000034",
+      "amount": 1273.7,
+      "timestamp": "2026-08-03T19:29:15",
+      "timestamp_unix": 1785765555,
+      "customer_id": "C0016",
+      "device_id": "D0016",
+      "ip_id": "IP0016",
+      "payment_id": "P0016",
+      "merchant_id": "m-05",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000049",
+      "amount": 1961.14,
+      "timestamp": "2026-08-03T22:37:07",
+      "timestamp_unix": 1785776827,
+      "customer_id": "C0022",
+      "device_id": "D0022",
+      "ip_id": "IP0022",
+      "payment_id": "P0022",
+      "merchant_id": "m-03",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000058",
+      "amount": 3428.9,
+      "timestamp": "2026-08-03T23:01:14",
+      "timestamp_unix": 1785778274,
+      "customer_id": "C0027",
+      "device_id": "D0027",
+      "ip_id": "IP0027",
+      "payment_id": "P0027",
+      "merchant_id": "m-01",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000025",
+      "amount": 1885.26,
+      "timestamp": "2026-08-04T02:00:54",
+      "timestamp_unix": 1785789054,
+      "customer_id": "C0012",
+      "device_id": "D0012",
+      "ip_id": "IP0012",
+      "payment_id": "P0012",
+      "merchant_id": "m-05",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000061",
+      "amount": 3119.65,
+      "timestamp": "2026-08-04T07:10:48",
+      "timestamp_unix": 1785807648,
+      "customer_id": "C0028",
+      "device_id": "D0028",
+      "ip_id": "IP0028",
+      "payment_id": "P0028",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000042",
+      "amount": 3258.32,
+      "timestamp": "2026-08-04T10:42:46",
+      "timestamp_unix": 1785820366,
+      "customer_id": "C0019",
+      "device_id": "D0019",
+      "ip_id": "IP0019",
+      "payment_id": "P0019",
+      "merchant_id": "m-01",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000077",
+      "amount": 4266.47,
+      "timestamp": "2026-08-04T15:39:55",
+      "timestamp_unix": 1785838195,
+      "customer_id": "C0036",
+      "device_id": "D0036",
+      "ip_id": "IP0036",
+      "payment_id": "P0036",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000052",
+      "amount": 2133.31,
+      "timestamp": "2026-08-04T15:49:47",
+      "timestamp_unix": 1785838787,
+      "customer_id": "C0023",
+      "device_id": "D0023",
+      "ip_id": "IP0023",
+      "payment_id": "P0023",
+      "merchant_id": "m-05",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000179",
+      "amount": 324.22,
+      "timestamp": "2026-08-04T18:17:50",
+      "timestamp_unix": 1785847670,
+      "customer_id": "C0087",
+      "device_id": "D0084",
+      "ip_id": "IP0082",
+      "payment_id": "P0087",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_OFFICE",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000011",
+      "amount": 2596.17,
+      "timestamp": "2026-08-04T19:48:31",
+      "timestamp_unix": 1785853111,
+      "customer_id": "C0005",
+      "device_id": "D0005",
+      "ip_id": "IP0005",
+      "payment_id": "P0005",
+      "merchant_id": "m-05",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000168",
+      "amount": 1147.64,
+      "timestamp": "2026-08-04T22:16:12",
+      "timestamp_unix": 1785861972,
+      "customer_id": "C0082",
+      "device_id": "D0081",
+      "ip_id": "IP0081",
+      "payment_id": "P0082",
+      "merchant_id": "m-05",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_FAMILY",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000174",
+      "amount": 871.75,
+      "timestamp": "2026-08-05T01:01:14",
+      "timestamp_unix": 1785871874,
+      "customer_id": "C0085",
+      "device_id": "D0082",
+      "ip_id": "IP0082",
+      "payment_id": "P0085",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_OFFICE",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000003",
+      "amount": 2759.59,
+      "timestamp": "2026-08-05T05:17:27",
+      "timestamp_unix": 1785887247,
+      "customer_id": "C0001",
+      "device_id": "D0001",
+      "ip_id": "IP0001",
+      "payment_id": "P0001",
+      "merchant_id": "m-01",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000053",
+      "amount": 4187.06,
+      "timestamp": "2026-08-05T12:39:32",
+      "timestamp_unix": 1785913772,
+      "customer_id": "C0024",
+      "device_id": "D0024",
+      "ip_id": "IP0024",
+      "payment_id": "P0024",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000188",
+      "amount": 390.37,
+      "timestamp": "2026-08-05T12:45:26",
+      "timestamp_unix": 1785914126,
+      "customer_id": "C0092",
+      "device_id": "D0089",
+      "ip_id": "IP0082",
+      "payment_id": "P0092",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_OFFICE",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000047",
+      "amount": 3050.68,
+      "timestamp": "2026-08-05T16:55:57",
+      "timestamp_unix": 1785929157,
+      "customer_id": "C0021",
+      "device_id": "D0021",
+      "ip_id": "IP0021",
+      "payment_id": "P0021",
+      "merchant_id": "m-03",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000135",
+      "amount": 3213.07,
+      "timestamp": "2026-08-05T22:43:25",
+      "timestamp_unix": 1785950005,
+      "customer_id": "C0064",
+      "device_id": "D0064",
+      "ip_id": "IP0064",
+      "payment_id": "P0064",
+      "merchant_id": "m-03",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000008",
+      "amount": 644.17,
+      "timestamp": "2026-08-05T23:05:00",
+      "timestamp_unix": 1785951300,
+      "customer_id": "C0004",
+      "device_id": "D0004",
+      "ip_id": "IP0004",
+      "payment_id": "P0004",
+      "merchant_id": "m-01",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000002",
+      "amount": 3125.97,
+      "timestamp": "2026-08-05T23:24:55",
+      "timestamp_unix": 1785952495,
+      "customer_id": "C0001",
+      "device_id": "D0001",
+      "ip_id": "IP0001",
+      "payment_id": "P0001",
+      "merchant_id": "m-05",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000070",
+      "amount": 4240.45,
+      "timestamp": "2026-08-06T00:41:13",
+      "timestamp_unix": 1785957073,
+      "customer_id": "C0033",
+      "device_id": "D0033",
+      "ip_id": "IP0033",
+      "payment_id": "P0033",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000030",
+      "amount": 3949.7,
+      "timestamp": "2026-08-06T03:58:39",
+      "timestamp_unix": 1785968919,
+      "customer_id": "C0014",
+      "device_id": "D0014",
+      "ip_id": "IP0014",
+      "payment_id": "P0014",
+      "merchant_id": "m-03",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000050",
+      "amount": 1306.79,
+      "timestamp": "2026-08-06T07:18:27",
+      "timestamp_unix": 1785980907,
+      "customer_id": "C0022",
+      "device_id": "D0022",
+      "ip_id": "IP0022",
+      "payment_id": "P0022",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000024",
+      "amount": 899.58,
+      "timestamp": "2026-08-06T07:45:01",
+      "timestamp_unix": 1785982501,
+      "customer_id": "C0011",
+      "device_id": "D0011",
+      "ip_id": "IP0011",
+      "payment_id": "P0011",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000182",
+      "amount": 642.13,
+      "timestamp": "2026-08-06T07:59:48",
+      "timestamp_unix": 1785983388,
+      "customer_id": "C0089",
+      "device_id": "D0086",
+      "ip_id": "IP0082",
+      "payment_id": "P0089",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_OFFICE",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000132",
+      "amount": 3555.62,
+      "timestamp": "2026-08-06T13:26:25",
+      "timestamp_unix": 1786002985,
+      "customer_id": "C0063",
+      "device_id": "D0063",
+      "ip_id": "IP0063",
+      "payment_id": "P0063",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000172",
+      "amount": 1277.88,
+      "timestamp": "2026-08-06T17:37:20",
+      "timestamp_unix": 1786018040,
+      "customer_id": "C0084",
+      "device_id": "D0081",
+      "ip_id": "IP0081",
+      "payment_id": "P0084",
+      "merchant_id": "m-05",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_FAMILY",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000162",
+      "amount": 2621.81,
+      "timestamp": "2026-08-06T18:00:21",
+      "timestamp_unix": 1786019421,
+      "customer_id": "C0079",
+      "device_id": "D0079",
+      "ip_id": "IP0079",
+      "payment_id": "P0079",
+      "merchant_id": "m-04",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000152",
+      "amount": 3315.46,
+      "timestamp": "2026-08-06T20:34:27",
+      "timestamp_unix": 1786028667,
+      "customer_id": "C0072",
+      "device_id": "D0072",
+      "ip_id": "IP0072",
+      "payment_id": "P0072",
+      "merchant_id": "m-03",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000010",
+      "amount": 4385.74,
+      "timestamp": "2026-08-07T01:25:58",
+      "timestamp_unix": 1786046158,
+      "customer_id": "C0005",
+      "device_id": "D0005",
+      "ip_id": "IP0005",
+      "payment_id": "P0005",
+      "merchant_id": "m-04",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000036",
+      "amount": 795.66,
+      "timestamp": "2026-08-07T02:31:17",
+      "timestamp_unix": 1786050077,
+      "customer_id": "C0017",
+      "device_id": "D0017",
+      "ip_id": "IP0017",
+      "payment_id": "P0017",
+      "merchant_id": "m-04",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000096",
+      "amount": 1065.32,
+      "timestamp": "2026-08-07T04:18:03",
+      "timestamp_unix": 1786056483,
+      "customer_id": "C0045",
+      "device_id": "D0045",
+      "ip_id": "IP0045",
+      "payment_id": "P0045",
+      "merchant_id": "m-04",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000108",
+      "amount": 3656.02,
+      "timestamp": "2026-08-07T11:21:04",
+      "timestamp_unix": 1786081864,
+      "customer_id": "C0051",
+      "device_id": "D0051",
+      "ip_id": "IP0051",
+      "payment_id": "P0051",
+      "merchant_id": "m-05",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000124",
+      "amount": 3934.12,
+      "timestamp": "2026-08-07T14:06:04",
+      "timestamp_unix": 1786091764,
+      "customer_id": "C0058",
+      "device_id": "D0058",
+      "ip_id": "IP0058",
+      "payment_id": "P0058",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000173",
+      "amount": 2398.07,
+      "timestamp": "2026-08-07T23:28:23",
+      "timestamp_unix": 1786125503,
+      "customer_id": "C0084",
+      "device_id": "D0081",
+      "ip_id": "IP0081",
+      "payment_id": "P0084",
+      "merchant_id": "m-05",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_FAMILY",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000103",
+      "amount": 353.81,
+      "timestamp": "2026-08-08T03:40:47",
+      "timestamp_unix": 1786140647,
+      "customer_id": "C0047",
+      "device_id": "D0047",
+      "ip_id": "IP0047",
+      "payment_id": "P0047",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000078",
+      "amount": 2076.59,
+      "timestamp": "2026-08-08T04:32:30",
+      "timestamp_unix": 1786143750,
+      "customer_id": "C0037",
+      "device_id": "D0037",
+      "ip_id": "IP0037",
+      "payment_id": "P0037",
+      "merchant_id": "m-01",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000115",
+      "amount": 1232.86,
+      "timestamp": "2026-08-08T07:43:49",
+      "timestamp_unix": 1786155229,
+      "customer_id": "C0054",
+      "device_id": "D0054",
+      "ip_id": "IP0054",
+      "payment_id": "P0054",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000161",
+      "amount": 884.09,
+      "timestamp": "2026-08-08T08:46:29",
+      "timestamp_unix": 1786158989,
+      "customer_id": "C0078",
+      "device_id": "D0078",
+      "ip_id": "IP0078",
+      "payment_id": "P0078",
+      "merchant_id": "m-05",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000072",
+      "amount": 1407.48,
+      "timestamp": "2026-08-08T13:06:35",
+      "timestamp_unix": 1786174595,
+      "customer_id": "C0033",
+      "device_id": "D0033",
+      "ip_id": "IP0033",
+      "payment_id": "P0033",
+      "merchant_id": "m-05",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000007",
+      "amount": 1165.08,
+      "timestamp": "2026-08-08T13:08:48",
+      "timestamp_unix": 1786174728,
+      "customer_id": "C0004",
+      "device_id": "D0004",
+      "ip_id": "IP0004",
+      "payment_id": "P0004",
+      "merchant_id": "m-03",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000060",
+      "amount": 491.74,
+      "timestamp": "2026-08-08T15:25:20",
+      "timestamp_unix": 1786182920,
+      "customer_id": "C0027",
+      "device_id": "D0027",
+      "ip_id": "IP0027",
+      "payment_id": "P0027",
+      "merchant_id": "m-05",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000029",
+      "amount": 2178.33,
+      "timestamp": "2026-08-08T16:16:01",
+      "timestamp_unix": 1786185961,
+      "customer_id": "C0013",
+      "device_id": "D0013",
+      "ip_id": "IP0013",
+      "payment_id": "P0013",
+      "merchant_id": "m-03",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000177",
+      "amount": 830.02,
+      "timestamp": "2026-08-08T18:30:59",
+      "timestamp_unix": 1786194059,
+      "customer_id": "C0086",
+      "device_id": "D0083",
+      "ip_id": "IP0082",
+      "payment_id": "P0086",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_OFFICE",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000017",
+      "amount": 2214.61,
+      "timestamp": "2026-08-08T22:22:39",
+      "timestamp_unix": 1786207959,
+      "customer_id": "C0008",
+      "device_id": "D0008",
+      "ip_id": "IP0008",
+      "payment_id": "P0008",
+      "merchant_id": "m-03",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000055",
+      "amount": 1860.64,
+      "timestamp": "2026-08-08T23:48:58",
+      "timestamp_unix": 1786213138,
+      "customer_id": "C0025",
+      "device_id": "D0025",
+      "ip_id": "IP0025",
+      "payment_id": "P0025",
+      "merchant_id": "m-04",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000122",
+      "amount": 3822.15,
+      "timestamp": "2026-08-09T00:17:27",
+      "timestamp_unix": 1786214847,
+      "customer_id": "C0057",
+      "device_id": "D0057",
+      "ip_id": "IP0057",
+      "payment_id": "P0057",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000037",
+      "amount": 1376.49,
+      "timestamp": "2026-08-09T00:23:12",
+      "timestamp_unix": 1786215192,
+      "customer_id": "C0017",
+      "device_id": "D0017",
+      "ip_id": "IP0017",
+      "payment_id": "P0017",
+      "merchant_id": "m-05",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000016",
+      "amount": 2520.09,
+      "timestamp": "2026-08-09T07:23:27",
+      "timestamp_unix": 1786240407,
+      "customer_id": "C0008",
+      "device_id": "D0008",
+      "ip_id": "IP0008",
+      "payment_id": "P0008",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000203",
+      "amount": 489.44,
+      "timestamp": "2026-08-09T10:35:18",
+      "timestamp_unix": 1786251918,
+      "customer_id": "C0099",
+      "device_id": "D0096",
+      "ip_id": "IP0082",
+      "payment_id": "P0099",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_OFFICE",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000097",
+      "amount": 2865.94,
+      "timestamp": "2026-08-09T10:45:23",
+      "timestamp_unix": 1786252523,
+      "customer_id": "C0045",
+      "device_id": "D0045",
+      "ip_id": "IP0045",
+      "payment_id": "P0045",
+      "merchant_id": "m-03",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000140",
+      "amount": 3368.63,
+      "timestamp": "2026-08-09T13:12:51",
+      "timestamp_unix": 1786261371,
+      "customer_id": "C0066",
+      "device_id": "D0066",
+      "ip_id": "IP0066",
+      "payment_id": "P0066",
+      "merchant_id": "m-03",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000144",
+      "amount": 2322.09,
+      "timestamp": "2026-08-09T19:51:31",
+      "timestamp_unix": 1786285291,
+      "customer_id": "C0068",
+      "device_id": "D0068",
+      "ip_id": "IP0068",
+      "payment_id": "P0068",
+      "merchant_id": "m-03",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000191",
+      "amount": 755.06,
+      "timestamp": "2026-08-09T20:33:25",
+      "timestamp_unix": 1786287805,
+      "customer_id": "C0093",
+      "device_id": "D0090",
+      "ip_id": "IP0082",
+      "payment_id": "P0093",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_OFFICE",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000051",
+      "amount": 1433.82,
+      "timestamp": "2026-08-09T21:46:44",
+      "timestamp_unix": 1786292204,
+      "customer_id": "C0023",
+      "device_id": "D0023",
+      "ip_id": "IP0023",
+      "payment_id": "P0023",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000153",
+      "amount": 1064.05,
+      "timestamp": "2026-08-09T23:42:54",
+      "timestamp_unix": 1786299174,
+      "customer_id": "C0073",
+      "device_id": "D0073",
+      "ip_id": "IP0073",
+      "payment_id": "P0073",
+      "merchant_id": "m-04",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000092",
+      "amount": 1332.57,
+      "timestamp": "2026-08-10T05:27:28",
+      "timestamp_unix": 1786319848,
+      "customer_id": "C0043",
+      "device_id": "D0043",
+      "ip_id": "IP0043",
+      "payment_id": "P0043",
+      "merchant_id": "m-04",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000146",
+      "amount": 613.86,
+      "timestamp": "2026-08-10T06:35:48",
+      "timestamp_unix": 1786323948,
+      "customer_id": "C0069",
+      "device_id": "D0069",
+      "ip_id": "IP0069",
+      "payment_id": "P0069",
+      "merchant_id": "m-04",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000012",
+      "amount": 3244.43,
+      "timestamp": "2026-08-10T08:01:56",
+      "timestamp_unix": 1786329116,
+      "customer_id": "C0006",
+      "device_id": "D0006",
+      "ip_id": "IP0006",
+      "payment_id": "P0006",
+      "merchant_id": "m-01",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000105",
+      "amount": 3302.97,
+      "timestamp": "2026-08-10T10:32:00",
+      "timestamp_unix": 1786338120,
+      "customer_id": "C0048",
+      "device_id": "D0048",
+      "ip_id": "IP0048",
+      "payment_id": "P0048",
+      "merchant_id": "m-04",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000093",
+      "amount": 1797.94,
+      "timestamp": "2026-08-10T13:33:45",
+      "timestamp_unix": 1786349025,
+      "customer_id": "C0044",
+      "device_id": "D0044",
+      "ip_id": "IP0044",
+      "payment_id": "P0044",
+      "merchant_id": "m-01",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000134",
+      "amount": 572.99,
+      "timestamp": "2026-08-10T15:04:15",
+      "timestamp_unix": 1786354455,
+      "customer_id": "C0064",
+      "device_id": "D0064",
+      "ip_id": "IP0064",
+      "payment_id": "P0064",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000183",
+      "amount": 884.72,
+      "timestamp": "2026-08-10T16:42:05",
+      "timestamp_unix": 1786360325,
+      "customer_id": "C0089",
+      "device_id": "D0086",
+      "ip_id": "IP0082",
+      "payment_id": "P0089",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_OFFICE",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000038",
+      "amount": 3280.03,
+      "timestamp": "2026-08-10T18:21:28",
+      "timestamp_unix": 1786366288,
+      "customer_id": "C0018",
+      "device_id": "D0018",
+      "ip_id": "IP0018",
+      "payment_id": "P0018",
+      "merchant_id": "m-04",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000170",
+      "amount": 1716.36,
+      "timestamp": "2026-08-11T00:45:23",
+      "timestamp_unix": 1786389323,
+      "customer_id": "C0083",
+      "device_id": "D0081",
+      "ip_id": "IP0081",
+      "payment_id": "P0083",
+      "merchant_id": "m-05",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_FAMILY",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000187",
+      "amount": 783.9,
+      "timestamp": "2026-08-11T03:19:17",
+      "timestamp_unix": 1786398557,
+      "customer_id": "C0091",
+      "device_id": "D0088",
+      "ip_id": "IP0082",
+      "payment_id": "P0091",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_OFFICE",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000125",
+      "amount": 2182.47,
+      "timestamp": "2026-08-11T06:36:07",
+      "timestamp_unix": 1786410367,
+      "customer_id": "C0059",
+      "device_id": "D0059",
+      "ip_id": "IP0059",
+      "payment_id": "P0059",
+      "merchant_id": "m-03",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000100",
+      "amount": 2422.49,
+      "timestamp": "2026-08-11T08:58:48",
+      "timestamp_unix": 1786418928,
+      "customer_id": "C0046",
+      "device_id": "D0046",
+      "ip_id": "IP0046",
+      "payment_id": "P0046",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000054",
+      "amount": 3924.76,
+      "timestamp": "2026-08-11T09:02:01",
+      "timestamp_unix": 1786419121,
+      "customer_id": "C0025",
+      "device_id": "D0025",
+      "ip_id": "IP0025",
+      "payment_id": "P0025",
+      "merchant_id": "m-01",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000045",
+      "amount": 2541.74,
+      "timestamp": "2026-08-11T09:36:14",
+      "timestamp_unix": 1786421174,
+      "customer_id": "C0020",
+      "device_id": "D0020",
+      "ip_id": "IP0020",
+      "payment_id": "P0020",
+      "merchant_id": "m-05",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000197",
+      "amount": 487.11,
+      "timestamp": "2026-08-11T09:43:18",
+      "timestamp_unix": 1786421598,
+      "customer_id": "C0096",
+      "device_id": "D0093",
+      "ip_id": "IP0082",
+      "payment_id": "P0096",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_OFFICE",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000018",
+      "amount": 3159.61,
+      "timestamp": "2026-08-11T15:52:12",
+      "timestamp_unix": 1786443732,
+      "customer_id": "C0008",
+      "device_id": "D0008",
+      "ip_id": "IP0008",
+      "payment_id": "P0008",
+      "merchant_id": "m-01",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000005",
+      "amount": 2159.14,
+      "timestamp": "2026-08-11T16:49:54",
+      "timestamp_unix": 1786447194,
+      "customer_id": "C0003",
+      "device_id": "D0003",
+      "ip_id": "IP0003",
+      "payment_id": "P0003",
+      "merchant_id": "m-03",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000120",
+      "amount": 2324.98,
+      "timestamp": "2026-08-11T16:56:46",
+      "timestamp_unix": 1786447606,
+      "customer_id": "C0056",
+      "device_id": "D0056",
+      "ip_id": "IP0056",
+      "payment_id": "P0056",
+      "merchant_id": "m-03",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000086",
+      "amount": 1098.18,
+      "timestamp": "2026-08-11T19:09:14",
+      "timestamp_unix": 1786455554,
+      "customer_id": "C0039",
+      "device_id": "D0039",
+      "ip_id": "IP0039",
+      "payment_id": "P0039",
+      "merchant_id": "m-04",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000013",
+      "amount": 3535.54,
+      "timestamp": "2026-08-12T01:31:14",
+      "timestamp_unix": 1786478474,
+      "customer_id": "C0006",
+      "device_id": "D0006",
+      "ip_id": "IP0006",
+      "payment_id": "P0006",
+      "merchant_id": "m-01",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000043",
+      "amount": 536.45,
+      "timestamp": "2026-08-12T02:44:11",
+      "timestamp_unix": 1786482851,
+      "customer_id": "C0019",
+      "device_id": "D0019",
+      "ip_id": "IP0019",
+      "payment_id": "P0019",
+      "merchant_id": "m-01",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000041",
+      "amount": 2750.87,
+      "timestamp": "2026-08-12T04:06:11",
+      "timestamp_unix": 1786487771,
+      "customer_id": "C0019",
+      "device_id": "D0019",
+      "ip_id": "IP0019",
+      "payment_id": "P0019",
+      "merchant_id": "m-01",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000014",
+      "amount": 3932.56,
+      "timestamp": "2026-08-12T07:13:15",
+      "timestamp_unix": 1786498995,
+      "customer_id": "C0006",
+      "device_id": "D0006",
+      "ip_id": "IP0006",
+      "payment_id": "P0006",
+      "merchant_id": "m-04",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000114",
+      "amount": 1404.79,
+      "timestamp": "2026-08-12T09:12:17",
+      "timestamp_unix": 1786506137,
+      "customer_id": "C0053",
+      "device_id": "D0053",
+      "ip_id": "IP0053",
+      "payment_id": "P0053",
+      "merchant_id": "m-03",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000082",
+      "amount": 3924.57,
+      "timestamp": "2026-08-12T11:49:08",
+      "timestamp_unix": 1786515548,
+      "customer_id": "C0038",
+      "device_id": "D0038",
+      "ip_id": "IP0038",
+      "payment_id": "P0038",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000044",
+      "amount": 1433.53,
+      "timestamp": "2026-08-12T13:17:43",
+      "timestamp_unix": 1786520863,
+      "customer_id": "C0020",
+      "device_id": "D0020",
+      "ip_id": "IP0020",
+      "payment_id": "P0020",
+      "merchant_id": "m-04",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000129",
+      "amount": 1097.28,
+      "timestamp": "2026-08-13T00:06:21",
+      "timestamp_unix": 1786559781,
+      "customer_id": "C0061",
+      "device_id": "D0061",
+      "ip_id": "IP0061",
+      "payment_id": "P0061",
+      "merchant_id": "m-01",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000084",
+      "amount": 1383.92,
+      "timestamp": "2026-08-13T01:08:08",
+      "timestamp_unix": 1786563488,
+      "customer_id": "C0039",
+      "device_id": "D0039",
+      "ip_id": "IP0039",
+      "payment_id": "P0039",
+      "merchant_id": "m-01",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000199",
+      "amount": 878.36,
+      "timestamp": "2026-08-13T07:21:22",
+      "timestamp_unix": 1786585882,
+      "customer_id": "C0097",
+      "device_id": "D0094",
+      "ip_id": "IP0082",
+      "payment_id": "P0097",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_OFFICE",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000131",
+      "amount": 3509.32,
+      "timestamp": "2026-08-13T10:32:43",
+      "timestamp_unix": 1786597363,
+      "customer_id": "C0063",
+      "device_id": "D0063",
+      "ip_id": "IP0063",
+      "payment_id": "P0063",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000176",
+      "amount": 270.52,
+      "timestamp": "2026-08-13T15:13:01",
+      "timestamp_unix": 1786614181,
+      "customer_id": "C0086",
+      "device_id": "D0083",
+      "ip_id": "IP0082",
+      "payment_id": "P0086",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_OFFICE",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000075",
+      "amount": 936.72,
+      "timestamp": "2026-08-13T17:12:00",
+      "timestamp_unix": 1786621320,
+      "customer_id": "C0036",
+      "device_id": "D0036",
+      "ip_id": "IP0036",
+      "payment_id": "P0036",
+      "merchant_id": "m-04",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000073",
+      "amount": 2397.99,
+      "timestamp": "2026-08-13T19:33:48",
+      "timestamp_unix": 1786629828,
+      "customer_id": "C0034",
+      "device_id": "D0034",
+      "ip_id": "IP0034",
+      "payment_id": "P0034",
+      "merchant_id": "m-03",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000071",
+      "amount": 740.57,
+      "timestamp": "2026-08-13T20:07:30",
+      "timestamp_unix": 1786631850,
+      "customer_id": "C0033",
+      "device_id": "D0033",
+      "ip_id": "IP0033",
+      "payment_id": "P0033",
+      "merchant_id": "m-01",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000009",
+      "amount": 3680.3,
+      "timestamp": "2026-08-13T20:11:20",
+      "timestamp_unix": 1786632080,
+      "customer_id": "C0005",
+      "device_id": "D0005",
+      "ip_id": "IP0005",
+      "payment_id": "P0005",
+      "merchant_id": "m-04",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000021",
+      "amount": 843.43,
+      "timestamp": "2026-08-13T20:36:27",
+      "timestamp_unix": 1786633587,
+      "customer_id": "C0010",
+      "device_id": "D0010",
+      "ip_id": "IP0010",
+      "payment_id": "P0010",
+      "merchant_id": "m-05",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000090",
+      "amount": 412.59,
+      "timestamp": "2026-08-13T21:17:26",
+      "timestamp_unix": 1786636046,
+      "customer_id": "C0042",
+      "device_id": "D0042",
+      "ip_id": "IP0042",
+      "payment_id": "P0042",
+      "merchant_id": "m-05",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000185",
+      "amount": 234.46,
+      "timestamp": "2026-08-13T22:34:06",
+      "timestamp_unix": 1786640646,
+      "customer_id": "C0090",
+      "device_id": "D0087",
+      "ip_id": "IP0082",
+      "payment_id": "P0090",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_OFFICE",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000193",
+      "amount": 1111.88,
+      "timestamp": "2026-08-14T01:10:22",
+      "timestamp_unix": 1786650022,
+      "customer_id": "C0094",
+      "device_id": "D0091",
+      "ip_id": "IP0082",
+      "payment_id": "P0094",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_OFFICE",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000001",
+      "amount": 1290.79,
+      "timestamp": "2026-08-14T08:25:56",
+      "timestamp_unix": 1786676156,
+      "customer_id": "C0001",
+      "device_id": "D0001",
+      "ip_id": "IP0001",
+      "payment_id": "P0001",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000202",
+      "amount": 242.46,
+      "timestamp": "2026-08-14T08:30:39",
+      "timestamp_unix": 1786676439,
+      "customer_id": "C0099",
+      "device_id": "D0096",
+      "ip_id": "IP0082",
+      "payment_id": "P0099",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_OFFICE",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000145",
+      "amount": 2612.11,
+      "timestamp": "2026-08-14T09:52:34",
+      "timestamp_unix": 1786681354,
+      "customer_id": "C0069",
+      "device_id": "D0069",
+      "ip_id": "IP0069",
+      "payment_id": "P0069",
+      "merchant_id": "m-05",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000154",
+      "amount": 3329.49,
+      "timestamp": "2026-08-14T10:08:43",
+      "timestamp_unix": 1786682323,
+      "customer_id": "C0073",
+      "device_id": "D0073",
+      "ip_id": "IP0073",
+      "payment_id": "P0073",
+      "merchant_id": "m-05",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000169",
+      "amount": 702.68,
+      "timestamp": "2026-08-14T12:20:11",
+      "timestamp_unix": 1786690211,
+      "customer_id": "C0082",
+      "device_id": "D0081",
+      "ip_id": "IP0081",
+      "payment_id": "P0082",
+      "merchant_id": "m-05",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_FAMILY",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000142",
+      "amount": 3996.93,
+      "timestamp": "2026-08-14T12:58:29",
+      "timestamp_unix": 1786692509,
+      "customer_id": "C0067",
+      "device_id": "D0067",
+      "ip_id": "IP0067",
+      "payment_id": "P0067",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000196",
+      "amount": 515.36,
+      "timestamp": "2026-08-14T17:21:23",
+      "timestamp_unix": 1786708283,
+      "customer_id": "C0096",
+      "device_id": "D0093",
+      "ip_id": "IP0082",
+      "payment_id": "P0096",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_OFFICE",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000192",
+      "amount": 694.91,
+      "timestamp": "2026-08-14T17:38:31",
+      "timestamp_unix": 1786709311,
+      "customer_id": "C0094",
+      "device_id": "D0091",
+      "ip_id": "IP0082",
+      "payment_id": "P0094",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_OFFICE",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000155",
+      "amount": 4417.17,
+      "timestamp": "2026-08-14T17:43:02",
+      "timestamp_unix": 1786709582,
+      "customer_id": "C0073",
+      "device_id": "D0073",
+      "ip_id": "IP0073",
+      "payment_id": "P0073",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000068",
+      "amount": 920.42,
+      "timestamp": "2026-08-14T20:02:03",
+      "timestamp_unix": 1786717923,
+      "customer_id": "C0032",
+      "device_id": "D0032",
+      "ip_id": "IP0032",
+      "payment_id": "P0032",
+      "merchant_id": "m-05",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000157",
+      "amount": 3214.02,
+      "timestamp": "2026-08-15T04:21:49",
+      "timestamp_unix": 1786747909,
+      "customer_id": "C0075",
+      "device_id": "D0075",
+      "ip_id": "IP0075",
+      "payment_id": "P0075",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000149",
+      "amount": 1191.78,
+      "timestamp": "2026-08-15T06:48:33",
+      "timestamp_unix": 1786756713,
+      "customer_id": "C0070",
+      "device_id": "D0070",
+      "ip_id": "IP0070",
+      "payment_id": "P0070",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000164",
+      "amount": 3905.71,
+      "timestamp": "2026-08-15T10:26:29",
+      "timestamp_unix": 1786769789,
+      "customer_id": "C0080",
+      "device_id": "D0080",
+      "ip_id": "IP0080",
+      "payment_id": "P0080",
+      "merchant_id": "m-04",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000184",
+      "amount": 716.98,
+      "timestamp": "2026-08-15T11:06:06",
+      "timestamp_unix": 1786772166,
+      "customer_id": "C0090",
+      "device_id": "D0087",
+      "ip_id": "IP0082",
+      "payment_id": "P0090",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_OFFICE",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000119",
+      "amount": 3452.27,
+      "timestamp": "2026-08-15T11:54:32",
+      "timestamp_unix": 1786775072,
+      "customer_id": "C0056",
+      "device_id": "D0056",
+      "ip_id": "IP0056",
+      "payment_id": "P0056",
+      "merchant_id": "m-04",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000171",
+      "amount": 1768.76,
+      "timestamp": "2026-08-15T12:41:52",
+      "timestamp_unix": 1786777912,
+      "customer_id": "C0083",
+      "device_id": "D0081",
+      "ip_id": "IP0081",
+      "payment_id": "P0083",
+      "merchant_id": "m-05",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_FAMILY",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000095",
+      "amount": 2405.27,
+      "timestamp": "2026-08-15T13:54:02",
+      "timestamp_unix": 1786782242,
+      "customer_id": "C0044",
+      "device_id": "D0044",
+      "ip_id": "IP0044",
+      "payment_id": "P0044",
+      "merchant_id": "m-04",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000156",
+      "amount": 310.13,
+      "timestamp": "2026-08-15T16:10:02",
+      "timestamp_unix": 1786790402,
+      "customer_id": "C0074",
+      "device_id": "D0074",
+      "ip_id": "IP0074",
+      "payment_id": "P0074",
+      "merchant_id": "m-05",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000069",
+      "amount": 2849.63,
+      "timestamp": "2026-08-15T16:27:28",
+      "timestamp_unix": 1786791448,
+      "customer_id": "C0032",
+      "device_id": "D0032",
+      "ip_id": "IP0032",
+      "payment_id": "P0032",
+      "merchant_id": "m-05",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000165",
+      "amount": 2666.68,
+      "timestamp": "2026-08-15T19:47:37",
+      "timestamp_unix": 1786803457,
+      "customer_id": "C0080",
+      "device_id": "D0080",
+      "ip_id": "IP0080",
+      "payment_id": "P0080",
+      "merchant_id": "m-01",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000079",
+      "amount": 1799.77,
+      "timestamp": "2026-08-15T23:08:49",
+      "timestamp_unix": 1786815529,
+      "customer_id": "C0037",
+      "device_id": "D0037",
+      "ip_id": "IP0037",
+      "payment_id": "P0037",
+      "merchant_id": "m-01",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000102",
+      "amount": 1204.72,
+      "timestamp": "2026-08-16T01:39:53",
+      "timestamp_unix": 1786824593,
+      "customer_id": "C0047",
+      "device_id": "D0047",
+      "ip_id": "IP0047",
+      "payment_id": "P0047",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000133",
+      "amount": 709.42,
+      "timestamp": "2026-08-16T02:23:11",
+      "timestamp_unix": 1786827191,
+      "customer_id": "C0063",
+      "device_id": "D0063",
+      "ip_id": "IP0063",
+      "payment_id": "P0063",
+      "merchant_id": "m-01",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000064",
+      "amount": 1264.42,
+      "timestamp": "2026-08-16T06:03:02",
+      "timestamp_unix": 1786840382,
+      "customer_id": "C0029",
+      "device_id": "D0029",
+      "ip_id": "IP0029",
+      "payment_id": "P0029",
+      "merchant_id": "m-04",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000020",
+      "amount": 1153.66,
+      "timestamp": "2026-08-16T06:37:34",
+      "timestamp_unix": 1786842454,
+      "customer_id": "C0009",
+      "device_id": "D0009",
+      "ip_id": "IP0009",
+      "payment_id": "P0009",
+      "merchant_id": "m-04",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000167",
+      "amount": 1069.77,
+      "timestamp": "2026-08-16T07:10:00",
+      "timestamp_unix": 1786844400,
+      "customer_id": "C0081",
+      "device_id": "D0081",
+      "ip_id": "IP0081",
+      "payment_id": "P0081",
+      "merchant_id": "m-05",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_FAMILY",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000065",
+      "amount": 4198.33,
+      "timestamp": "2026-08-16T08:22:23",
+      "timestamp_unix": 1786848743,
+      "customer_id": "C0030",
+      "device_id": "D0030",
+      "ip_id": "IP0030",
+      "payment_id": "P0030",
+      "merchant_id": "m-01",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000063",
+      "amount": 4222.5,
+      "timestamp": "2026-08-16T08:35:51",
+      "timestamp_unix": 1786849551,
+      "customer_id": "C0029",
+      "device_id": "D0029",
+      "ip_id": "IP0029",
+      "payment_id": "P0029",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000109",
+      "amount": 4287.67,
+      "timestamp": "2026-08-16T09:40:44",
+      "timestamp_unix": 1786853444,
+      "customer_id": "C0051",
+      "device_id": "D0051",
+      "ip_id": "IP0051",
+      "payment_id": "P0051",
+      "merchant_id": "m-04",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000099",
+      "amount": 2226.2,
+      "timestamp": "2026-08-16T15:26:51",
+      "timestamp_unix": 1786874211,
+      "customer_id": "C0046",
+      "device_id": "D0046",
+      "ip_id": "IP0046",
+      "payment_id": "P0046",
+      "merchant_id": "m-04",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000033",
+      "amount": 2326.57,
+      "timestamp": "2026-08-16T17:40:09",
+      "timestamp_unix": 1786882209,
+      "customer_id": "C0015",
+      "device_id": "D0015",
+      "ip_id": "IP0015",
+      "payment_id": "P0015",
+      "merchant_id": "m-01",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000094",
+      "amount": 2898.41,
+      "timestamp": "2026-08-17T00:42:39",
+      "timestamp_unix": 1786907559,
+      "customer_id": "C0044",
+      "device_id": "D0044",
+      "ip_id": "IP0044",
+      "payment_id": "P0044",
+      "merchant_id": "m-01",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000151",
+      "amount": 1745.19,
+      "timestamp": "2026-08-17T01:23:59",
+      "timestamp_unix": 1786910039,
+      "customer_id": "C0071",
+      "device_id": "D0071",
+      "ip_id": "IP0071",
+      "payment_id": "P0071",
+      "merchant_id": "m-04",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000089",
+      "amount": 4241.76,
+      "timestamp": "2026-08-17T01:49:03",
+      "timestamp_unix": 1786911543,
+      "customer_id": "C0041",
+      "device_id": "D0041",
+      "ip_id": "IP0041",
+      "payment_id": "P0041",
+      "merchant_id": "m-01",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000181",
+      "amount": 1117.25,
+      "timestamp": "2026-08-17T03:08:33",
+      "timestamp_unix": 1786916313,
+      "customer_id": "C0088",
+      "device_id": "D0085",
+      "ip_id": "IP0082",
+      "payment_id": "P0088",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_OFFICE",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000101",
+      "amount": 646.9,
+      "timestamp": "2026-08-17T06:31:21",
+      "timestamp_unix": 1786928481,
+      "customer_id": "C0047",
+      "device_id": "D0047",
+      "ip_id": "IP0047",
+      "payment_id": "P0047",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000121",
+      "amount": 3092.71,
+      "timestamp": "2026-08-17T07:37:09",
+      "timestamp_unix": 1786932429,
+      "customer_id": "C0057",
+      "device_id": "D0057",
+      "ip_id": "IP0057",
+      "payment_id": "P0057",
+      "merchant_id": "m-04",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000028",
+      "amount": 724.1,
+      "timestamp": "2026-08-17T12:19:59",
+      "timestamp_unix": 1786949399,
+      "customer_id": "C0013",
+      "device_id": "D0013",
+      "ip_id": "IP0013",
+      "payment_id": "P0013",
+      "merchant_id": "m-04",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000194",
+      "amount": 607.68,
+      "timestamp": "2026-08-17T12:32:05",
+      "timestamp_unix": 1786950125,
+      "customer_id": "C0095",
+      "device_id": "D0092",
+      "ip_id": "IP0082",
+      "payment_id": "P0095",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_OFFICE",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000150",
+      "amount": 2058.39,
+      "timestamp": "2026-08-17T16:30:23",
+      "timestamp_unix": 1786964423,
+      "customer_id": "C0071",
+      "device_id": "D0071",
+      "ip_id": "IP0071",
+      "payment_id": "P0071",
+      "merchant_id": "m-05",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000180",
+      "amount": 936.41,
+      "timestamp": "2026-08-17T18:11:37",
+      "timestamp_unix": 1786970497,
+      "customer_id": "C0088",
+      "device_id": "D0085",
+      "ip_id": "IP0082",
+      "payment_id": "P0088",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_OFFICE",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000128",
+      "amount": 1202.94,
+      "timestamp": "2026-08-17T23:44:00",
+      "timestamp_unix": 1786990440,
+      "customer_id": "C0060",
+      "device_id": "D0060",
+      "ip_id": "IP0060",
+      "payment_id": "P0060",
+      "merchant_id": "m-01",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000088",
+      "amount": 2976.3,
+      "timestamp": "2026-08-18T01:06:53",
+      "timestamp_unix": 1786995413,
+      "customer_id": "C0041",
+      "device_id": "D0041",
+      "ip_id": "IP0041",
+      "payment_id": "P0041",
+      "merchant_id": "m-04",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000080",
+      "amount": 1142.83,
+      "timestamp": "2026-08-18T08:52:40",
+      "timestamp_unix": 1787023360,
+      "customer_id": "C0037",
+      "device_id": "D0037",
+      "ip_id": "IP0037",
+      "payment_id": "P0037",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000015",
+      "amount": 1759.9,
+      "timestamp": "2026-08-18T23:17:31",
+      "timestamp_unix": 1787075251,
+      "customer_id": "C0007",
+      "device_id": "D0007",
+      "ip_id": "IP0007",
+      "payment_id": "P0007",
+      "merchant_id": "m-03",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000137",
+      "amount": 543.07,
+      "timestamp": "2026-08-18T23:44:46",
+      "timestamp_unix": 1787076886,
+      "customer_id": "C0065",
+      "device_id": "D0065",
+      "ip_id": "IP0065",
+      "payment_id": "P0065",
+      "merchant_id": "m-03",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000039",
+      "amount": 2111.93,
+      "timestamp": "2026-08-19T03:03:59",
+      "timestamp_unix": 1787088839,
+      "customer_id": "C0018",
+      "device_id": "D0018",
+      "ip_id": "IP0018",
+      "payment_id": "P0018",
+      "merchant_id": "m-05",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000032",
+      "amount": 3490.67,
+      "timestamp": "2026-08-19T03:38:28",
+      "timestamp_unix": 1787090908,
+      "customer_id": "C0014",
+      "device_id": "D0014",
+      "ip_id": "IP0014",
+      "payment_id": "P0014",
+      "merchant_id": "m-05",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000200",
+      "amount": 1142.45,
+      "timestamp": "2026-08-19T09:32:18",
+      "timestamp_unix": 1787112138,
+      "customer_id": "C0098",
+      "device_id": "D0095",
+      "ip_id": "IP0082",
+      "payment_id": "P0098",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_OFFICE",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000126",
+      "amount": 1432.59,
+      "timestamp": "2026-08-19T09:42:50",
+      "timestamp_unix": 1787112770,
+      "customer_id": "C0059",
+      "device_id": "D0059",
+      "ip_id": "IP0059",
+      "payment_id": "P0059",
+      "merchant_id": "m-04",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000204",
+      "amount": 10000.0,
+      "timestamp": "2026-08-19T10:01:00",
+      "timestamp_unix": 1787113860,
+      "customer_id": "C0100",
+      "device_id": "D0097",
+      "ip_id": "IP0083",
+      "payment_id": "P0100",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000205",
+      "amount": 10000.0,
+      "timestamp": "2026-08-19T10:01:06",
+      "timestamp_unix": 1787113866,
+      "customer_id": "C0101",
+      "device_id": "D0098",
+      "ip_id": "IP0084",
+      "payment_id": "P0101",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000206",
+      "amount": 10000.0,
+      "timestamp": "2026-08-19T10:01:13",
+      "timestamp_unix": 1787113873,
+      "customer_id": "C0102",
+      "device_id": "D0099",
+      "ip_id": "IP0085",
+      "payment_id": "P0102",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000207",
+      "amount": 10000.0,
+      "timestamp": "2026-08-19T10:01:19",
+      "timestamp_unix": 1787113879,
+      "customer_id": "C0103",
+      "device_id": "D0100",
+      "ip_id": "IP0083",
+      "payment_id": "P0103",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000208",
+      "amount": 10000.0,
+      "timestamp": "2026-08-19T10:01:26",
+      "timestamp_unix": 1787113886,
+      "customer_id": "C0104",
+      "device_id": "D0097",
+      "ip_id": "IP0084",
+      "payment_id": "P0104",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000209",
+      "amount": 10000.0,
+      "timestamp": "2026-08-19T10:01:32",
+      "timestamp_unix": 1787113892,
+      "customer_id": "C0105",
+      "device_id": "D0098",
+      "ip_id": "IP0085",
+      "payment_id": "P0105",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000210",
+      "amount": 10000.0,
+      "timestamp": "2026-08-19T10:01:39",
+      "timestamp_unix": 1787113899,
+      "customer_id": "C0106",
+      "device_id": "D0099",
+      "ip_id": "IP0083",
+      "payment_id": "P0106",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000211",
+      "amount": 10000.0,
+      "timestamp": "2026-08-19T10:01:45",
+      "timestamp_unix": 1787113905,
+      "customer_id": "C0107",
+      "device_id": "D0100",
+      "ip_id": "IP0084",
+      "payment_id": "P0107",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000212",
+      "amount": 10000.0,
+      "timestamp": "2026-08-19T10:01:52",
+      "timestamp_unix": 1787113912,
+      "customer_id": "C0108",
+      "device_id": "D0097",
+      "ip_id": "IP0085",
+      "payment_id": "P0108",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000213",
+      "amount": 10000.0,
+      "timestamp": "2026-08-19T10:01:58",
+      "timestamp_unix": 1787113918,
+      "customer_id": "C0109",
+      "device_id": "D0098",
+      "ip_id": "IP0083",
+      "payment_id": "P0109",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000214",
+      "amount": 10000.0,
+      "timestamp": "2026-08-19T10:02:05",
+      "timestamp_unix": 1787113925,
+      "customer_id": "C0110",
+      "device_id": "D0099",
+      "ip_id": "IP0084",
+      "payment_id": "P0110",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000215",
+      "amount": 10000.0,
+      "timestamp": "2026-08-19T10:02:11",
+      "timestamp_unix": 1787113931,
+      "customer_id": "C0111",
+      "device_id": "D0100",
+      "ip_id": "IP0085",
+      "payment_id": "P0100",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000216",
+      "amount": 10000.0,
+      "timestamp": "2026-08-19T10:02:18",
+      "timestamp_unix": 1787113938,
+      "customer_id": "C0112",
+      "device_id": "D0097",
+      "ip_id": "IP0083",
+      "payment_id": "P0101",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000217",
+      "amount": 10000.0,
+      "timestamp": "2026-08-19T10:02:24",
+      "timestamp_unix": 1787113944,
+      "customer_id": "C0113",
+      "device_id": "D0098",
+      "ip_id": "IP0084",
+      "payment_id": "P0102",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000218",
+      "amount": 10000.0,
+      "timestamp": "2026-08-19T10:02:31",
+      "timestamp_unix": 1787113951,
+      "customer_id": "C0114",
+      "device_id": "D0099",
+      "ip_id": "IP0085",
+      "payment_id": "P0103",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000219",
+      "amount": 10000.0,
+      "timestamp": "2026-08-19T10:02:37",
+      "timestamp_unix": 1787113957,
+      "customer_id": "C0115",
+      "device_id": "D0100",
+      "ip_id": "IP0083",
+      "payment_id": "P0104",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000220",
+      "amount": 10000.0,
+      "timestamp": "2026-08-19T10:02:44",
+      "timestamp_unix": 1787113964,
+      "customer_id": "C0116",
+      "device_id": "D0097",
+      "ip_id": "IP0084",
+      "payment_id": "P0105",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000221",
+      "amount": 10000.0,
+      "timestamp": "2026-08-19T10:02:50",
+      "timestamp_unix": 1787113970,
+      "customer_id": "C0100",
+      "device_id": "D0098",
+      "ip_id": "IP0085",
+      "payment_id": "P0106",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000222",
+      "amount": 12350.92,
+      "timestamp": "2026-08-19T10:03:00",
+      "timestamp_unix": 1787113980,
+      "customer_id": "C0101",
+      "device_id": "D0099",
+      "ip_id": "IP0083",
+      "payment_id": "P0107",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000223",
+      "amount": 9520.88,
+      "timestamp": "2026-08-19T10:04:20",
+      "timestamp_unix": 1787114060,
+      "customer_id": "C0102",
+      "device_id": "D0100",
+      "ip_id": "IP0084",
+      "payment_id": "P0108",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000224",
+      "amount": 10072.98,
+      "timestamp": "2026-08-19T10:05:40",
+      "timestamp_unix": 1787114140,
+      "customer_id": "C0103",
+      "device_id": "D0097",
+      "ip_id": "IP0085",
+      "payment_id": "P0109",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000225",
+      "amount": 12440.6,
+      "timestamp": "2026-08-19T10:07:00",
+      "timestamp_unix": 1787114220,
+      "customer_id": "C0104",
+      "device_id": "D0098",
+      "ip_id": "IP0083",
+      "payment_id": "P0110",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000226",
+      "amount": 10788.3,
+      "timestamp": "2026-08-19T10:08:20",
+      "timestamp_unix": 1787114300,
+      "customer_id": "C0105",
+      "device_id": "D0099",
+      "ip_id": "IP0084",
+      "payment_id": "P0100",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000227",
+      "amount": 10212.97,
+      "timestamp": "2026-08-19T10:09:40",
+      "timestamp_unix": 1787114380,
+      "customer_id": "C0106",
+      "device_id": "D0100",
+      "ip_id": "IP0085",
+      "payment_id": "P0101",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000228",
+      "amount": 9566.24,
+      "timestamp": "2026-08-19T10:11:00",
+      "timestamp_unix": 1787114460,
+      "customer_id": "C0107",
+      "device_id": "D0097",
+      "ip_id": "IP0083",
+      "payment_id": "P0102",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000229",
+      "amount": 8437.91,
+      "timestamp": "2026-08-19T10:12:20",
+      "timestamp_unix": 1787114540,
+      "customer_id": "C0108",
+      "device_id": "D0098",
+      "ip_id": "IP0084",
+      "payment_id": "P0103",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000230",
+      "amount": 9308.9,
+      "timestamp": "2026-08-19T10:13:40",
+      "timestamp_unix": 1787114620,
+      "customer_id": "C0109",
+      "device_id": "D0099",
+      "ip_id": "IP0085",
+      "payment_id": "P0104",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000231",
+      "amount": 11282.22,
+      "timestamp": "2026-08-19T10:15:00",
+      "timestamp_unix": 1787114700,
+      "customer_id": "C0110",
+      "device_id": "D0100",
+      "ip_id": "IP0083",
+      "payment_id": "P0105",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000232",
+      "amount": 10627.04,
+      "timestamp": "2026-08-19T10:16:20",
+      "timestamp_unix": 1787114780,
+      "customer_id": "C0111",
+      "device_id": "D0097",
+      "ip_id": "IP0084",
+      "payment_id": "P0106",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000233",
+      "amount": 11299.95,
+      "timestamp": "2026-08-19T10:17:40",
+      "timestamp_unix": 1787114860,
+      "customer_id": "C0112",
+      "device_id": "D0098",
+      "ip_id": "IP0085",
+      "payment_id": "P0107",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000234",
+      "amount": 8517.79,
+      "timestamp": "2026-08-19T10:19:00",
+      "timestamp_unix": 1787114940,
+      "customer_id": "C0113",
+      "device_id": "D0099",
+      "ip_id": "IP0083",
+      "payment_id": "P0108",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000235",
+      "amount": 10246.1,
+      "timestamp": "2026-08-19T10:20:20",
+      "timestamp_unix": 1787115020,
+      "customer_id": "C0114",
+      "device_id": "D0100",
+      "ip_id": "IP0084",
+      "payment_id": "P0109",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000236",
+      "amount": 12138.36,
+      "timestamp": "2026-08-19T10:21:40",
+      "timestamp_unix": 1787115100,
+      "customer_id": "C0115",
+      "device_id": "D0097",
+      "ip_id": "IP0085",
+      "payment_id": "P0110",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000237",
+      "amount": 9690.58,
+      "timestamp": "2026-08-19T10:23:00",
+      "timestamp_unix": 1787115180,
+      "customer_id": "C0116",
+      "device_id": "D0098",
+      "ip_id": "IP0083",
+      "payment_id": "P0100",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000238",
+      "amount": 10991.25,
+      "timestamp": "2026-08-19T10:24:20",
+      "timestamp_unix": 1787115260,
+      "customer_id": "C0100",
+      "device_id": "D0099",
+      "ip_id": "IP0084",
+      "payment_id": "P0101",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000239",
+      "amount": 8107.13,
+      "timestamp": "2026-08-19T10:25:40",
+      "timestamp_unix": 1787115340,
+      "customer_id": "C0101",
+      "device_id": "D0100",
+      "ip_id": "IP0085",
+      "payment_id": "P0102",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000240",
+      "amount": 12365.73,
+      "timestamp": "2026-08-19T10:27:00",
+      "timestamp_unix": 1787115420,
+      "customer_id": "C0102",
+      "device_id": "D0097",
+      "ip_id": "IP0083",
+      "payment_id": "P0103",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000241",
+      "amount": 10544.36,
+      "timestamp": "2026-08-19T10:28:20",
+      "timestamp_unix": 1787115500,
+      "customer_id": "C0103",
+      "device_id": "D0098",
+      "ip_id": "IP0084",
+      "payment_id": "P0104",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000242",
+      "amount": 8696.49,
+      "timestamp": "2026-08-19T10:29:40",
+      "timestamp_unix": 1787115580,
+      "customer_id": "C0104",
+      "device_id": "D0099",
+      "ip_id": "IP0085",
+      "payment_id": "P0105",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000243",
+      "amount": 8291.89,
+      "timestamp": "2026-08-19T10:31:00",
+      "timestamp_unix": 1787115660,
+      "customer_id": "C0105",
+      "device_id": "D0100",
+      "ip_id": "IP0083",
+      "payment_id": "P0106",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000244",
+      "amount": 10254.2,
+      "timestamp": "2026-08-19T10:32:20",
+      "timestamp_unix": 1787115740,
+      "customer_id": "C0106",
+      "device_id": "D0097",
+      "ip_id": "IP0084",
+      "payment_id": "P0107",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000245",
+      "amount": 10261.26,
+      "timestamp": "2026-08-19T10:33:40",
+      "timestamp_unix": 1787115820,
+      "customer_id": "C0107",
+      "device_id": "D0098",
+      "ip_id": "IP0085",
+      "payment_id": "P0108",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000246",
+      "amount": 7966.05,
+      "timestamp": "2026-08-19T10:35:00",
+      "timestamp_unix": 1787115900,
+      "customer_id": "C0108",
+      "device_id": "D0099",
+      "ip_id": "IP0083",
+      "payment_id": "P0109",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000247",
+      "amount": 12461.29,
+      "timestamp": "2026-08-19T10:36:20",
+      "timestamp_unix": 1787115980,
+      "customer_id": "C0109",
+      "device_id": "D0100",
+      "ip_id": "IP0084",
+      "payment_id": "P0110",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000248",
+      "amount": 12064.65,
+      "timestamp": "2026-08-19T10:37:40",
+      "timestamp_unix": 1787116060,
+      "customer_id": "C0110",
+      "device_id": "D0097",
+      "ip_id": "IP0085",
+      "payment_id": "P0100",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000249",
+      "amount": 9807.24,
+      "timestamp": "2026-08-19T10:39:00",
+      "timestamp_unix": 1787116140,
+      "customer_id": "C0111",
+      "device_id": "D0098",
+      "ip_id": "IP0083",
+      "payment_id": "P0101",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000250",
+      "amount": 8087.33,
+      "timestamp": "2026-08-19T10:40:20",
+      "timestamp_unix": 1787116220,
+      "customer_id": "C0112",
+      "device_id": "D0099",
+      "ip_id": "IP0084",
+      "payment_id": "P0102",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000251",
+      "amount": 11660.72,
+      "timestamp": "2026-08-19T10:41:40",
+      "timestamp_unix": 1787116300,
+      "customer_id": "C0113",
+      "device_id": "D0100",
+      "ip_id": "IP0085",
+      "payment_id": "P0103",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000252",
+      "amount": 9991.88,
+      "timestamp": "2026-08-19T10:43:00",
+      "timestamp_unix": 1787116380,
+      "customer_id": "C0114",
+      "device_id": "D0097",
+      "ip_id": "IP0083",
+      "payment_id": "P0104",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000253",
+      "amount": 11083.02,
+      "timestamp": "2026-08-19T10:44:20",
+      "timestamp_unix": 1787116460,
+      "customer_id": "C0115",
+      "device_id": "D0098",
+      "ip_id": "IP0084",
+      "payment_id": "P0105",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000254",
+      "amount": 10044.36,
+      "timestamp": "2026-08-19T10:45:40",
+      "timestamp_unix": 1787116540,
+      "customer_id": "C0116",
+      "device_id": "D0099",
+      "ip_id": "IP0085",
+      "payment_id": "P0106",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "TRAIN"
+    },
+    {
+      "id": "TX-000255",
+      "amount": 8867.12,
+      "timestamp": "2026-08-19T10:47:00",
+      "timestamp_unix": 1787116620,
+      "customer_id": "C0100",
+      "device_id": "D0100",
+      "ip_id": "IP0083",
+      "payment_id": "P0107",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "VALIDATION"
+    },
+    {
+      "id": "TX-000256",
+      "amount": 11673.62,
+      "timestamp": "2026-08-19T10:48:20",
+      "timestamp_unix": 1787116700,
+      "customer_id": "C0101",
+      "device_id": "D0097",
+      "ip_id": "IP0084",
+      "payment_id": "P0108",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "VALIDATION"
+    },
+    {
+      "id": "TX-000257",
+      "amount": 12401.22,
+      "timestamp": "2026-08-19T10:49:40",
+      "timestamp_unix": 1787116780,
+      "customer_id": "C0102",
+      "device_id": "D0098",
+      "ip_id": "IP0085",
+      "payment_id": "P0109",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "VALIDATION"
+    },
+    {
+      "id": "TX-000258",
+      "amount": 8718.65,
+      "timestamp": "2026-08-19T10:51:00",
+      "timestamp_unix": 1787116860,
+      "customer_id": "C0103",
+      "device_id": "D0099",
+      "ip_id": "IP0083",
+      "payment_id": "P0110",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "VALIDATION"
+    },
+    {
+      "id": "TX-000259",
+      "amount": 10256.33,
+      "timestamp": "2026-08-19T10:52:20",
+      "timestamp_unix": 1787116940,
+      "customer_id": "C0104",
+      "device_id": "D0100",
+      "ip_id": "IP0084",
+      "payment_id": "P0100",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "VALIDATION"
+    },
+    {
+      "id": "TX-000260",
+      "amount": 9417.93,
+      "timestamp": "2026-08-19T10:53:40",
+      "timestamp_unix": 1787117020,
+      "customer_id": "C0105",
+      "device_id": "D0097",
+      "ip_id": "IP0085",
+      "payment_id": "P0101",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "VALIDATION"
+    },
+    {
+      "id": "TX-000261",
+      "amount": 12109.34,
+      "timestamp": "2026-08-19T10:55:00",
+      "timestamp_unix": 1787117100,
+      "customer_id": "C0106",
+      "device_id": "D0098",
+      "ip_id": "IP0083",
+      "payment_id": "P0102",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "VALIDATION"
+    },
+    {
+      "id": "TX-000262",
+      "amount": 10041.2,
+      "timestamp": "2026-08-19T10:56:20",
+      "timestamp_unix": 1787117180,
+      "customer_id": "C0107",
+      "device_id": "D0099",
+      "ip_id": "IP0084",
+      "payment_id": "P0103",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "VALIDATION"
+    },
+    {
+      "id": "TX-000263",
+      "amount": 11896.63,
+      "timestamp": "2026-08-19T10:57:40",
+      "timestamp_unix": 1787117260,
+      "customer_id": "C0108",
+      "device_id": "D0100",
+      "ip_id": "IP0085",
+      "payment_id": "P0104",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "VALIDATION"
+    },
+    {
+      "id": "TX-000264",
+      "amount": 11820.13,
+      "timestamp": "2026-08-19T10:59:00",
+      "timestamp_unix": 1787117340,
+      "customer_id": "C0109",
+      "device_id": "D0097",
+      "ip_id": "IP0083",
+      "payment_id": "P0105",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "VALIDATION"
+    },
+    {
+      "id": "TX-000265",
+      "amount": 8881.24,
+      "timestamp": "2026-08-19T11:00:20",
+      "timestamp_unix": 1787117420,
+      "customer_id": "C0110",
+      "device_id": "D0098",
+      "ip_id": "IP0084",
+      "payment_id": "P0106",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "VALIDATION"
+    },
+    {
+      "id": "TX-000266",
+      "amount": 11450.03,
+      "timestamp": "2026-08-19T11:01:40",
+      "timestamp_unix": 1787117500,
+      "customer_id": "C0111",
+      "device_id": "D0099",
+      "ip_id": "IP0085",
+      "payment_id": "P0107",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "VALIDATION"
+    },
+    {
+      "id": "TX-000267",
+      "amount": 9574.71,
+      "timestamp": "2026-08-19T11:03:00",
+      "timestamp_unix": 1787117580,
+      "customer_id": "C0112",
+      "device_id": "D0100",
+      "ip_id": "IP0083",
+      "payment_id": "P0108",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "VALIDATION"
+    },
+    {
+      "id": "TX-000268",
+      "amount": 12171.24,
+      "timestamp": "2026-08-19T11:04:20",
+      "timestamp_unix": 1787117660,
+      "customer_id": "C0113",
+      "device_id": "D0097",
+      "ip_id": "IP0084",
+      "payment_id": "P0109",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "VALIDATION"
+    },
+    {
+      "id": "TX-000269",
+      "amount": 10038.69,
+      "timestamp": "2026-08-19T11:05:40",
+      "timestamp_unix": 1787117740,
+      "customer_id": "C0114",
+      "device_id": "D0098",
+      "ip_id": "IP0085",
+      "payment_id": "P0110",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "VALIDATION"
+    },
+    {
+      "id": "TX-000270",
+      "amount": 11602.75,
+      "timestamp": "2026-08-19T11:07:00",
+      "timestamp_unix": 1787117820,
+      "customer_id": "C0115",
+      "device_id": "D0099",
+      "ip_id": "IP0083",
+      "payment_id": "P0100",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "VALIDATION"
+    },
+    {
+      "id": "TX-000271",
+      "amount": 8914.19,
+      "timestamp": "2026-08-19T11:08:20",
+      "timestamp_unix": 1787117900,
+      "customer_id": "C0116",
+      "device_id": "D0100",
+      "ip_id": "IP0084",
+      "payment_id": "P0101",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "VALIDATION"
+    },
+    {
+      "id": "TX-000272",
+      "amount": 8992.78,
+      "timestamp": "2026-08-19T11:09:40",
+      "timestamp_unix": 1787117980,
+      "customer_id": "C0100",
+      "device_id": "D0097",
+      "ip_id": "IP0085",
+      "payment_id": "P0102",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "VALIDATION"
+    },
+    {
+      "id": "TX-000163",
+      "amount": 2164.69,
+      "timestamp": "2026-08-19T11:10:21",
+      "timestamp_unix": 1787118021,
+      "customer_id": "C0080",
+      "device_id": "D0080",
+      "ip_id": "IP0080",
+      "payment_id": "P0080",
+      "merchant_id": "m-04",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "VALIDATION"
+    },
+    {
+      "id": "TX-000118",
+      "amount": 2277.16,
+      "timestamp": "2026-08-19T11:10:33",
+      "timestamp_unix": 1787118033,
+      "customer_id": "C0056",
+      "device_id": "D0056",
+      "ip_id": "IP0056",
+      "payment_id": "P0056",
+      "merchant_id": "m-03",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "VALIDATION"
+    },
+    {
+      "id": "TX-000273",
+      "amount": 10434.69,
+      "timestamp": "2026-08-19T11:11:00",
+      "timestamp_unix": 1787118060,
+      "customer_id": "C0101",
+      "device_id": "D0098",
+      "ip_id": "IP0083",
+      "payment_id": "P0103",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "VALIDATION"
+    },
+    {
+      "id": "TX-000274",
+      "amount": 12494.51,
+      "timestamp": "2026-08-19T11:12:20",
+      "timestamp_unix": 1787118140,
+      "customer_id": "C0102",
+      "device_id": "D0099",
+      "ip_id": "IP0084",
+      "payment_id": "P0104",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "VALIDATION"
+    },
+    {
+      "id": "TX-000275",
+      "amount": 9948.2,
+      "timestamp": "2026-08-19T11:13:40",
+      "timestamp_unix": 1787118220,
+      "customer_id": "C0103",
+      "device_id": "D0100",
+      "ip_id": "IP0085",
+      "payment_id": "P0105",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "VALIDATION"
+    },
+    {
+      "id": "TX-000276",
+      "amount": 8242.98,
+      "timestamp": "2026-08-19T11:15:00",
+      "timestamp_unix": 1787118300,
+      "customer_id": "C0104",
+      "device_id": "D0097",
+      "ip_id": "IP0083",
+      "payment_id": "P0106",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "VALIDATION"
+    },
+    {
+      "id": "TX-000277",
+      "amount": 10192.9,
+      "timestamp": "2026-08-19T11:16:20",
+      "timestamp_unix": 1787118380,
+      "customer_id": "C0105",
+      "device_id": "D0098",
+      "ip_id": "IP0084",
+      "payment_id": "P0107",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "VALIDATION"
+    },
+    {
+      "id": "TX-000278",
+      "amount": 9225.62,
+      "timestamp": "2026-08-19T11:17:40",
+      "timestamp_unix": 1787118460,
+      "customer_id": "C0106",
+      "device_id": "D0099",
+      "ip_id": "IP0085",
+      "payment_id": "P0108",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "VALIDATION"
+    },
+    {
+      "id": "TX-000279",
+      "amount": 10259.59,
+      "timestamp": "2026-08-19T11:19:00",
+      "timestamp_unix": 1787118540,
+      "customer_id": "C0107",
+      "device_id": "D0100",
+      "ip_id": "IP0083",
+      "payment_id": "P0109",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "VALIDATION"
+    },
+    {
+      "id": "TX-000280",
+      "amount": 10217.15,
+      "timestamp": "2026-08-19T11:20:20",
+      "timestamp_unix": 1787118620,
+      "customer_id": "C0108",
+      "device_id": "D0097",
+      "ip_id": "IP0084",
+      "payment_id": "P0110",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "VALIDATION"
+    },
+    {
+      "id": "TX-000281",
+      "amount": 9776.72,
+      "timestamp": "2026-08-19T11:21:40",
+      "timestamp_unix": 1787118700,
+      "customer_id": "C0109",
+      "device_id": "D0098",
+      "ip_id": "IP0085",
+      "payment_id": "P0100",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "VALIDATION"
+    },
+    {
+      "id": "TX-000282",
+      "amount": 9108.89,
+      "timestamp": "2026-08-19T11:23:00",
+      "timestamp_unix": 1787118780,
+      "customer_id": "C0110",
+      "device_id": "D0099",
+      "ip_id": "IP0083",
+      "payment_id": "P0101",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "VALIDATION"
+    },
+    {
+      "id": "TX-000283",
+      "amount": 8443.26,
+      "timestamp": "2026-08-19T11:24:20",
+      "timestamp_unix": 1787118860,
+      "customer_id": "C0111",
+      "device_id": "D0100",
+      "ip_id": "IP0084",
+      "payment_id": "P0102",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "VALIDATION"
+    },
+    {
+      "id": "TX-000284",
+      "amount": 10987.49,
+      "timestamp": "2026-08-19T11:25:40",
+      "timestamp_unix": 1787118940,
+      "customer_id": "C0112",
+      "device_id": "D0097",
+      "ip_id": "IP0085",
+      "payment_id": "P0103",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "VALIDATION"
+    },
+    {
+      "id": "TX-000285",
+      "amount": 10358.99,
+      "timestamp": "2026-08-19T11:27:00",
+      "timestamp_unix": 1787119020,
+      "customer_id": "C0113",
+      "device_id": "D0098",
+      "ip_id": "IP0083",
+      "payment_id": "P0104",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "VALIDATION"
+    },
+    {
+      "id": "TX-000286",
+      "amount": 8667.81,
+      "timestamp": "2026-08-19T11:28:20",
+      "timestamp_unix": 1787119100,
+      "customer_id": "C0114",
+      "device_id": "D0099",
+      "ip_id": "IP0084",
+      "payment_id": "P0105",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "VALIDATION"
+    },
+    {
+      "id": "TX-000287",
+      "amount": 11377.72,
+      "timestamp": "2026-08-19T11:29:40",
+      "timestamp_unix": 1787119180,
+      "customer_id": "C0115",
+      "device_id": "D0100",
+      "ip_id": "IP0085",
+      "payment_id": "P0106",
+      "merchant_id": "m-01",
+      "is_fraud": true,
+      "cluster_id": "RING-0042",
+      "ground_truth": "ABUSE_RING",
+      "split": "VALIDATION"
+    },
+    {
+      "id": "TX-000085",
+      "amount": 3956.71,
+      "timestamp": "2026-08-19T13:41:36",
+      "timestamp_unix": 1787127096,
+      "customer_id": "C0039",
+      "device_id": "D0039",
+      "ip_id": "IP0039",
+      "payment_id": "P0039",
+      "merchant_id": "m-04",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "VALIDATION"
+    },
+    {
+      "id": "TX-000189",
+      "amount": 1027.76,
+      "timestamp": "2026-08-19T16:21:46",
+      "timestamp_unix": 1787136706,
+      "customer_id": "C0092",
+      "device_id": "D0089",
+      "ip_id": "IP0082",
+      "payment_id": "P0092",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_OFFICE",
+      "ground_truth": "LEGITIMATE",
+      "split": "VALIDATION"
+    },
+    {
+      "id": "TX-000022",
+      "amount": 1788.48,
+      "timestamp": "2026-08-20T09:20:07",
+      "timestamp_unix": 1787197807,
+      "customer_id": "C0011",
+      "device_id": "D0011",
+      "ip_id": "IP0011",
+      "payment_id": "P0011",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "VALIDATION"
+    },
+    {
+      "id": "TX-000019",
+      "amount": 1387.9,
+      "timestamp": "2026-08-20T11:23:27",
+      "timestamp_unix": 1787205207,
+      "customer_id": "C0009",
+      "device_id": "D0009",
+      "ip_id": "IP0009",
+      "payment_id": "P0009",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "VALIDATION"
+    },
+    {
+      "id": "TX-000098",
+      "amount": 2578.73,
+      "timestamp": "2026-08-20T17:06:42",
+      "timestamp_unix": 1787225802,
+      "customer_id": "C0045",
+      "device_id": "D0045",
+      "ip_id": "IP0045",
+      "payment_id": "P0045",
+      "merchant_id": "m-01",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "VALIDATION"
+    },
+    {
+      "id": "TX-000081",
+      "amount": 4388.81,
+      "timestamp": "2026-08-20T17:27:50",
+      "timestamp_unix": 1787227070,
+      "customer_id": "C0038",
+      "device_id": "D0038",
+      "ip_id": "IP0038",
+      "payment_id": "P0038",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "VALIDATION"
+    },
+    {
+      "id": "TX-000116",
+      "amount": 1656.25,
+      "timestamp": "2026-08-20T18:53:15",
+      "timestamp_unix": 1787232195,
+      "customer_id": "C0055",
+      "device_id": "D0055",
+      "ip_id": "IP0055",
+      "payment_id": "P0055",
+      "merchant_id": "m-04",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "VALIDATION"
+    },
+    {
+      "id": "TX-000083",
+      "amount": 355.34,
+      "timestamp": "2026-08-21T00:21:28",
+      "timestamp_unix": 1787251888,
+      "customer_id": "C0038",
+      "device_id": "D0038",
+      "ip_id": "IP0038",
+      "payment_id": "P0038",
+      "merchant_id": "m-03",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "VALIDATION"
+    },
+    {
+      "id": "TX-000104",
+      "amount": 4016.08,
+      "timestamp": "2026-08-21T02:51:31",
+      "timestamp_unix": 1787260891,
+      "customer_id": "C0048",
+      "device_id": "D0048",
+      "ip_id": "IP0048",
+      "payment_id": "P0048",
+      "merchant_id": "m-05",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "VALIDATION"
+    },
+    {
+      "id": "TX-000117",
+      "amount": 514.63,
+      "timestamp": "2026-08-21T04:24:43",
+      "timestamp_unix": 1787266483,
+      "customer_id": "C0055",
+      "device_id": "D0055",
+      "ip_id": "IP0055",
+      "payment_id": "P0055",
+      "merchant_id": "m-04",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "VALIDATION"
+    },
+    {
+      "id": "TX-000288",
+      "amount": 10357.14,
+      "timestamp": "2026-08-21T04:45:00",
+      "timestamp_unix": 1787267700,
+      "customer_id": "C0117",
+      "device_id": "D0101",
+      "ip_id": "IP0086",
+      "payment_id": "P0111",
+      "merchant_id": "m-04",
+      "is_fraud": true,
+      "cluster_id": "RING-7092",
+      "ground_truth": "ABUSE_RING",
+      "split": "HELD_OUT_TEST"
+    },
+    {
+      "id": "TX-000289",
+      "amount": 10357.14,
+      "timestamp": "2026-08-21T04:45:20",
+      "timestamp_unix": 1787267720,
+      "customer_id": "C0118",
+      "device_id": "D0101",
+      "ip_id": "IP0086",
+      "payment_id": "P0112",
+      "merchant_id": "m-04",
+      "is_fraud": true,
+      "cluster_id": "RING-7092",
+      "ground_truth": "ABUSE_RING",
+      "split": "HELD_OUT_TEST"
+    },
+    {
+      "id": "TX-000290",
+      "amount": 10357.14,
+      "timestamp": "2026-08-21T04:45:40",
+      "timestamp_unix": 1787267740,
+      "customer_id": "C0119",
+      "device_id": "D0101",
+      "ip_id": "IP0086",
+      "payment_id": "P0113",
+      "merchant_id": "m-04",
+      "is_fraud": true,
+      "cluster_id": "RING-7092",
+      "ground_truth": "ABUSE_RING",
+      "split": "HELD_OUT_TEST"
+    },
+    {
+      "id": "TX-000291",
+      "amount": 10357.14,
+      "timestamp": "2026-08-21T04:46:00",
+      "timestamp_unix": 1787267760,
+      "customer_id": "C0120",
+      "device_id": "D0101",
+      "ip_id": "IP0086",
+      "payment_id": "P0114",
+      "merchant_id": "m-04",
+      "is_fraud": true,
+      "cluster_id": "RING-7092",
+      "ground_truth": "ABUSE_RING",
+      "split": "HELD_OUT_TEST"
+    },
+    {
+      "id": "TX-000292",
+      "amount": 10357.14,
+      "timestamp": "2026-08-21T04:46:20",
+      "timestamp_unix": 1787267780,
+      "customer_id": "C0117",
+      "device_id": "D0101",
+      "ip_id": "IP0086",
+      "payment_id": "P0111",
+      "merchant_id": "m-04",
+      "is_fraud": true,
+      "cluster_id": "RING-7092",
+      "ground_truth": "ABUSE_RING",
+      "split": "HELD_OUT_TEST"
+    },
+    {
+      "id": "TX-000293",
+      "amount": 10357.14,
+      "timestamp": "2026-08-21T04:46:40",
+      "timestamp_unix": 1787267800,
+      "customer_id": "C0118",
+      "device_id": "D0101",
+      "ip_id": "IP0086",
+      "payment_id": "P0112",
+      "merchant_id": "m-04",
+      "is_fraud": true,
+      "cluster_id": "RING-7092",
+      "ground_truth": "ABUSE_RING",
+      "split": "HELD_OUT_TEST"
+    },
+    {
+      "id": "TX-000294",
+      "amount": 10357.14,
+      "timestamp": "2026-08-21T04:47:00",
+      "timestamp_unix": 1787267820,
+      "customer_id": "C0119",
+      "device_id": "D0101",
+      "ip_id": "IP0086",
+      "payment_id": "P0113",
+      "merchant_id": "m-04",
+      "is_fraud": true,
+      "cluster_id": "RING-7092",
+      "ground_truth": "ABUSE_RING",
+      "split": "HELD_OUT_TEST"
+    },
+    {
+      "id": "TX-000295",
+      "amount": 10357.14,
+      "timestamp": "2026-08-21T04:47:20",
+      "timestamp_unix": 1787267840,
+      "customer_id": "C0120",
+      "device_id": "D0101",
+      "ip_id": "IP0086",
+      "payment_id": "P0114",
+      "merchant_id": "m-04",
+      "is_fraud": true,
+      "cluster_id": "RING-7092",
+      "ground_truth": "ABUSE_RING",
+      "split": "HELD_OUT_TEST"
+    },
+    {
+      "id": "TX-000296",
+      "amount": 10357.14,
+      "timestamp": "2026-08-21T04:47:40",
+      "timestamp_unix": 1787267860,
+      "customer_id": "C0117",
+      "device_id": "D0101",
+      "ip_id": "IP0086",
+      "payment_id": "P0111",
+      "merchant_id": "m-04",
+      "is_fraud": true,
+      "cluster_id": "RING-7092",
+      "ground_truth": "ABUSE_RING",
+      "split": "HELD_OUT_TEST"
+    },
+    {
+      "id": "TX-000297",
+      "amount": 10357.14,
+      "timestamp": "2026-08-21T04:48:00",
+      "timestamp_unix": 1787267880,
+      "customer_id": "C0118",
+      "device_id": "D0101",
+      "ip_id": "IP0086",
+      "payment_id": "P0112",
+      "merchant_id": "m-04",
+      "is_fraud": true,
+      "cluster_id": "RING-7092",
+      "ground_truth": "ABUSE_RING",
+      "split": "HELD_OUT_TEST"
+    },
+    {
+      "id": "TX-000298",
+      "amount": 10357.14,
+      "timestamp": "2026-08-21T04:48:20",
+      "timestamp_unix": 1787267900,
+      "customer_id": "C0119",
+      "device_id": "D0101",
+      "ip_id": "IP0086",
+      "payment_id": "P0113",
+      "merchant_id": "m-04",
+      "is_fraud": true,
+      "cluster_id": "RING-7092",
+      "ground_truth": "ABUSE_RING",
+      "split": "HELD_OUT_TEST"
+    },
+    {
+      "id": "TX-000299",
+      "amount": 10357.14,
+      "timestamp": "2026-08-21T04:48:40",
+      "timestamp_unix": 1787267920,
+      "customer_id": "C0120",
+      "device_id": "D0101",
+      "ip_id": "IP0086",
+      "payment_id": "P0114",
+      "merchant_id": "m-04",
+      "is_fraud": true,
+      "cluster_id": "RING-7092",
+      "ground_truth": "ABUSE_RING",
+      "split": "HELD_OUT_TEST"
+    },
+    {
+      "id": "TX-000300",
+      "amount": 10357.14,
+      "timestamp": "2026-08-21T04:49:00",
+      "timestamp_unix": 1787267940,
+      "customer_id": "C0117",
+      "device_id": "D0101",
+      "ip_id": "IP0086",
+      "payment_id": "P0111",
+      "merchant_id": "m-04",
+      "is_fraud": true,
+      "cluster_id": "RING-7092",
+      "ground_truth": "ABUSE_RING",
+      "split": "HELD_OUT_TEST"
+    },
+    {
+      "id": "TX-000301",
+      "amount": 10357.14,
+      "timestamp": "2026-08-21T04:49:20",
+      "timestamp_unix": 1787267960,
+      "customer_id": "C0118",
+      "device_id": "D0101",
+      "ip_id": "IP0086",
+      "payment_id": "P0112",
+      "merchant_id": "m-04",
+      "is_fraud": true,
+      "cluster_id": "RING-7092",
+      "ground_truth": "ABUSE_RING",
+      "split": "HELD_OUT_TEST"
+    },
+    {
+      "id": "TX-000056",
+      "amount": 3210.51,
+      "timestamp": "2026-08-21T12:50:21",
+      "timestamp_unix": 1787296821,
+      "customer_id": "C0026",
+      "device_id": "D0026",
+      "ip_id": "IP0026",
+      "payment_id": "P0026",
+      "merchant_id": "m-05",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "HELD_OUT_TEST"
+    },
+    {
+      "id": "TX-000074",
+      "amount": 3774.73,
+      "timestamp": "2026-08-21T13:30:05",
+      "timestamp_unix": 1787299205,
+      "customer_id": "C0035",
+      "device_id": "D0035",
+      "ip_id": "IP0035",
+      "payment_id": "P0035",
+      "merchant_id": "m-01",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "HELD_OUT_TEST"
+    },
+    {
+      "id": "TX-000076",
+      "amount": 2633.85,
+      "timestamp": "2026-08-21T18:17:28",
+      "timestamp_unix": 1787316448,
+      "customer_id": "C0036",
+      "device_id": "D0036",
+      "ip_id": "IP0036",
+      "payment_id": "P0036",
+      "merchant_id": "m-01",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "HELD_OUT_TEST"
+    },
+    {
+      "id": "TX-000190",
+      "amount": 855.9,
+      "timestamp": "2026-08-21T21:03:38",
+      "timestamp_unix": 1787326418,
+      "customer_id": "C0093",
+      "device_id": "D0090",
+      "ip_id": "IP0082",
+      "payment_id": "P0093",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_OFFICE",
+      "ground_truth": "LEGITIMATE",
+      "split": "HELD_OUT_TEST"
+    },
+    {
+      "id": "TX-000113",
+      "amount": 579.3,
+      "timestamp": "2026-08-22T08:29:19",
+      "timestamp_unix": 1787367559,
+      "customer_id": "C0053",
+      "device_id": "D0053",
+      "ip_id": "IP0053",
+      "payment_id": "P0053",
+      "merchant_id": "m-03",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "HELD_OUT_TEST"
+    },
+    {
+      "id": "TX-000110",
+      "amount": 4063.13,
+      "timestamp": "2026-08-22T15:31:37",
+      "timestamp_unix": 1787392897,
+      "customer_id": "C0052",
+      "device_id": "D0052",
+      "ip_id": "IP0052",
+      "payment_id": "P0052",
+      "merchant_id": "m-04",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "HELD_OUT_TEST"
+    },
+    {
+      "id": "TX-000148",
+      "amount": 3619.96,
+      "timestamp": "2026-08-22T18:09:40",
+      "timestamp_unix": 1787402380,
+      "customer_id": "C0070",
+      "device_id": "D0070",
+      "ip_id": "IP0070",
+      "payment_id": "P0070",
+      "merchant_id": "m-01",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "HELD_OUT_TEST"
+    },
+    {
+      "id": "TX-000111",
+      "amount": 1351.56,
+      "timestamp": "2026-08-22T20:22:09",
+      "timestamp_unix": 1787410329,
+      "customer_id": "C0052",
+      "device_id": "D0052",
+      "ip_id": "IP0052",
+      "payment_id": "P0052",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "HELD_OUT_TEST"
+    },
+    {
+      "id": "TX-000040",
+      "amount": 764.27,
+      "timestamp": "2026-08-22T22:01:10",
+      "timestamp_unix": 1787416270,
+      "customer_id": "C0018",
+      "device_id": "D0018",
+      "ip_id": "IP0018",
+      "payment_id": "P0018",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "HELD_OUT_TEST"
+    },
+    {
+      "id": "TX-000201",
+      "amount": 948.52,
+      "timestamp": "2026-08-23T01:29:31",
+      "timestamp_unix": 1787428771,
+      "customer_id": "C0098",
+      "device_id": "D0095",
+      "ip_id": "IP0082",
+      "payment_id": "P0098",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_OFFICE",
+      "ground_truth": "LEGITIMATE",
+      "split": "HELD_OUT_TEST"
+    },
+    {
+      "id": "TX-000195",
+      "amount": 666.31,
+      "timestamp": "2026-08-23T01:53:15",
+      "timestamp_unix": 1787430195,
+      "customer_id": "C0095",
+      "device_id": "D0092",
+      "ip_id": "IP0082",
+      "payment_id": "P0095",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_OFFICE",
+      "ground_truth": "LEGITIMATE",
+      "split": "HELD_OUT_TEST"
+    },
+    {
+      "id": "TX-000139",
+      "amount": 3256.06,
+      "timestamp": "2026-08-23T07:38:06",
+      "timestamp_unix": 1787450886,
+      "customer_id": "C0066",
+      "device_id": "D0066",
+      "ip_id": "IP0066",
+      "payment_id": "P0066",
+      "merchant_id": "m-04",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "HELD_OUT_TEST"
+    },
+    {
+      "id": "TX-000178",
+      "amount": 299.35,
+      "timestamp": "2026-08-23T09:06:11",
+      "timestamp_unix": 1787456171,
+      "customer_id": "C0087",
+      "device_id": "D0084",
+      "ip_id": "IP0082",
+      "payment_id": "P0087",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_OFFICE",
+      "ground_truth": "LEGITIMATE",
+      "split": "HELD_OUT_TEST"
+    },
+    {
+      "id": "TX-000107",
+      "amount": 463.43,
+      "timestamp": "2026-08-23T13:14:23",
+      "timestamp_unix": 1787471063,
+      "customer_id": "C0050",
+      "device_id": "D0050",
+      "ip_id": "IP0050",
+      "payment_id": "P0050",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "HELD_OUT_TEST"
+    },
+    {
+      "id": "TX-000026",
+      "amount": 2498.74,
+      "timestamp": "2026-08-23T17:19:03",
+      "timestamp_unix": 1787485743,
+      "customer_id": "C0012",
+      "device_id": "D0012",
+      "ip_id": "IP0012",
+      "payment_id": "P0012",
+      "merchant_id": "m-05",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "HELD_OUT_TEST"
+    },
+    {
+      "id": "TX-000046",
+      "amount": 1282.74,
+      "timestamp": "2026-08-23T22:42:05",
+      "timestamp_unix": 1787505125,
+      "customer_id": "C0020",
+      "device_id": "D0020",
+      "ip_id": "IP0020",
+      "payment_id": "P0020",
+      "merchant_id": "m-04",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "HELD_OUT_TEST"
+    },
+    {
+      "id": "TX-000130",
+      "amount": 3095.2,
+      "timestamp": "2026-08-23T23:44:19",
+      "timestamp_unix": 1787508859,
+      "customer_id": "C0062",
+      "device_id": "D0062",
+      "ip_id": "IP0062",
+      "payment_id": "P0062",
+      "merchant_id": "m-05",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "HELD_OUT_TEST"
+    },
+    {
+      "id": "TX-000147",
+      "amount": 2995.09,
+      "timestamp": "2026-08-24T02:41:19",
+      "timestamp_unix": 1787519479,
+      "customer_id": "C0070",
+      "device_id": "D0070",
+      "ip_id": "IP0070",
+      "payment_id": "P0070",
+      "merchant_id": "m-04",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "HELD_OUT_TEST"
+    },
+    {
+      "id": "TX-000166",
+      "amount": 2559.39,
+      "timestamp": "2026-08-24T02:47:20",
+      "timestamp_unix": 1787519840,
+      "customer_id": "C0081",
+      "device_id": "D0081",
+      "ip_id": "IP0081",
+      "payment_id": "P0081",
+      "merchant_id": "m-05",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_FAMILY",
+      "ground_truth": "LEGITIMATE",
+      "split": "HELD_OUT_TEST"
+    },
+    {
+      "id": "TX-000198",
+      "amount": 318.87,
+      "timestamp": "2026-08-24T03:13:16",
+      "timestamp_unix": 1787521396,
+      "customer_id": "C0097",
+      "device_id": "D0094",
+      "ip_id": "IP0082",
+      "payment_id": "P0097",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_OFFICE",
+      "ground_truth": "LEGITIMATE",
+      "split": "HELD_OUT_TEST"
+    },
+    {
+      "id": "TX-000141",
+      "amount": 2225.71,
+      "timestamp": "2026-08-24T11:18:55",
+      "timestamp_unix": 1787550535,
+      "customer_id": "C0066",
+      "device_id": "D0066",
+      "ip_id": "IP0066",
+      "payment_id": "P0066",
+      "merchant_id": "m-05",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "HELD_OUT_TEST"
+    },
+    {
+      "id": "TX-000112",
+      "amount": 2913.68,
+      "timestamp": "2026-08-24T12:35:47",
+      "timestamp_unix": 1787555147,
+      "customer_id": "C0053",
+      "device_id": "D0053",
+      "ip_id": "IP0053",
+      "payment_id": "P0053",
+      "merchant_id": "m-03",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "HELD_OUT_TEST"
+    },
+    {
+      "id": "TX-000035",
+      "amount": 3718.1,
+      "timestamp": "2026-08-24T14:13:11",
+      "timestamp_unix": 1787560991,
+      "customer_id": "C0017",
+      "device_id": "D0017",
+      "ip_id": "IP0017",
+      "payment_id": "P0017",
+      "merchant_id": "m-05",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "HELD_OUT_TEST"
+    },
+    {
+      "id": "TX-000057",
+      "amount": 907.89,
+      "timestamp": "2026-08-24T15:00:47",
+      "timestamp_unix": 1787563847,
+      "customer_id": "C0026",
+      "device_id": "D0026",
+      "ip_id": "IP0026",
+      "payment_id": "P0026",
+      "merchant_id": "m-03",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "HELD_OUT_TEST"
+    },
+    {
+      "id": "TX-000160",
+      "amount": 564.85,
+      "timestamp": "2026-08-24T20:55:34",
+      "timestamp_unix": 1787585134,
+      "customer_id": "C0078",
+      "device_id": "D0078",
+      "ip_id": "IP0078",
+      "payment_id": "P0078",
+      "merchant_id": "m-01",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "HELD_OUT_TEST"
+    },
+    {
+      "id": "TX-000186",
+      "amount": 603.63,
+      "timestamp": "2026-08-24T21:40:54",
+      "timestamp_unix": 1787587854,
+      "customer_id": "C0091",
+      "device_id": "D0088",
+      "ip_id": "IP0082",
+      "payment_id": "P0091",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_OFFICE",
+      "ground_truth": "LEGITIMATE",
+      "split": "HELD_OUT_TEST"
+    },
+    {
+      "id": "TX-000004",
+      "amount": 2808.58,
+      "timestamp": "2026-08-25T12:46:53",
+      "timestamp_unix": 1787642213,
+      "customer_id": "C0002",
+      "device_id": "D0002",
+      "ip_id": "IP0002",
+      "payment_id": "P0002",
+      "merchant_id": "m-05",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "HELD_OUT_TEST"
+    },
+    {
+      "id": "TX-000067",
+      "amount": 1377.1,
+      "timestamp": "2026-08-25T13:23:54",
+      "timestamp_unix": 1787644434,
+      "customer_id": "C0031",
+      "device_id": "D0031",
+      "ip_id": "IP0031",
+      "payment_id": "P0031",
+      "merchant_id": "m-03",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "HELD_OUT_TEST"
+    },
+    {
+      "id": "TX-000031",
+      "amount": 2838.12,
+      "timestamp": "2026-08-25T15:28:12",
+      "timestamp_unix": 1787651892,
+      "customer_id": "C0014",
+      "device_id": "D0014",
+      "ip_id": "IP0014",
+      "payment_id": "P0014",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "HELD_OUT_TEST"
+    },
+    {
+      "id": "TX-000023",
+      "amount": 2347.44,
+      "timestamp": "2026-08-25T17:38:28",
+      "timestamp_unix": 1787659708,
+      "customer_id": "C0011",
+      "device_id": "D0011",
+      "ip_id": "IP0011",
+      "payment_id": "P0011",
+      "merchant_id": "m-01",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "HELD_OUT_TEST"
+    },
+    {
+      "id": "TX-000175",
+      "amount": 427.78,
+      "timestamp": "2026-08-25T17:46:21",
+      "timestamp_unix": 1787660181,
+      "customer_id": "C0085",
+      "device_id": "D0082",
+      "ip_id": "IP0082",
+      "payment_id": "P0085",
+      "merchant_id": "m-02",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_OFFICE",
+      "ground_truth": "LEGITIMATE",
+      "split": "HELD_OUT_TEST"
+    },
+    {
+      "id": "TX-000091",
+      "amount": 741.49,
+      "timestamp": "2026-08-25T19:51:03",
+      "timestamp_unix": 1787667663,
+      "customer_id": "C0043",
+      "device_id": "D0043",
+      "ip_id": "IP0043",
+      "payment_id": "P0043",
+      "merchant_id": "m-05",
+      "is_fraud": false,
+      "cluster_id": "LEGITIMATE_NORMAL",
+      "ground_truth": "LEGITIMATE",
+      "split": "HELD_OUT_TEST"
+    }
+  ],
+  "rings": [
+    {
+      "id": "RING-0042",
+      "name": "Coordinated Transaction Burst Syndicate #0042",
+      "pattern_type": "COORDINATED_TRANSACTION_BURST",
+      "severity": "CRITICAL",
+      "risk_score": 91,
+      "evidence_strength": 87,
+      "accounts_count": 17,
+      "devices_count": 4,
+      "ips_count": 3,
+      "payment_instruments_count": 11,
+      "transactions_count": 84,
+      "exposure": 857744.91,
+      "status": "UNDER_REVIEW",
+      "first_seen": "2026-08-19T10:01:00",
+      "last_seen": "2026-08-19T11:29:40",
+      "signals": [
+        {
+          "type": "SHARED_DEVICE",
+          "description": "7 accounts share Device D102",
+          "score_contrib": 21
+        },
+        {
+          "type": "TEMPORAL_COORDINATION",
+          "description": "18 transactions occurred within 120 seconds",
+          "score_contrib": 24
+        },
+        {
+          "type": "VELOCITY",
+          "description": "9 transactions/minute burst intensity",
+          "score_contrib": 18
+        },
+        {
+          "type": "PAYMENT_REUSE",
+          "description": "4 payment instruments were reused across different customer IDs",
+          "score_contrib": 15
+        },
+        {
+          "type": "HISTORICAL_SUSPICION",
+          "description": "3 connected entities had previous suspicious chargebacks",
+          "score_contrib": 13
+        }
+      ],
+      "dna": {
+        "infrastructure_sharing": 85,
+        "temporal_coordination": 98,
+        "velocity": 92,
+        "payment_reuse": 78,
+        "account_creation_burst": 90,
+        "historical_suspicion": 65
+      }
+    },
+    {
+      "id": "RING-7092",
+      "name": "Tor Exit Botnet Syndicate #7092",
+      "pattern_type": "SHARED_INFRASTRUCTURE_ABUSE",
+      "severity": "CRITICAL",
+      "risk_score": 94,
+      "evidence_strength": 92,
+      "accounts_count": 4,
+      "devices_count": 1,
+      "ips_count": 1,
+      "payment_instruments_count": 4,
+      "transactions_count": 14,
+      "exposure": 145000.0,
+      "status": "ISOLATED",
+      "first_seen": "2026-08-21T04:45:00",
+      "last_seen": "2026-08-21T04:49:40",
+      "signals": [
+        {
+          "type": "SHARED_DEVICE",
+          "description": "4 customer accounts operating on single MacBook Pro (a1b2c3d4e5f6g7)",
+          "score_contrib": 28
+        },
+        {
+          "type": "ANONYMOUS_NETWORK",
+          "description": "Masked IP network (185.220.101.5) identified as active Tor exit",
+          "score_contrib": 26
+        },
+        {
+          "type": "RAPID_CARD_SWITCH",
+          "description": "4 stolen card BINs rotated following decline events",
+          "score_contrib": 22
+        },
+        {
+          "type": "VELOCITY",
+          "description": "14 high-value transfer attempts in under 5 minutes",
+          "score_contrib": 18
+        }
+      ],
+      "dna": {
+        "infrastructure_sharing": 95,
+        "temporal_coordination": 88,
+        "velocity": 90,
+        "payment_reuse": 85,
+        "account_creation_burst": 94,
+        "historical_suspicion": 80
+      }
+    }
+  ]
+}
