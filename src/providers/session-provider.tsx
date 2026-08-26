@@ -15,6 +15,7 @@ export interface SessionContextType {
   data: { user: SessionUser } | null;
   status: "loading" | "authenticated" | "unauthenticated";
   setUser: (user: SessionUser | null) => void;
+  switchRole: (role: "MERCHANT" | "ANALYST") => void;
   logout: () => Promise<void>;
 }
 
@@ -22,6 +23,7 @@ const SessionContext = createContext<SessionContextType>({
   data: null,
   status: "loading",
   setUser: () => {},
+  switchRole: () => {},
   logout: async () => {},
 });
 
@@ -53,6 +55,24 @@ export function AppSessionProvider({ children }: { children: React.ReactNode }) 
     loadUser();
   }, []);
 
+  const switchRole = (role: "MERCHANT" | "ANALYST") => {
+    if (role === "MERCHANT") {
+      setUserState({
+        id: "merchant-01",
+        name: "Raj Patel (Store Owner)",
+        email: "merchant@paypilot.ai",
+        role: "MERCHANT",
+      });
+    } else {
+      setUserState({
+        id: "analyst-01",
+        name: "Priya Sharma (Risk Analyst)",
+        email: "analyst@paypilot.ai",
+        role: "ANALYST",
+      });
+    }
+  };
+
   const logout = async () => {
     try {
       await fetch("/api/auth/logout", { method: "POST" });
@@ -73,6 +93,7 @@ export function AppSessionProvider({ children }: { children: React.ReactNode }) 
         data: user ? { user } : null,
         status,
         setUser,
+        switchRole,
         logout,
       }}
     >
