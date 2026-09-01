@@ -1,4 +1,4 @@
-# Abuse-Ring Sentinel
+# PayPilot AI
 > Coordinated Payment Abuse Detection & Graph Forensics Platform
 
 ---
@@ -14,7 +14,7 @@ However, coordinated payment abuse rings are designed specifically to bypass the
 
 When evaluated in isolation, **every single transaction appears legitimate**. But when you map the underlying entities into a relational graph and analyze micro-burst timings (30s–120s windows), the coordinated abuse ring immediately emerges.
 
-I built **Abuse-Ring Sentinel** to detect, investigate, and explain these coordinated syndicates using multi-hop graph intelligence, temporal burst extraction, and cost-aware decisioning.
+I built **PayPilot AI** to detect, investigate, and explain these coordinated syndicates using multi-hop graph intelligence, temporal burst extraction, and cost-aware decisioning.
 
 ---
 
@@ -176,4 +176,4 @@ npx tsc --noEmit
 ## Project Notes & Disclaimer
 
 * **Synthetic Dataset**: All transaction, customer, and ring data in this demonstration is generated from a synthetic benchmark dataset to evaluate multi-hop abuse patterns safely.
-* **Defense-Only Tooling**: This platform is built exclusively as an AI payment risk management and defensive fraud forensics platform.
+* **Defense-Only Tooling**: **PayPilot AI** is built exclusively as an AI payment risk management and defensive fraud forensics platform.
