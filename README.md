@@ -1,124 +1,180 @@
-# 🛡️ Abuse-Ring Sentinel
-> **Track 02 — AI Risk Manager**: *"Coordinated Payment Abuse Detection & Investigation Platform"*
+# Abuse-Ring Sentinel
+> Coordinated Payment Abuse Detection & Graph Investigation Platform  
+> **Track 02 — AI Risk Manager**
 
 ---
 
-## 🎯 What is Abuse-Ring Sentinel?
+## Why I Built This
 
-**Abuse-Ring Sentinel** is a specialized, defense-only fraud intelligence and graph investigation platform designed to detect and isolate **coordinated payment abuse rings**.
+Most conventional payment fraud systems evaluate transactions in silos: check the order amount, verify the billing country, and check simple single-card velocity.
 
-It addresses the fundamental question:
-> **"Are apparently independent payment accounts actually connected and behaving as a coordinated abuse ring?"**
+However, coordinated payment abuse rings are designed specifically to bypass these single-transaction filters:
+* Attackers cycle multiple stolen credit cards across dozens of newly created synthetic accounts.
+* They keep transaction amounts low to avoid triggering standard velocity rules.
+* They route traffic through Tor exit nodes and residential VPN subnets to mask origins.
 
-The platform combines **heterogeneous entity graphs**, **sliding-window temporal burst extractors**, and **cost-sensitive risk scoring** with empirical verification on a temporal held-out test set.
+When evaluated in isolation, **every single transaction appears legitimate**. But when you map the underlying entities into a relational graph and analyze micro-burst timings (30s–120s windows), the coordinated abuse ring immediately emerges.
+
+I built **Abuse-Ring Sentinel** to detect, investigate, and explain these coordinated syndicates using multi-hop graph intelligence, temporal burst extraction, and cost-aware decisioning.
 
 ---
 
-## 🏗️ Technical Architecture & Data Flow
+## System Architecture
 
 ```
-[ Incoming Payment Transaction ]
-               │
-               ▼
-[ Next.js API: POST /api/risk/analyze ]
-               │
-               ├── (1) Customer Historical Context Retrieval (Prisma / DB)
-               │
-               ▼
-[ FastAPI Service: POST /api/predict ]
-               │
-               ├── (2) Feature Extraction (Tabular + Behavioral)
-               │
-               ├── (3) Heterogeneous Graph Construction (NetworkX)
-               │       - Typed Entities: Customer, Device, IP, PaymentInstrument
-               │       - Multi-Hop Relations: USES_DEVICE, USES_IP, USES_PAYMENT
-               │
-               ├── (4) Multi-Modal Risk Aggregation
-               │       - Tabular Model: Calibrated risk scorer
-               │       - Behavioral Engine: Baseline deviation (Z-score & velocity)
-               │       - Graph Engine: Ring risk from relational connectivity
-               │
-               ├── (5) False-Positive Protection Guard
-               │       - Distinguishes shared corporate Wi-Fi from coordinated bot farms
-               │
-               └── (6) Cost-Aware Decision Engine
-                       - Expected Loss: (FP × C_FP) + (FN × C_FN) + (REVIEW × C_REVIEW)
-                       - Action: APPROVE | APPROVE_WITH_MONITORING | REVIEW | BLOCK
-               │
-               ▼
-[ Structured Evidence & Persistence ]
-               │
-               ▼
-[ Analyst SOC & Investigation Console (/investigations/[ringId]) ]
+                       [ Incoming Payment Event ]
+                                   │
+                                   ▼
+                   [ Next.js API (/api/risk/analyze) ]
+                                   │
+                      (Retrieve Customer History)
+                                   │
+                                   ▼
+                [ FastAPI ML Service (/api/predict) ]
+                                   │
+        ┌──────────────────────────┼──────────────────────────┐
+        ▼                          ▼                          ▼
+ [ Tabular Scorer ]       [ Behavioral Engine ]     [ Graph Engine (NetworkX) ]
+ - Transaction features   - Amount Z-scores         - Multi-hop entity graph
+ - Network indicators     - Customer baseline dev   - Shared device/IP/card links
+ - Payment method flags   - 5-min retry velocity    - Ego-network density
+        └──────────────────────────┬──────────────────────────┘
+                                   │
+                                   ▼
+                     [ Multi-Modal Aggregator ]
+                                   │
+                                   ▼
+                    [ False-Positive Guard ]
+          (Protects shared corporate Wi-Fi / family devices)
+                                   │
+                                   ▼
+                    [ Cost-Aware Decision Engine ]
+        Expected Loss = (FP × C_fp) + (FN × C_fn) + (Review × C_review)
+                                   │
+                                   ▼
+                     [ Structured Output & Evidence ]
+                                   │
+                                   ▼
+               [ Interactive SOC Investigation Console ]
 ```
 
 ---
 
-## 🚀 Key Modules & Capabilities
+## Core Detection Mechanisms
 
-### 1. 🕸️ Graph Intelligence & Entity Resolution
-* Constructs heterogeneous relational graphs connecting **Customers**, **Hardware Devices**, **IP Subnets**, and **Payment Cards**.
-* Computes multi-hop ego-network features and connected component sizes.
+### 1. Relational Entity Graph
+Built using NetworkX to map heterogeneous nodes and multi-hop edges:
+* **Nodes**: `Customer`, `Device`, `IP/Network`, `PaymentInstrument`, `Merchant`
+* **Edges**: `MADE`, `USED_DEVICE`, `USED_PAYMENT`, `FROM_NETWORK`
+* Calculates entity degrees, multi-account device sharing, and connected components.
 
-### 2. ⚡ Temporal Burst & Velocity Detection
-* Identifies synchronized micro-transactions (e.g. 18 transactions in 120 seconds) to catch automated bot attacks and multi-account card-testing farms.
+### 2. Temporal Burst & Velocity Extractors
+* Measures transaction concentration within sliding 30-second and 120-second windows.
+* Detects synchronized bot farms attempting rapid card authorization testing.
 
-### 3. 🛡️ False-Positive Protection ("Shared ≠ Fraud")
-* **Corporate Office Benchmark**: 15 coworkers sharing an office Wi-Fi (`14.143.38.102`) with independent laptops and normal intervals $\rightarrow$ **APPROVED / NOT A RING**.
-* **Coordinated Fraud Ring**: 7 accounts sharing device `D102` with 18 sub-minute burst orders $\rightarrow$ **BLOCKED / RING DETECTED**.
+### 3. False-Positive Protection ("Shared Infrastructure ≠ Fraud")
+A major challenge with graph-based detection is avoiding false alarms on legitimate shared networks.
+* **Corporate Office Scenario**: 15 coworkers making lunch purchases through a single office gateway (`14.143.38.102`) using independent laptops $\rightarrow$ **APPROVED / NOT A RING**.
+* **Fraud Ring Scenario**: 7 accounts sharing a single device (`D102`) executing 18 sub-minute transactions $\rightarrow$ **BLOCKED / RING DETECTED**.
 
-### 4. 🔍 Flagship Investigation Console (`/investigations/[ringId]`)
-* **Interactive Relationship Graph**: Multi-hop visual canvas with zoom/pan and node inspection.
-* **Why Detected**: Plain-language evidence cards generated from real detector features.
-* **Ring DNA**: Structural feature strength bars (Shared Infrastructure, Temporal Coordination, Velocity, Payment Reuse, Historical Suspicion).
-* **Step-by-Step Timeline**: Chronological event stream with exact timestamps, amounts, and device IDs.
-* **Blast Radius**: Affected customers, transactions, devices, IPs, cards, and exposure.
+### 4. Cost-Sensitive Business Loss Optimization
+Rather than using arbitrary thresholds, operating threshold $\tau = 0.70$ is optimized on the validation split to minimize total financial business loss:
 
-### 5. 📈 Empirical Held-Out Test Set Evaluation (`/evaluation`)
-* Evaluated on a **70% Train / 15% Validation / 15% Held-Out Temporal Test Split** (46 test samples).
-* **Validation Threshold Optimization**: Operating threshold $\tau = 0.70$ selected strictly on validation data to minimize Expected Loss.
-* **Held-Out Test Performance**:
-  * **Precision**: 93.3%
-  * **Recall**: 100.0%
-  * **F1 Score**: 96.6%
-  * **False Positive Rate (FPR)**: 3.1%
-  * **PR-AUC**: 0.942 | **ROC-AUC**: 0.968
-  * **Confusion Matrix**: $\text{TN}=31, \text{FP}=1, \text{FN}=0, \text{TP}=14$ (Total = 46)
+$$\text{Expected Loss} = (\text{FP} \times C_{\text{fp}}) + (\text{FN} \times C_{\text{fn}})$$
+
+* Default baseline: $C_{\text{fp}} = \text{₹450}$ (customer friction / support cost) vs $C_{\text{fn}} = \text{₹4,500}$ (direct chargeback loss).
+* Fully configurable in the settings console.
 
 ---
 
-## 🧭 Navigation & Workspaces
+## Workspaces & Investigation Tools
 
-| Route | Workspace | Description |
+| Workspace | Route | What It Does |
 | :--- | :--- | :--- |
-| `/overview` | 📊 **Overview** | High-level threat posture, active rings, timeline, and held-out performance. |
-| `/rings` | 🕸️ **Abuse Rings** | High-density ledger of detected syndicates with severity, risk scores, and filters. |
-| `/investigations/RING-0042` | 🔍 **Investigations** | Flagship investigation console with graph, Why Detected cards, DNA, and replay. |
-| `/graph` | 🌐 **Graph Explorer** | Full-screen heterogeneous entity network search and multi-hop inspector. |
-| `/transactions` | 💳 **Transactions** | Ring-linked transaction ledger with instant `[VIEW IN GRAPH]` context. |
-| `/evaluation` | 📈 **Model Evaluation** | Rigorous evaluation console with 2×2 confusion matrix and threshold analysis. |
-| `/settings` | ⚙️ **Configuration** | Server-backed business cost parameters ($C_{\text{fp}}, C_{\text{fn}}$) and execution triggers. |
+| **Overview** | `/overview` | Threat posture dashboard, active critical rings, timeline cluster chart, and live metrics. |
+| **Abuse Rings** | `/rings` | Filterable ledger of detected syndicates with severity badges, exposure amounts, and affected entity counts. |
+| **Investigation Console** | `/investigations/[ringId]` | Flagship console featuring an interactive canvas graph, "Why Detected" evidence cards, Ring DNA fingerprint, and chronological event replay. |
+| **Graph Explorer** | `/graph` | Full-screen entity search and multi-hop relationship inspector. |
+| **Transactions** | `/transactions` | Correlated transaction ledger with 1-click "View in Graph" context jump. |
+| **Model Evaluation** | `/evaluation` | Empirical held-out test report with 2×2 confusion matrix, threshold loss curves, and baseline comparison. |
+| **Configuration** | `/settings` | Server-backed loss parameter controls ($C_{\text{fp}}, C_{\text{fn}}$) and execution triggers. |
 
 ---
 
-## 🧪 Automated Testing
+## Empirical Benchmark & Evaluation
 
-Run the Python pipeline test suite:
+Evaluated against a temporal **70% Train / 15% Validation / 15% Test** split (46 unseen test samples):
+
+* **Precision**: **93.3%**
+* **Recall**: **100.0%**
+* **F1 Score**: **96.6%**
+* **False Positive Rate (FPR)**: **3.1%**
+* **PR-AUC**: **0.942** | **ROC-AUC**: **0.968**
+* **Test Confusion Matrix**: $\text{TN} = 31, \text{FP} = 1, \text{FN} = 0, \text{TP} = 14$ (Total = 46 samples)
+
+---
+
+## Tech Stack
+
+* **Frontend**: Next.js 15 (App Router), React 19, TypeScript, Tailwind CSS v4, shadcn/ui, Recharts, Lucide Icons
+* **Backend & ML Service**: Python 3.12, FastAPI, NetworkX, NumPy, Scikit-Learn
+* **Database & Persistence**: Prisma ORM, PostgreSQL
+
+---
+
+## Getting Started Locally
+
+### 1. Clone & Install Dependencies
+
 ```bash
-python -m unittest ml-service/tests/test_sentinel_pipeline.py
+git clone https://github.com/TechPrateek/paypilotai.git
+cd paypilotai
+
+# Install Node dependencies
+npm install
+
+# Install Python requirements
+cd ml-service
+pip install -r requirements.txt
+cd ..
+```
+
+### 2. Start the Backend ML Service
+
+```bash
+cd ml-service
+python -m uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload
+```
+
+### 3. Start the Next.js Frontend
+
+In a second terminal:
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+---
+
+## Running the Automated Test Suite
+
+Run the end-to-end Python pipeline tests (covering API contracts, corporate Wi-Fi false positive guard, fraud ring detection, and evaluation invariants):
+
+```bash
+python -m unittest discover ml-service/tests
 ```
 
 Run TypeScript compilation check:
+
 ```bash
 npx tsc --noEmit
 ```
 
 ---
 
-## ⚠️ Synthetic Data & Cost Model Disclaimers
-* **Synthetic Evaluation**: All data shown in this prototype is generated from a controlled synthetic dataset modeling real-world payment abuse patterns.
-* **Illustrative Cost Model**: Default parameters ($C_{\text{fp}} = \text{₹450}$, $C_{\text{fn}} = \text{₹4,500}$) represent illustrative financial trade-offs for loss minimization.
+## Project Notes & Disclaimer
 
----
-
-*Abuse-Ring Sentinel is strictly designed as a defensive security and payment risk intelligence system for Track 02 — AI Risk Manager.*
+* **Synthetic Dataset**: All transaction, customer, and ring data in this demonstration is generated from a synthetic benchmark dataset to evaluate multi-hop abuse patterns safely.
+* **Defense-Only Tooling**: This platform is built exclusively as an AI risk management and defensive fraud forensics tool for **Track 02 — AI Risk Manager**.
