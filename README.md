@@ -1,6 +1,5 @@
 # Abuse-Ring Sentinel
-> Coordinated Payment Abuse Detection & Graph Investigation Platform  
-> **Track 02 — AI Risk Manager**
+> Coordinated Payment Abuse Detection & Graph Forensics Platform
 
 ---
 
@@ -177,4 +176,4 @@ npx tsc --noEmit
 ## Project Notes & Disclaimer
 
 * **Synthetic Dataset**: All transaction, customer, and ring data in this demonstration is generated from a synthetic benchmark dataset to evaluate multi-hop abuse patterns safely.
-* **Defense-Only Tooling**: This platform is built exclusively as an AI risk management and defensive fraud forensics tool for **Track 02 — AI Risk Manager**.
+* **Defense-Only Tooling**: This platform is built exclusively as an AI payment risk management and defensive fraud forensics platform.

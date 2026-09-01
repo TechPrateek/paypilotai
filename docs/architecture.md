@@ -1,7 +1,5 @@
 # Abuse-Ring Sentinel — System Architecture
 
-> **Track 02 — AI Risk Manager**: Detecting coordinated payment abuse across connected accounts, devices, IPs, and payment instruments through graph intelligence.
-
 ---
 
 ## 1. Executive Summary & Problem Statement

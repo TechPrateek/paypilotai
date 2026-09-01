@@ -40,7 +40,7 @@ export default function LandingPage() {
         {/* Hero Section */}
         <section className="py-20 sm:py-28 px-4 flex flex-col items-center text-center max-w-4xl mx-auto space-y-6">
           <Badge variant="outline" className="font-mono text-xs text-red-500 border-red-500/30 px-3 py-1">
-            AI Risk Manager — Track 02
+            Enterprise Payment Risk & Fraud Intelligence
           </Badge>
 
           <h1 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight leading-tight font-mono">
@@ -82,7 +82,7 @@ export default function LandingPage() {
 
       {/* Footer */}
       <footer className="border-t border-border/40 py-6 px-4 text-center font-mono text-xs text-muted-foreground">
-        Abuse-Ring Sentinel | AI Risk Manager — Track 02 | Evaluated on Synthetic Dataset
+        Abuse-Ring Sentinel | Coordinated Payment Abuse Detection Platform
       </footer>
     </div>
   );
